@@ -1,0 +1,8 @@
+class CertificateAndKey
+!!!272642.java!!!	CertificateAndKey(inout certificate : X509Certificate, inout privateKey : PrivateKey)
+        this.certificate = certificate;
+        this.privateKey = privateKey;
+!!!272770.java!!!	getCertificate() : X509Certificate
+        return certificate;
+!!!272898.java!!!	getPrivateKey() : PrivateKey
+        return privateKey;

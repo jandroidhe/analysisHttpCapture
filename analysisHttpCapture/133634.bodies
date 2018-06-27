@@ -1,0 +1,11 @@
+class ClickListner
+!!!147330.java!!!	ClickListner(inout harEntry : HarEntry)
+            this.harEntry = harEntry;
+!!!147458.java!!!	onClick(inout view : View) : void
+            if(harLog.getEntries().indexOf(harEntry)>=0) {
+                isHiddenHID = true;
+                Intent intent = new Intent(getContext(), HarDetailActivity.class);
+                intent.putExtra("pos", ((SysApplication) getActivity().getApplication()).proxy.
+                        getHar().getLog().getEntries().indexOf(harEntry));
+                getActivity().startActivity(intent);
+            }

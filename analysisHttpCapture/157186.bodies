@@ -1,0 +1,63 @@
+class Builder
+!!!288642.java!!!	rootCertificateSource(inout certificateAndKeySource : CertificateAndKeySource) : ImpersonatingMitmManager::Builder
+            this.rootCertificateSource = certificateAndKeySource;
+            return this;
+!!!288770.java!!!	serverMessageDigest(in serverMessageDigest : String) : ImpersonatingMitmManager::Builder
+            this.serverMessageDigest = serverMessageDigest;
+            return this;
+!!!288898.java!!!	trustAllServers(inout trustAllServers : boolean) : ImpersonatingMitmManager::Builder
+            if (trustAllServers) {
+                this.trustSource = null;
+            } else {
+                // if the TrustSource was previously removed, restore it to the default. otherwise keep the existing TrustSource.
+                if (this.trustSource == null) {
+                    this.trustSource = TrustSource.defaultTrustSource();
+                }
+            }
+
+            return this;
+!!!289026.java!!!	trustSource(inout trustSource : TrustSource) : ImpersonatingMitmManager::Builder
+            this.trustSource = trustSource;
+            return this;
+!!!289154.java!!!	serverKeyGenerator(inout serverKeyGenerator : KeyGenerator) : ImpersonatingMitmManager::Builder
+            this.serverKeyGenerator = serverKeyGenerator;
+            return this;
+!!!289282.java!!!	cacheConcurrencyLevel(in cacheConcurrencyLevel : int) : ImpersonatingMitmManager::Builder
+            this.cacheConcurrencyLevel = cacheConcurrencyLevel;
+            return this;
+!!!289410.java!!!	cacheExpirationInterval(in cacheExpirationInterval : long, inout timeUnit : TimeUnit) : ImpersonatingMitmManager::Builder
+            this.cacheExpirationIntervalMs = TimeUnit.MILLISECONDS.convert(cacheExpirationInterval, timeUnit);
+            return this;
+!!!289538.java!!!	certificateInfoGenerator(inout certificateInfoGenerator : CertificateInfoGenerator) : ImpersonatingMitmManager::Builder
+            this.certificateInfoGenerator = certificateInfoGenerator;
+            return this;
+!!!289666.java!!!	serverCiphers(inout serverCiphers : Collection<String>) : ImpersonatingMitmManager::Builder
+            this.serverCiphers = serverCiphers;
+            return this;
+!!!289794.java!!!	clientCiphers(inout clientCiphers : Collection<String>) : ImpersonatingMitmManager::Builder
+            this.clientCiphers = clientCiphers;
+            return this;
+!!!289922.java!!!	certificateTool(inout securityProviderTool : SecurityProviderTool) : ImpersonatingMitmManager::Builder
+            this.securityProviderTool = securityProviderTool;
+            return this;
+!!!290050.java!!!	build() : ImpersonatingMitmManager
+            if (clientCiphers == null) {
+                clientCiphers = SslUtil.getDefaultCipherList();
+            }
+
+            if (serverCiphers == null) {
+                serverCiphers = SslUtil.getDefaultCipherList();
+            }
+
+            return new ImpersonatingMitmManager(
+                    rootCertificateSource,
+                    serverKeyGenerator,
+                    serverMessageDigest,
+                    trustSource,
+                    cacheConcurrencyLevel,
+                    cacheExpirationIntervalMs,
+                    securityProviderTool,
+                    certificateInfoGenerator,
+                    serverCiphers,
+                    clientCiphers
+            );

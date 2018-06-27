@@ -1,0 +1,98 @@
+class JsonPreviewActivity
+!!!133506.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_json);
+        ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setupActionBar();
+
+        try {
+            int pos = getIntent().getIntExtra("pos",-1);
+            if(pos > -1){
+                HarLog harLog = ((SysApplication) getApplication()).proxy.getHar().getLog();
+                HarEntry harEntry = harLog.getEntries().get(pos);
+                content = harEntry.getResponse().getContent().getText();
+                initViewDelay(content);
+            }else{
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            finish();
+        }
+!!!133634.java!!!	setupActionBar() : void
+        setTitle("内容详情");
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+!!!133762.java!!!	onOptionsItemSelected(inout item : MenuItem) : boolean
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+!!!133890.java!!!	initViewDelay(in content : String) : void
+        getWindow().getDecorView().post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                formatContent(content);
+                            }
+                        });
+                    }
+                }
+        );
+
+!!!134018.java!!!	formatContent(in content : String) : void
+        try {
+            textView.setText(jsonFormatter(content));
+        } catch (Exception e) {
+            textView.setText(content);
+        }
+!!!134146.java!!!	jsonFormatter(in uglyJSONString : String) : String
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(uglyJSONString);
+        return gson.toJson(je);
+!!!134274.java!!!	onCreateOptionsMenu(inout menu : Menu) : boolean
+        getMenuInflater().inflate(R.menu.json_menu, menu);
+        MenuItem encodeButton = menu.findItem(R.id.encode);
+        encodeButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                DialogInterface.OnClickListener listener = new ButtonOnClick();
+                AlertDialog.Builder builder = new AlertDialog.Builder(JsonPreviewActivity.this);
+                builder.setNegativeButton("取消",null);
+                builder.setPositiveButton("确认", listener);
+                builder.setSingleChoiceItems(encodeItem,selectedEncode,listener);
+                builder.create().show();
+                return true;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
+!!!134530.java!!!	changeEncode(in pos : int) : void
+        switch (pos){
+            case 0:
+                initViewDelay(content);
+                break;
+            case 1:
+                initViewDelay(new String(content.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8")));
+                break;
+            case 2:
+                initViewDelay(new String(content.getBytes(Charset.forName("GBK")), Charset.forName("UTF-8")));
+                break;
+            default:
+                initViewDelay(content);
+                break;
+        }
+

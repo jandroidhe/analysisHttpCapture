@@ -1,0 +1,25 @@
+class MyUploadDelegate
+!!!137602.java!!!	onProgress(inout uploadInfo : UploadInfo) : void
+            Log.e("~~~~", uploadInfo.getProgressPercent() + "");
+!!!137730.java!!!	onError(inout uploadInfo : UploadInfo, inout exception : Exception) : void
+            dismissLoading();
+            Snackbar.make(rootView, "上传失败！", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            exception.printStackTrace();
+            CrashReport.postCatchedException(exception);
+!!!137858.java!!!	onCompleted(inout uploadInfo : UploadInfo, inout serverResponse : ServerResponse) : void
+            try {
+                JSONObject jsonObject = new JSONObject(serverResponse.getBodyAsString());
+                if (jsonObject.getInt("errId") == 0) {
+                    Snackbar.make(rootView, "上传成功！", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                } else if (jsonObject.getInt("errId") == 2 || jsonObject.getInt("errId") == 11004) {
+                    Snackbar.make(rootView, "验证码错误！", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    showUploadDialog(MainActivity.this);
+                } else {
+                    Snackbar.make(rootView, "上传失败！", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+            } catch (Exception e) {
+                Snackbar.make(rootView, "上传失败！", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+            dismissLoading();
+!!!137986.java!!!	onCancelled(inout uploadInfo : UploadInfo) : void
+            dismissLoading();

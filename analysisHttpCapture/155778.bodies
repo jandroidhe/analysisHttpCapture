@@ -1,0 +1,7 @@
+class KeyGeneratorException
+!!!283522.java!!!	KeyGeneratorException(in message : String)
+        super(message);
+!!!283650.java!!!	KeyGeneratorException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!283778.java!!!	KeyGeneratorException(inout cause : Throwable)
+        super(cause);

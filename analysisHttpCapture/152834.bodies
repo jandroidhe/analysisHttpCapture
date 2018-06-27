@@ -1,0 +1,28 @@
+class ResponseFilterAdapter
+!!!267394.java!!!	ResponseFilterAdapter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout responseFilter : ResponseFilter)
+        super(originalRequest, ctx);
+
+        this.responseFilter = responseFilter;
+!!!267522.java!!!	serverToProxyResponse(inout httpObject : HttpObject) : HttpObject
+        // only filter when the original HttpResponse comes through. the ResponseFilterAdapter is not designed to filter
+        // any subsequent HttpContents.
+        if (httpObject instanceof HttpResponse) {
+            HttpResponse httpResponse = (HttpResponse) httpObject;
+
+            HttpMessageContents contents;
+            if (httpObject instanceof FullHttpMessage) {
+                FullHttpMessage httpContent = (FullHttpMessage) httpObject;
+                contents = new HttpMessageContents(httpContent);
+            } else {
+                // the HTTP object is not a FullHttpMessage, which means that message contents will not be available on this response and cannot be modified.
+                contents = null;
+            }
+
+            HttpMessageInfo messageInfo = new HttpMessageInfo(originalRequest, ctx, isHttps(), getFullUrl(modifiedHttpRequest), getOriginalUrl());
+
+            responseFilter.filterResponse(httpResponse, contents, messageInfo);
+        }
+
+        return super.serverToProxyResponse(httpObject);
+!!!267650.java!!!	setModifiedHttpRequest(inout modifiedHttpRequest : HttpRequest) : void
+        this.modifiedHttpRequest = modifiedHttpRequest;

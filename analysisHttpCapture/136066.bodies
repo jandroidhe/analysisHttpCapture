@@ -1,0 +1,117 @@
+class ExecutePingAsyncTask
+!!!153602.java!!!	ExecutePingAsyncTask(in maxTtl : int)
+            this.maxTtl = maxTtl;
+!!!153730.java!!!	onProgressUpdate(inout  : String...values) : void
+            mTask.setResult(values[0]);
+!!!153858.java!!!	doInBackground(inout  : Void...params) : String
+
+            try {
+                String res = launchPing(urlToPing);
+                mTraceRouteResult.append(res);
+                publishProgress(res);
+                TraceRouteContainer trace;
+
+                //ping 失败。
+                if (res.contains(UNREACHABLE_PING) && !res.contains(EXCEED_PING)) {
+                    // Create the TraceRouteContainer object when ping
+                    // failed
+                    trace = new TraceRouteContainer("", parseIpFromPing(res), elapsedTime,
+                            false);
+                } else {
+                    // Create the TraceRouteContainer object when succeed
+                    trace = new TraceRouteContainer("", parseIpFromPing(res),
+                            ttl == maxTtl ? Float.parseFloat(parseTimeFromPing(res))
+                                    : elapsedTime, true);
+
+                    // Get the host name from ip (unix ping do not support
+                    // hostname resolving)
+                    InetAddress inetAddr = InetAddress.getByName(trace.getIp());
+                    Log.e("TAG", "getIP is " + trace.getIp());
+                    String hostname = inetAddr.getHostName();
+                    String canonicalHostname = inetAddr.getCanonicalHostName();
+                    trace.setHostname(hostname);
+
+                    traces.add(trace);
+                }
+
+                return res;
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+!!!153986.java!!!	launchPing(in url : String) : String
+            // Build ping command with parameters
+            Process p;
+            String command = String.format(PING_CMD_FORMMAT, ttl);
+
+            Log.e("TAG", "The command is : " + command + url);
+            long startTime = System.nanoTime();
+            // timeout task
+            new TimeOutAsyncTask(this, ttl).execute();
+            // Launch command
+            p = Runtime.getRuntime().exec(command + url);
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            // Construct the response from ping
+            String s;
+            String res = "";
+            while ((s = stdInput.readLine()) != null) {
+                res += s + "\n";
+                if (s.contains(FROM_PING) || s.contains(SMALL_FROM_PING)) {
+                    // We store the elapsedTime when the line from ping comes
+                    elapsedTime = (System.nanoTime() - startTime) / 1000000.0f;
+                }
+            }
+
+            p.destroy();
+
+            if (res.equals("")) {
+                throw new IllegalArgumentException();
+            }
+
+            // Store the wanted ip adress to compare with ping result
+            if (ttl == 1) {
+                Log.e("TAG", "ipToPings is : " + ipToPing + "res is:" + res);
+                ipToPing = parseIpToPingFromPing(res);
+            }
+
+            Log.e("TAG", "launch ping result is : " + res);
+            return res;
+!!!154114.java!!!	onPostExecute(in result : String) : void
+            if (!isCancelled) {
+                try {
+                    if (!"".equals(result)) {
+                        if ("No connectivity".equals(result)) {
+                            Log.e("TAG", "No connection");
+                        } else {
+                            if (traces.size() > 0 && traces.get(traces.size() - 1).getIp().equals(ipToPing)) {
+                                if (ttl < maxTtl) {
+                                    ttl = maxTtl;
+                                    traces.remove(traces.size() - 1);
+                                    new ExecutePingAsyncTask(maxTtl).execute();
+                                }
+                            } else {
+                                if (ttl < maxTtl) {
+                                    ttl++;
+                                    new ExecutePingAsyncTask(maxTtl).execute();
+                                }
+                            }
+                        }
+                    }
+                    finishedTasks++;
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            super.onPostExecute(result);
+!!!154242.java!!!	onException(inout e : Exception) : void
+            if (e instanceof IllegalArgumentException) {
+                //no ping
+            } else {
+                // error
+            }
+
+            finishedTasks++;
+!!!154370.java!!!	setCancelled(inout isCancelled : boolean) : void
+            this.isCancelled = isCancelled;

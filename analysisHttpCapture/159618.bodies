@@ -1,0 +1,123 @@
+class BrowserMobHttpUtil
+!!!311810.java!!!	getHeaderSize(inout headers : HttpHeaders) : long
+        long headersSize = 0;
+        for (Map.Entry<String, String> header : headers.entries()) {
+            // +2 for ': ', +2 for new line
+            headersSize += header.getKey().length() + header.getValue().length() + 4;
+        }
+        return headersSize;
+!!!311938.java!!!	decompressContents(inout fullMessage : byte) : byte
+        InflaterInputStream gzipReader = null;
+        ByteArrayOutputStream uncompressed;
+        try {
+            gzipReader = new GZIPInputStream(new ByteArrayInputStream(fullMessage));
+
+            uncompressed = new ByteArrayOutputStream(fullMessage.length);
+
+            byte[] decompressBuffer = new byte[DECOMPRESS_BUFFER_SIZE];
+            int bytesRead;
+            while ((bytesRead = gzipReader.read(decompressBuffer)) > -1) {
+                uncompressed.write(decompressBuffer, 0, bytesRead);
+            }
+
+            fullMessage = uncompressed.toByteArray();
+        } catch (IOException e) {
+            throw new DecompressionException("Unable to decompress response", e);
+        } finally {
+            try {
+                if (gzipReader != null) {
+                    gzipReader.close();
+                }
+            } catch (IOException e) {
+                log.warn("Unable to close gzip stream", e);
+            }
+        }
+        return fullMessage;
+!!!312066.java!!!	hasTextualContent(in contentType : String) : boolean
+        return contentType != null &&
+                (contentType.startsWith("text/") ||
+                contentType.startsWith("application/x-javascript") ||
+                contentType.startsWith("application/javascript")  ||
+                contentType.startsWith("application/json")  ||
+                contentType.startsWith("application/xml")  ||
+                contentType.startsWith("application/xhtml+xml")
+                );
+!!!312194.java!!!	extractReadableBytes(inout content : ByteBuf) : byte
+        byte[] binaryContent = new byte[content.readableBytes()];
+
+        content.markReaderIndex();
+        content.readBytes(binaryContent);
+        content.resetReaderIndex();
+
+        return binaryContent;
+!!!312322.java!!!	getContentAsString(inout content : byte, inout charset : Charset) : String
+        if (charset == null) {
+            throw new IllegalArgumentException("Charset cannot be null");
+        }
+
+        return new String(content, charset);
+!!!312450.java!!!	readCharsetInContentTypeHeader(in contentTypeHeader : String) : Charset
+        if (contentTypeHeader == null || contentTypeHeader.isEmpty()) {
+            return null;
+        }
+
+        MediaType mediaType;
+        try {
+             mediaType = MediaType.parse(contentTypeHeader);
+        } catch (IllegalArgumentException e) {
+            log.info("Unable to parse Content-Type header: {}. Content-Type header will be ignored.", contentTypeHeader, e);
+            return null;
+        }
+
+        try {
+            return mediaType.charset().orNull();
+        } catch (java.nio.charset.UnsupportedCharsetException e) {
+            throw new UnsupportedCharsetException(e);
+        }
+!!!312578.java!!!	getRawPathAndParamsFromRequest(inout httpRequest : HttpRequest) : String
+        // if this request's URI contains a full URI (including scheme, host, etc.), strip away the non-path components
+        if (HttpUtil.startsWithHttpOrHttps(httpRequest.getUri())) {
+            return getRawPathAndParamsFromUri(httpRequest.getUri());
+        } else {
+            // to provide consistent validation behavior for URIs that contain a scheme and those that don't, attempt to parse
+            // the URI, even though we discard the parsed URI object
+            new URI(httpRequest.getUri());
+
+            return httpRequest.getUri();
+        }
+!!!312706.java!!!	getRawPathAndParamsFromUri(in uriString : String) : String
+        URI uri = new URI(uriString);
+        String path = uri.getRawPath();
+        String query = uri.getRawQuery();
+
+        if (query != null) {
+            return path + '?' + query;
+        } else {
+            return path;
+        }
+!!!312834.java!!!	isRedirect(inout httpResponse : HttpResponse) : boolean
+        switch (httpResponse.getStatus().code()) {
+            case 300:
+            case 301:
+            case 302:
+            case 303:
+            case 307:
+                return true;
+
+            default:
+                return false;
+        }
+!!!312962.java!!!	removeMatchingPort(in hostWithPort : String, in portNumber : int) : String
+        HostAndPort parsedHostAndPort = HostAndPort.fromString(hostWithPort);
+        if (parsedHostAndPort.hasPort() && parsedHostAndPort.getPort() == portNumber) {
+            // HostAndPort.getHostText() strips brackets from ipv6 addresses, so reparse using fromHost
+            return HostAndPort.fromHost(parsedHostAndPort.getHostText()).toString();
+        } else {
+            return hostWithPort;
+        }
+!!!313090.java!!!	base64EncodeBasicCredentials(in username : String, in password : String) : String
+        String credentialsToEncode = username + ':' + password;
+        // using UTF-8, which is the modern de facto standard, and which retains compatibility with US_ASCII for ASCII characters,
+        // as required by RFC 7616, section 3: http://tools.ietf.org/html/rfc7617#section-3
+        byte[] credentialsAsUtf8Bytes = credentialsToEncode.getBytes(StandardCharsets.UTF_8);
+        return BaseEncoding.base64().encode(credentialsAsUtf8Bytes);

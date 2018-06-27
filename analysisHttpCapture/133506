@@ -1,0 +1,2527 @@
+format 76
+"mitm" // source::main::java::net::lightbody::bmp::mitm
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/mitm/"
+  java_package "net.lightbody.bmp.mitm"
+  classview 131970 "mitm"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 146306 "TrustSource"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A source of trusted root certificate authorities. Provides static methods to obtain default trust sources:
+<ul>
+    <li>{@link #defaultTrustSource()}- both the built-in and JVM-trusted CAs</li>
+    <li>{@link #javaTrustSource()} - only default CAs trusted by the JVM</li>
+    <li>{@link #builtinTrustSource()} - only built-in trusted CAs (ultimately derived from Firefox's trust list)</li>
+</ul>
+
+Custom TrustSources can be built by starting with {@link #empty()}, then calling the various add() methods to add
+PEM-encoded files and Strings, KeyStores, and X509Certificates to the TrustSource. For example:
+<p/>
+<code>
+     TrustSource customTrustSource = TrustSource.empty()
+             .add(myX509Certificate)
+             .add(pemFileContainingMyCA)
+             .add(javaKeyStore);
+</code>
+<p/>
+<b>Note:</b> This class is immutable, so calls to add() will return a new instance, rather than modifying the existing instance."
+      classrelation 155394 // DEFAULT_TRUST_SOURCE (<unidirectional association>)
+	relation 155394 --->
+	  a role_name "DEFAULT_TRUST_SOURCE" init_value " TrustSource.javaTrustSource().add(TrustSource.builtinTrustSource())" class_relation const_relation private
+	    comment "
+The default TrustSource. To obtain this TrustSource, use {@link #defaultTrustSource()}.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 155394 // DEFAULT_TRUST_SOURCE (<unidirectional association>)
+	  b parent class_ref 146306 // TrustSource
+      end
+
+      attribute 209922 "trustedCAs"
+	const_attribute private explicit_type "X509Certificate"
+	multiplicity "[]"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The root CAs this TrustSource trusts.
+"
+      end
+
+      operation 279810 "TrustSource"
+	protected explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a TrustSource that contains no trusted certificates. For public use, see {@link #empty()}."
+      end
+
+      operation 279938 "TrustSource"
+	protected explicit_return_type ""
+	nparams 1
+	  param inout name "" explicit_type "X509Certificate...trustedCAs"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a TrustSource that considers only the specified certificates as \"trusted\". For public use,
+use {@link #empty()} followed by {@link #add(X509Certificate...)}.
+
+@param trustedCAs root CAs to trust"
+      end
+
+      operation 280066 "getTrustedCAs"
+	public explicit_return_type "X509Certificate"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the X509 certificates considered \"trusted\" by this TrustSource. This method will not return null, but
+may return an empty array."
+      end
+
+      operation 280194 "empty"
+	class_operation public return_type class_ref 146306 // TrustSource
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a TrustSource that contains no trusted CAs. Can be used in conjunction with the add() methods to build
+a TrustSource containing custom CAs from a variety of sources (PEM files, KeyStores, etc.)."
+      end
+
+      operation 280322 "defaultTrustSource"
+	class_operation public return_type class_ref 146306 // TrustSource
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a TrustSource containing the default trusted CAs. By default, contains both the JVM's trusted CAs and the
+built-in trusted CAs (Firefox's trusted CAs)."
+      end
+
+      operation 280450 "builtinTrustSource"
+	class_operation public return_type class_ref 146306 // TrustSource
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a TrustSource containing only the builtin trusted CAs and does not include the JVM's trusted CAs.
+See {@link TrustUtil#getBuiltinTrustedCAs()}."
+      end
+
+      operation 280578 "javaTrustSource"
+	class_operation public return_type class_ref 146306 // TrustSource
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a TrustSource containing the default CAs trusted by this JVM. See {@link TrustUtil#getJavaTrustedCAs()}."
+      end
+
+      operation 280706 "add"
+	public return_type class_ref 146306 // TrustSource
+	nparams 1
+	  param in name "trustedPemEncodedCAs" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new TrustSource containing the same trusted CAs as this TrustSource, plus zero or more CAs contained in
+the PEM-encoded String. The String may contain multiple certificates and may contain comments or other non-PEM-encoded
+text, as long as the PEM-encoded certificates are delimited by appropriate BEGIN_CERTIFICATE and END_CERTIFICATE
+text blocks.
+
+@param trustedPemEncodedCAs String containing PEM-encoded certificates to trust
+@return a new TrustSource containing this TrustSource's trusted CAs plus the CAs in the specified String"
+      end
+
+      operation 280834 "add"
+	public return_type class_ref 146306 // TrustSource
+	nparams 1
+	  param inout name "" explicit_type "X509Certificate...trustedCertificates"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new TrustSource containing the same trusted CAs as this TrustSource, plus zero or more additional
+trusted X509Certificates. If trustedCertificates is null or empty, returns this same TrustSource.
+
+@param trustedCertificates X509Certificates of CAs to trust
+@return a new TrustSource containing this TrustSource's trusted CAs plus the specified CAs"
+      end
+
+      operation 280962 "add"
+	public return_type class_ref 146306 // TrustSource
+	nparams 1
+	  param inout name "trustStore" explicit_type "KeyStore"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new TrustSource containing the same trusted CAs as this TrustSource, plus all trusted certificate
+entries from the specified trustStore. This method will only add trusted certificate entries from the specified
+KeyStore (i.e. entries of type {@link java.security.KeyStore.TrustedCertificateEntry}; private keys will be
+ignored. The trustStore may be in JKS or PKCS12 format.
+
+@param trustStore keystore containing trusted certificate entries
+@return a new TrustSource containing this TrustSource's trusted CAs plus trusted certificate entries from the keystore"
+      end
+
+      operation 281090 "add"
+	public return_type class_ref 146306 // TrustSource
+	nparams 1
+	  param inout name "trustedCAPemFile" explicit_type "File"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new TrustSource containing the same trusted CAs as this TrustSource, plus zero or more CAs contained in
+the PEM-encoded File. The File may contain multiple certificates and may contain comments or other non-PEM-encoded
+text, as long as the PEM-encoded certificates are delimited by appropriate BEGIN_CERTIFICATE and END_CERTIFICATE
+text blocks. The file may contain UTF-8 characters, but the PEM-encoded certificate data itself must be US-ASCII.
+
+@param trustedCAPemFile File containing PEM-encoded certificates
+@return a new TrustSource containing this TrustSource's trusted CAs plus the CAs in the specified String"
+      end
+
+      operation 281218 "add"
+	public return_type class_ref 146306 // TrustSource
+	nparams 1
+	  param inout name "trustSource" type class_ref 146306 // TrustSource
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new TrustSource containing the same trusted CAs as this TrustSource, plus the trusted CAs in the specified
+TrustSource.
+
+@param trustSource TrustSource to combine with this TrustSource
+@return a new TrustSource containing both TrustSources' trusted CAs"
+      end
+    end
+
+    class 153602 "CertificateAndKey"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A simple container for an X.509 certificate and its corresponding private key."
+      attribute 205698 "certificate"
+	const_attribute private explicit_type "X509Certificate"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 205826 "privateKey"
+	const_attribute private explicit_type "PrivateKey"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 272642 "CertificateAndKey"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "certificate" explicit_type "X509Certificate"
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272770 "getCertificate"
+	public explicit_return_type "X509Certificate"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272898 "getPrivateKey"
+	public explicit_return_type "PrivateKey"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 153730 "CertificateAndKeySource"
+      visibility public stereotype "interface"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A CertificateAndKeySource generates {@link CertificateAndKey}s, i.e. the root certificate and private key used
+to sign impersonated certificates of upstream servers. Implementations of this interface load impersonation materials
+from various sources, including Java KeyStores, JKS files, etc., or generate them on-the-fly."
+      operation 273026 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads a certificate and its corresponding private key. Every time this method is called, it should return the same
+certificate and private key (although it may be a different {@link CertificateAndKey} instance).
+
+@return certificate and its corresponding private key"
+      end
+    end
+
+    class 153858 "CertificateInfo"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Container for X.509 Certificate information."
+      attribute 205954 "commonName"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206082 "organization"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206210 "organizationalUnit"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206338 "email"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206466 "locality"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206594 "state"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206722 "countryCode"
+	private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206850 "notBefore"
+	private explicit_type "Date"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 206978 "notAfter"
+	private explicit_type "Date"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 207106 "subjectAlternativeNames"
+	private explicit_type "String"
+	init_value " Collections.emptyList()"
+	stereotype "List"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 273154 "getCommonName"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273282 "getOrganization"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273410 "getOrganizationalUnit"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273538 "getNotBefore"
+	public explicit_return_type "Date"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273666 "getNotAfter"
+	public explicit_return_type "Date"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273794 "getEmail"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273922 "getLocality"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274050 "getState"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274178 "getCountryCode"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274306 "getSubjectAlternativeNames"
+	public explicit_return_type "List<String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274434 "commonName"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "commonName" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274562 "organization"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "organization" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274690 "organizationalUnit"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "organizationalUnit" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274818 "notBefore"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param inout name "notBefore" explicit_type "Date"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274946 "notAfter"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param inout name "notAfter" explicit_type "Date"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275074 "email"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "email" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275202 "locality"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "locality" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275330 "state"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "state" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275458 "countryCode"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param in name "countryCode" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275586 "subjectAlternativeNames"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 1
+	  param inout name "subjectAlternativeNames" explicit_type "List<String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 153986 "CertificateInfoGenerator"
+      visibility public stereotype "interface"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A functional interface to allow customization of the certificates generated by the
+{@link net.lightbody.bmp.mitm.manager.ImpersonatingMitmManager}."
+      operation 275714 "generate"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 2
+	  param inout name "hostnames" explicit_type "List<String>"
+	  param inout name "originalCertificate" explicit_type "X509Certificate"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generate a certificate for the specified hostnames, optionally using parameters from the originalCertificate.
+
+@param hostnames the hostnames to generate the certificate for, which may include wildcards
+@param originalCertificate original X.509 certificate sent by the upstream server, which may be null
+@return CertificateInfo to be used to create an X509Certificate for the specified hostnames"
+      end
+    end
+
+    class 154114 "ExistingCertificateSource"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A simple adapter that produces a {@link CertificateAndKey} from existing {@link X509Certificate} and {@link PrivateKey}
+java objects."
+      classrelation 153218 // <realization>
+	relation 153218 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 153218 // <realization>
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 207234 "rootCertificate"
+	const_attribute private explicit_type "X509Certificate"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 207362 "privateKey"
+	const_attribute private explicit_type "PrivateKey"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 275842 "ExistingCertificateSource"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "rootCertificate" explicit_type "X509Certificate"
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275970 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 154242 "HostnameCertificateInfoGenerator"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A {@link CertificateInfoGenerator} that uses only a hostname to populate a new {@link CertificateInfo}. The
+values in the upstream server's original X.509 certificate will be ignored."
+      classrelation 153346 // <realization>
+	relation 153346 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 153346 // <realization>
+	  b parent class_ref 153986 // CertificateInfoGenerator
+      end
+
+      attribute 207490 "DEFAULT_IMPERSONATED_CERT_ORG"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Impersonated Certificate\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The 'O' to use for the impersonated server certificate when doing \"simple\" certificate impersonation (i.e.
+not copying values from actual server certificate).
+"
+      end
+
+      attribute 207618 "DEFAULT_IMPERSONATED_CERT_ORG_UNIT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"LittleProxy MITM\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The 'O' to use for the impersonated server certificate when doing \"simple\" certificate impersonation.
+"
+      end
+
+      operation 276098 "generate"
+	public return_type class_ref 153858 // CertificateInfo
+	nparams 2
+	  param inout name "hostnames" explicit_type "List<String>"
+	  param inout name "originalCertificate" explicit_type "X509Certificate"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 276226 "getNotBefore"
+	protected explicit_return_type "Date"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the default Not Before date for impersonated certificates. Defaults to the current date minus 1 year."
+      end
+
+      operation 276354 "getNotAfter"
+	protected explicit_return_type "Date"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the default Not After date for impersonated certificates. Defaults to the current date plus 1 year."
+      end
+    end
+
+    class 154370 "KeyStoreCertificateSource"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A {@link CertificateAndKeySource} that loads the root certificate and private key from a Java KeyStore. The
+KeyStore must contain a certificate and a private key, specified by the privateKeyAlias value. The KeyStore must
+already be loaded and initialized; to load the KeyStore from a file or classpath resource, use
+{@link KeyStoreFileCertificateSource}, {@link PemFileCertificateSource}, or a custom
+implementation of {@link CertificateAndKeySource}."
+      classrelation 153474 // <realization>
+	relation 153474 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 153474 // <realization>
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 207746 "keyStore"
+	const_attribute private explicit_type "KeyStore"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 207874 "keyStorePassword"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208002 "privateKeyAlias"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 276482 "KeyStoreCertificateSource"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276610 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 154498 "KeyStoreFileCertificateSource"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Loads a KeyStore from a file or classpath resource. If configured with a File object, attempts to load the KeyStore
+from the specified file. Otherwise, attempts to load the KeyStore from a classpath resource."
+      classrelation 153602 // <realization>
+	relation 153602 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 153602 // <realization>
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 208130 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(KeyStoreFileCertificateSource.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208258 "keyStoreClasspathResource"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208386 "keyStoreFile"
+	const_attribute private explicit_type "File"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208514 "keyStoreType"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208642 "keyStorePassword"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 208770 "privateKeyAlias"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 153730 // securityProviderTool (<unidirectional association>)
+	relation 153730 --->
+	  a role_name "securityProviderTool" init_value " new DefaultSecurityProviderTool()" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153730 // securityProviderTool (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      classrelation 153858 // certificateAndKey (<unidirectional association>)
+	relation 153858 --->
+	  stereotype "Supplier"
+	  a role_name "certificateAndKey" init_value " Suppliers.memoize(new Supplier<CertificateAndKey>() {
+        @Override
+        public CertificateAndKey get() {
+            return loadKeyStore();
+        }
+    })" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 153858 // certificateAndKey (<unidirectional association>)
+	  b parent class_ref 153602 // CertificateAndKey
+      end
+
+      operation 276738 "KeyStoreFileCertificateSource"
+	public explicit_return_type ""
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param in name "keyStoreClasspathResource" explicit_type "String"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a {@link CertificateAndKeySource} that loads an existing {@link KeyStore} from a classpath resource.
+ @param keyStoreType              the KeyStore type, such as PKCS12 or JKS
+@param keyStoreClasspathResource classpath resource to load (for example, \"/keystore.jks\")
+@param privateKeyAlias           the alias of the private key in the KeyStore
+@param keyStorePassword          te KeyStore password"
+      end
+
+      operation 276866 "KeyStoreFileCertificateSource"
+	public explicit_return_type ""
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "keyStoreFile" explicit_type "File"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a {@link CertificateAndKeySource} that loads an existing {@link KeyStore} from a classpath resource.
+ @param keyStoreType     the KeyStore type, such as PKCS12 or JKS
+@param keyStoreFile     KeyStore file to load
+@param privateKeyAlias  the alias of the private key in the KeyStore
+@param keyStorePassword te KeyStore password"
+      end
+
+      operation 276994 "certificateTool"
+	public return_type class_ref 154498 // KeyStoreFileCertificateSource
+	nparams 1
+	  param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Override the default {@link SecurityProviderTool} used to load the KeyStore."
+      end
+
+      operation 277122 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 277250 "loadKeyStore"
+	private return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads the {@link CertificateAndKey} from the KeyStore using the {@link SecurityProviderTool}."
+      end
+    end
+
+    class 154754 "PemFileCertificateSource"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Loads impersonation materials from two separate, PEM-encoded files: a CA root certificate and its corresponding
+private key."
+      classrelation 153986 // <realization>
+	relation 153986 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 153986 // <realization>
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 208898 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(PemFileCertificateSource.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 209026 "certificateFile"
+	const_attribute private explicit_type "File"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 209154 "privateKeyFile"
+	const_attribute private explicit_type "File"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 209282 "privateKeyPassword"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 154114 // securityProviderTool (<unidirectional association>)
+	relation 154114 --->
+	  a role_name "securityProviderTool" init_value " new DefaultSecurityProviderTool()" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 154114 // securityProviderTool (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      classrelation 154242 // certificateAndKey (<unidirectional association>)
+	relation 154242 --->
+	  stereotype "Supplier"
+	  a role_name "certificateAndKey" init_value " Suppliers.memoize(new Supplier<CertificateAndKey>() {
+        @Override
+        public CertificateAndKey get() {
+            return loadCertificateAndKeyFiles();
+        }
+    })" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 154242 // certificateAndKey (<unidirectional association>)
+	  b parent class_ref 153602 // CertificateAndKey
+      end
+
+      operation 277378 "PemFileCertificateSource"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "certificateFile" explicit_type "File"
+	  param inout name "privateKeyFile" explicit_type "File"
+	  param in name "privateKeyPassword" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a {@link CertificateAndKeySource} that loads the certificate and private key from PEM files.
+
+@param certificateFile    PEM-encoded file containing the root certificate
+@param privateKeyFile     PEM-encoded file continaing the certificate's private key
+@param privateKeyPassword password for the private key"
+      end
+
+      operation 277506 "certificateTool"
+	public return_type class_ref 154754 // PemFileCertificateSource
+	nparams 1
+	  param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Override the default {@link SecurityProviderTool} used to load the PEM files."
+      end
+
+      operation 277634 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 277762 "loadCertificateAndKeyFiles"
+	private return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 154882 "RootCertificateGenerator"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A {@link CertificateAndKeySource} that dynamically generates a CA root certificate and private key. The certificate
+and key will only be generated once; all subsequent calls to {@link #load()} will return the same materials. To save
+the generated certificate and/or private key for installation in a browser or other client, use one of the encode
+or save methods:
+<ul>
+<li>{@link #encodeRootCertificateAsPem()}</li>
+<li>{@link #encodePrivateKeyAsPem(String)}</li>
+<li>{@link #saveRootCertificateAsPemFile(File)}</li>
+<li>{@link #savePrivateKeyAsPemFile(File, String)}</li>
+<li>{@link #saveRootCertificateAndKey(String, File, String, String)}</li>
+</ul>"
+      classrelation 154370 // <realization>
+	relation 154370 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 154370 // <realization>
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 209410 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(RootCertificateGenerator.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 154498 // rootCertificateInfo (<unidirectional association>)
+	relation 154498 --->
+	  a role_name "rootCertificateInfo" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 154498 // rootCertificateInfo (<unidirectional association>)
+	  b parent class_ref 153858 // CertificateInfo
+      end
+
+      attribute 209538 "messageDigest"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 154626 // keyGenerator (<unidirectional association>)
+	relation 154626 --->
+	  a role_name "keyGenerator" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 154626 // keyGenerator (<unidirectional association>)
+	  b parent class_ref 155010 // KeyGenerator
+      end
+
+      classrelation 154754 // securityProviderTool (<unidirectional association>)
+	relation 154754 --->
+	  a role_name "securityProviderTool" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 154754 // securityProviderTool (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      attribute 209666 "DEFAULT_PEM_ENCRYPTION_ALGORITHM"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"AES-128-CBC\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The default algorithm to use when encrypting objects in PEM files (such as private keys).
+"
+      end
+
+      classrelation 154882 // generatedCertificateAndKey (<unidirectional association>)
+	relation 154882 --->
+	  stereotype "Supplier"
+	  a role_name "generatedCertificateAndKey" init_value " Suppliers.memoize(new Supplier<CertificateAndKey>() {
+        @Override
+        public CertificateAndKey get() {
+            return generateRootCertificate();
+        }
+    })" const_relation private
+	    comment "The new root certificate and private key are generated only once, even across multiple calls to {@link #load()}},
+to allow users to save the new generated root certificate for use in browsers/other HTTP clients.
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 154882 // generatedCertificateAndKey (<unidirectional association>)
+	  b parent class_ref 153602 // CertificateAndKey
+      end
+
+      operation 277890 "RootCertificateGenerator"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "rootCertificateInfo" type class_ref 153858 // CertificateInfo
+	  param in name "messageDigest" explicit_type "String"
+	  param inout name "keyGenerator" type class_ref 155010 // KeyGenerator
+	  param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 278018 "load"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 278146 "generateRootCertificate"
+	private return_type class_ref 153602 // CertificateAndKey
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates a new CA root certificate and private key.
+
+@return new root certificate and private key"
+      end
+
+      operation 278274 "encodeRootCertificateAsPem"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the generated root certificate as a PEM-encoded String."
+      end
+
+      operation 278402 "encodePrivateKeyAsPem"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "privateKeyPassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the generated private key as a PEM-encoded String, encrypted using the specified password and the
+{@link #DEFAULT_PEM_ENCRYPTION_ALGORITHM}.
+
+@param privateKeyPassword password to use to encrypt the private key"
+      end
+
+      operation 278530 "saveRootCertificateAsPemFile"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "file" explicit_type "File"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves the root certificate as PEM-encoded data to the specified file."
+      end
+
+      operation 278658 "savePrivateKeyAsPemFile"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "file" explicit_type "File"
+	  param in name "passwordForPrivateKey" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves the private key as PEM-encoded data to a file, using the specified password to encrypt the private key and
+the {@link #DEFAULT_PEM_ENCRYPTION_ALGORITHM}. If the password is null, the private key will be stored unencrypted.
+In general, private keys should not be stored unencrypted.
+
+@param file                  file to save the private key to
+@param passwordForPrivateKey password to protect the private key"
+      end
+
+      operation 278786 "saveRootCertificateAndKey"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "file" explicit_type "File"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves the generated certificate and private key as a file, using the specified password to protect the key store.
+
+@param keyStoreType    the KeyStore type, such as PKCS12 or JKS
+@param file            file to export the root certificate and private key to
+@param privateKeyAlias alias for the private key in the KeyStore
+@param password        password for the private key and the KeyStore"
+      end
+
+      class 155138 "Builder"
+	visibility public 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	classrelation 155010 // certificateInfo (<unidirectional association>)
+	  relation 155010 --->
+	    a role_name "certificateInfo" init_value " new CertificateInfo()
+                .commonName(getDefaultCommonName())
+                .organization(\"CA dynamically generated by LittleProxy\")
+                .notBefore(new Date(System.currentTimeMillis() - 365L * 24L * 60L * 60L * 1000L))
+                .notAfter(new Date(System.currentTimeMillis() + 365L * 24L * 60L * 60L * 1000L))" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 155010 // certificateInfo (<unidirectional association>)
+	    b parent class_ref 153858 // CertificateInfo
+	end
+
+	classrelation 155138 // keyGenerator (<unidirectional association>)
+	  relation 155138 --->
+	    a role_name "keyGenerator" init_value " new RSAKeyGenerator()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 155138 // keyGenerator (<unidirectional association>)
+	    b parent class_ref 155010 // KeyGenerator
+	end
+
+	attribute 209794 "messageDigest"
+	  private explicit_type "String"
+	  init_value " MitmConstants.DEFAULT_MESSAGE_DIGEST"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	classrelation 155266 // securityProviderTool (<unidirectional association>)
+	  relation 155266 --->
+	    a role_name "securityProviderTool" init_value " new DefaultSecurityProviderTool()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 155266 // securityProviderTool (<unidirectional association>)
+	    b parent class_ref 154626 // SecurityProviderTool
+	end
+
+	operation 279042 "certificateInfo"
+	  public return_type class_ref 155138 // Builder
+	  nparams 1
+	    param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Certificate info to use to generate the root certificate. Reasonable default values will be used if certificate
+info is not supplied."
+	end
+
+	operation 279170 "keyGenerator"
+	  public return_type class_ref 155138 // Builder
+	  nparams 1
+	    param inout name "keyGenerator" type class_ref 155010 // KeyGenerator
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The {@link KeyGenerator} that will be used to generate the root certificate's public and private keys."
+	end
+
+	operation 279298 "messageDigest"
+	  public return_type class_ref 155138 // Builder
+	  nparams 1
+	    param in name "messageDigest" explicit_type "String"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The message digest that will be used when self-signing the root certificates."
+	end
+
+	operation 279426 "certificateTool"
+	  public return_type class_ref 155138 // Builder
+	  nparams 1
+	    param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The {@link SecurityProviderTool} implementation that will be used to generate certificates."
+	end
+
+	operation 279554 "build"
+	  public return_type class_ref 154882 // RootCertificateGenerator
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 278914 "builder"
+	class_operation public return_type class_ref 155138 // Builder
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method to return a new {@link Builder} instance."
+      end
+
+      operation 279682 "getDefaultCommonName"
+	class_operation private explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a default CN field for a certificate, using the hostname of this machine and the current time."
+      end
+    end
+  end
+
+  deploymentview 131202 "mitm"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 142466 "CertificateAndKey"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 153602 // CertificateAndKey
+      end
+    end
+
+    artifact 142594 "CertificateAndKeySource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_classes
+	class_ref 153730 // CertificateAndKeySource
+      end
+    end
+
+    artifact 142722 "CertificateInfo"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 153858 // CertificateInfo
+      end
+    end
+
+    artifact 142850 "CertificateInfoGenerator"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.security.cert.X509Certificate;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 153986 // CertificateInfoGenerator
+      end
+    end
+
+    artifact 142978 "ExistingCertificateSource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 154114 // ExistingCertificateSource
+      end
+    end
+
+    artifact 143106 "HostnameCertificateInfoGenerator"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 154242 // HostnameCertificateInfoGenerator
+      end
+    end
+
+    artifact 143234 "KeyStoreCertificateSource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import net.lightbody.bmp.mitm.exception.CertificateSourceException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 154370 // KeyStoreCertificateSource
+      end
+    end
+
+    artifact 143362 "KeyStoreFileCertificateSource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import net.lightbody.bmp.mitm.exception.CertificateSourceException;
+import net.lightbody.bmp.mitm.tools.DefaultSecurityProviderTool;
+import net.lightbody.bmp.mitm.tools.SecurityProviderTool;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+${definition}"
+      associated_classes
+	class_ref 154498 // KeyStoreFileCertificateSource
+      end
+    end
+
+    artifact 143490 "PemFileCertificateSource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import net.lightbody.bmp.mitm.tools.DefaultSecurityProviderTool;
+import net.lightbody.bmp.mitm.tools.SecurityProviderTool;
+import net.lightbody.bmp.mitm.util.EncryptionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.io.StringReader;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 154754 // PemFileCertificateSource
+      end
+    end
+
+    artifact 143618 "RootCertificateGenerator"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import net.lightbody.bmp.mitm.keys.KeyGenerator;
+import net.lightbody.bmp.mitm.keys.RSAKeyGenerator;
+import net.lightbody.bmp.mitm.tools.DefaultSecurityProviderTool;
+import net.lightbody.bmp.mitm.tools.SecurityProviderTool;
+import net.lightbody.bmp.mitm.util.EncryptionUtil;
+import net.lightbody.bmp.mitm.util.MitmConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.KeyPair;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+${definition}"
+      associated_classes
+	class_ref 154882 // RootCertificateGenerator
+      end
+    end
+
+    artifact 143746 "TrustSource"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.collect.ObjectArrays;
+import com.google.common.io.Files;
+import net.lightbody.bmp.mitm.exception.UncheckedIOException;
+import net.lightbody.bmp.mitm.util.TrustUtil;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 146306 // TrustSource
+      end
+    end
+  end
+
+  package_ref 134402 // tools
+
+  package_ref 134530 // keys
+
+  package_ref 134658 // exception
+
+  package_ref 134786 // manager
+
+  package_ref 134914 // stats
+
+  package_ref 135042 // trustmanager
+
+  package_ref 135170 // util
+end

@@ -1,0 +1,7 @@
+class MitmException
+!!!284546.java!!!	MitmException(in message : String)
+        super(message);
+!!!284674.java!!!	MitmException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!284802.java!!!	MitmException(inout cause : Throwable)
+        super(cause);

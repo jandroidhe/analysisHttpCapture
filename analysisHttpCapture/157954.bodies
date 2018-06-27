@@ -1,0 +1,40 @@
+class EncryptionUtil
+!!!297218.java!!!	getSignatureAlgorithm(in messageDigest : String, inout signingKey : Key) : String
+        return messageDigest + "with" + getDigitalSignatureType(signingKey);
+!!!297346.java!!!	getDigitalSignatureType(inout signingKey : Key) : String
+        if (signingKey instanceof ECKey) {
+            return "ECDSA";
+        } else if (signingKey instanceof RSAKey) {
+            return "RSA";
+        } else if (signingKey instanceof DSAKey) {
+            return "DSA";
+        } else {
+            throw new IllegalArgumentException("Cannot determine digital signature encryption type for unknown key type: " + signingKey.getClass().getCanonicalName());
+        }
+
+!!!297474.java!!!	getRandomBigInteger(in bits : int) : BigInteger
+        return new BigInteger(bits, new Random());
+!!!297602.java!!!	isRsaKey(inout key : Key) : boolean
+        return "RSA".equals(key.getAlgorithm());
+!!!297730.java!!!	isEcKey(inout key : Key) : boolean
+        return "EC".equals(key.getAlgorithm());
+!!!297858.java!!!	writePemStringToFile(inout file : File, in pemDataToWrite : String) : void
+        try {
+            FileUtils.write(file, pemDataToWrite);
+        } catch (IOException e) {
+            throw new ExportException("Unable to write PEM string to file: " + file.getName(), e);
+        }
+!!!297986.java!!!	readPemStringFromFile(inout file : File) : String
+        try {
+            byte[] fileContents = FileUtils.readFileToByteArray(file);
+            return new String(fileContents, Charset.forName("US-ASCII"));
+        } catch (IOException e) {
+            throw new ImportException("Unable to read PEM-encoded data from file: " + file.getName());
+        }
+!!!298114.java!!!	isUnlimitedStrengthAllowed() : boolean
+        try {
+            return Cipher.getMaxAllowedKeyLength("AES") >= 256;
+        } catch (NoSuchAlgorithmException e) {
+            return false;
+        }
+

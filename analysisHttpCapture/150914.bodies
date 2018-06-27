@@ -1,0 +1,523 @@
+class HarCaptureFilter
+!!!258050.java!!!	HarCaptureFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout har : Har, in currentPageRef : String, inout dataToCapture : Set<CaptureType>)
+        super(originalRequest, ctx);
+
+        if (har == null) {
+            throw new IllegalStateException("Attempted har capture when har is null");
+        }
+
+        if (ProxyUtils.isCONNECT(originalRequest)) {
+            throw new IllegalStateException("Attempted har capture for HTTP CONNECT request");
+        }
+
+        this.clientAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+
+        if (dataToCapture != null && !dataToCapture.isEmpty()) {
+            this.dataToCapture = EnumSet.copyOf(dataToCapture);
+        } else {
+            this.dataToCapture = EnumSet.noneOf(CaptureType.class);
+        }
+
+        // we may need to capture both the request and the response, so set up the request/response filters and delegate to them when
+        // the corresponding filter methods are invoked. to save time and memory, only set up the capturing filters when
+        // we actually need to capture the data.
+        if (this.dataToCapture.contains(CaptureType.REQUEST_CONTENT) || this.dataToCapture.contains(CaptureType.REQUEST_BINARY_CONTENT)) {
+            requestCaptureFilter = new ClientRequestCaptureFilter(originalRequest);
+        } else {
+            requestCaptureFilter = null;
+        }
+
+        if (this.dataToCapture.contains(CaptureType.RESPONSE_CONTENT) || this.dataToCapture.contains(CaptureType.RESPONSE_BINARY_CONTENT)) {
+            responseCaptureFilter = new ServerResponseCaptureFilter(originalRequest, true);
+        } else {
+            responseCaptureFilter = null;
+        }
+
+        this.har = har;
+
+        this.harEntry = new HarEntry(currentPageRef);
+!!!258178.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        // if a ServerResponseCaptureFilter is configured, delegate to it to collect the client request. if it is not
+        // configured, we still need to capture basic information (timings, possibly client headers, etc.), just not content.
+        if (requestCaptureFilter != null) {
+            requestCaptureFilter.clientToProxyRequest(httpObject);
+        }
+
+        if (httpObject instanceof HttpRequest) {
+            // link the object up now, before we make the request, so that if we get cut off (ie: favicon.ico request and browser shuts down)
+            // we still have the attempt associated, even if we never got a response
+            harEntry.setStartedDateTime(new Date());
+            har.getLog().addEntry(harEntry);
+
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+            this.capturedOriginalRequest = httpRequest;
+
+            // associate this request's HarRequest object with the har entry
+            HarRequest request = createHarRequestForHttpRequest(httpRequest);
+            harEntry.setRequest(request);
+
+            // create a "no response received" HarResponse, in case the connection is interrupted, terminated, or the response is not received
+            // for any other reason. having a "default" HarResponse prevents us from generating an invalid HAR.
+            HarResponse defaultHarResponse = HarCaptureUtil.createHarResponseForFailure();
+            defaultHarResponse.setError(HarCaptureUtil.getNoResponseReceivedErrorMessage());
+            harEntry.setResponse(defaultHarResponse);
+
+            captureQueryParameters(httpRequest);
+            // not capturing user agent: in many cases, it doesn't make sense to capture at the HarLog level, since the proxy could be
+            // serving requests from many different clients with various user agents. clients can turn on the REQUEST_HEADERS capture type
+            // in order to capture the User-Agent header, if desired.
+            captureRequestHeaderSize(httpRequest);
+
+            if (dataToCapture.contains(CaptureType.REQUEST_COOKIES)) {
+                captureRequestCookies(httpRequest);
+            }
+
+            if (dataToCapture.contains(CaptureType.REQUEST_HEADERS)) {
+                captureRequestHeaders(httpRequest);
+            }
+
+            // The HTTP CONNECT to the proxy server establishes the SSL connection to the remote server, but the
+            // HTTP CONNECT is not recorded in a separate HarEntry (except in case of error). Instead, the ssl and
+            // connect times are recorded in the first request between the client and remote server after the HTTP CONNECT.
+            captureConnectTiming();
+        }
+
+        if (httpObject instanceof HttpContent) {
+            HttpContent httpContent = (HttpContent) httpObject;
+
+            captureRequestSize(httpContent);
+        }
+
+        if (httpObject instanceof LastHttpContent) {
+            LastHttpContent lastHttpContent = (LastHttpContent) httpObject;
+            if (dataToCapture.contains(CaptureType.REQUEST_HEADERS)) {
+                captureTrailingHeaders(lastHttpContent);
+            }
+
+            if (dataToCapture.contains(CaptureType.REQUEST_CONTENT)) {
+                captureRequestContent(requestCaptureFilter.getHttpRequest(), requestCaptureFilter.getFullRequestContents());
+            }
+
+            harEntry.getRequest().setBodySize(requestBodySize.get());
+        }
+
+        return null;
+!!!258306.java!!!	serverToProxyResponse(inout httpObject : HttpObject) : HttpObject
+        // if a ServerResponseCaptureFilter is configured, delegate to it to collect the server's response. if it is not
+        // configured, we still need to capture basic information (timings, HTTP status, etc.), just not content.
+        if (responseCaptureFilter != null) {
+            responseCaptureFilter.serverToProxyResponse(httpObject);
+        }
+
+        if (httpObject instanceof HttpResponse) {
+            HttpResponse httpResponse = (HttpResponse) httpObject;
+
+            captureResponse(httpResponse);
+        }
+
+        if (httpObject instanceof HttpContent) {
+            HttpContent httpContent = (HttpContent) httpObject;
+
+            captureResponseSize(httpContent);
+        }
+
+        if (httpObject instanceof LastHttpContent) {
+            if (dataToCapture.contains(CaptureType.RESPONSE_CONTENT)) {
+                captureResponseContent(responseCaptureFilter.getHttpResponse(), responseCaptureFilter.getFullResponseContents());
+            }
+
+            harEntry.getResponse().setBodySize(responseBodySize.get());
+        }
+
+        return super.serverToProxyResponse(httpObject);
+!!!258434.java!!!	serverToProxyResponseTimedOut() : void
+        // replace any existing HarResponse that was created if the server sent a partial response
+        HarResponse response = HarCaptureUtil.createHarResponseForFailure();
+        harEntry.setResponse(response);
+
+        response.setError(HarCaptureUtil.getResponseTimedOutErrorMessage());
+
+
+        // include this timeout time in the HarTimings object
+        long timeoutTimestampNanos = System.nanoTime();
+
+        // if the proxy started to send the request but has not yet finished, we are currently "sending"
+        if (sendStartedNanos > 0L && sendFinishedNanos == 0L) {
+            harEntry.getTimings().setSend(timeoutTimestampNanos - sendStartedNanos, TimeUnit.NANOSECONDS);
+        }
+        // if the entire request was sent but the proxy has not begun receiving the response, we are currently "waiting"
+        else if (sendFinishedNanos > 0L && responseReceiveStartedNanos == 0L) {
+            harEntry.getTimings().setWait(timeoutTimestampNanos - sendFinishedNanos, TimeUnit.NANOSECONDS);
+        }
+        // if the proxy has already begun to receive the response, we are currenting "receiving"
+        else if (responseReceiveStartedNanos > 0L) {
+            harEntry.getTimings().setReceive(timeoutTimestampNanos - responseReceiveStartedNanos, TimeUnit.NANOSECONDS);
+        }
+!!!258562.java!!!	createHarRequestForHttpRequest(inout httpRequest : HttpRequest) : HarRequest
+        // the HAR spec defines the request.url field as:
+        //     url [string] - Absolute URL of the request (fragments are not included).
+        // the URI on the httpRequest may only identify the path of the resource, so find the full URL.
+        // the full URL consists of the scheme + host + port (if non-standard) + path + query params + fragment.
+        String url = getFullUrl(httpRequest);
+
+        return new HarRequest(httpRequest.getMethod().toString(), url, httpRequest.getProtocolVersion().text());
+!!!258690.java!!!	captureQueryParameters(inout httpRequest : HttpRequest) : void
+        // capture query parameters. it is safe to assume the query string is UTF-8, since it "should" be in US-ASCII (a subset of UTF-8),
+        // but sometimes does include UTF-8 characters.
+        QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri(), StandardCharsets.UTF_8);
+
+        try {
+            for (Map.Entry<String, List<String>> entry : queryStringDecoder.parameters().entrySet()) {
+                for (String value : entry.getValue()) {
+                    harEntry.getRequest().getQueryString().add(new HarNameValuePair(entry.getKey(), value));
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            // QueryStringDecoder will throw an IllegalArgumentException if it cannot interpret a query string. rather than cause the entire request to
+            // fail by propagating the exception, simply skip the query parameter capture.
+            harEntry.setComment("Unable to decode query parameters on URI: " + httpRequest.getUri());
+            log.info("Unable to decode query parameters on URI: " + httpRequest.getUri(), e);
+        }
+!!!258818.java!!!	captureRequestHeaderSize(inout httpRequest : HttpRequest) : void
+        String requestLine = httpRequest.getMethod().toString() + ' ' + httpRequest.getUri() + ' ' + httpRequest.getProtocolVersion().toString();
+        // +2 => CRLF after status line, +4 => header/data separation
+        long requestHeadersSize = requestLine.length() + 6;
+
+        HttpHeaders headers = httpRequest.headers();
+        requestHeadersSize += BrowserMobHttpUtil.getHeaderSize(headers);
+
+        harEntry.getRequest().setHeadersSize(requestHeadersSize);
+!!!258946.java!!!	captureRequestCookies(inout httpRequest : HttpRequest) : void
+        String cookieHeader = httpRequest.headers().get(HttpHeaders.Names.COOKIE);
+        if (cookieHeader == null) {
+            return;
+        }
+
+        Set<Cookie> cookies = ServerCookieDecoder.LAX.decode(cookieHeader);
+
+        for (Cookie cookie : cookies) {
+            HarCookie harCookie = new HarCookie();
+
+            harCookie.setName(cookie.name());
+            harCookie.setValue(cookie.value());
+
+            harEntry.getRequest().getCookies().add(harCookie);
+        }
+!!!259074.java!!!	captureRequestHeaders(inout httpRequest : HttpRequest) : void
+        HttpHeaders headers = httpRequest.headers();
+
+        captureHeaders(headers);
+!!!259202.java!!!	captureTrailingHeaders(inout lastHttpContent : LastHttpContent) : void
+        HttpHeaders headers = lastHttpContent.trailingHeaders();
+
+        captureHeaders(headers);
+!!!259330.java!!!	captureHeaders(inout headers : HttpHeaders) : void
+        for (Map.Entry<String, String> header : headers.entries()) {
+            harEntry.getRequest().getHeaders().add(new HarNameValuePair(header.getKey(), header.getValue()));
+        }
+!!!259458.java!!!	captureRequestContent(inout httpRequest : HttpRequest, inout fullMessage : byte) : void
+        if (fullMessage.length == 0) {
+            return;
+        }
+
+        String contentType = HttpHeaders.getHeader(httpRequest, HttpHeaders.Names.CONTENT_TYPE);
+        if (contentType == null) {
+            log.warn("No content type specified in request to {}. Content will be treated as {}", httpRequest.getUri(), BrowserMobHttpUtil.UNKNOWN_CONTENT_TYPE);
+            contentType = BrowserMobHttpUtil.UNKNOWN_CONTENT_TYPE;
+        }
+
+        HarPostData postData = new HarPostData();
+        harEntry.getRequest().setPostData(postData);
+
+        postData.setMimeType(contentType);
+
+        boolean urlEncoded;
+        if (contentType.startsWith(HttpHeaders.Values.APPLICATION_X_WWW_FORM_URLENCODED)) {
+            urlEncoded = true;
+        } else {
+            urlEncoded = false;
+        }
+
+        Charset charset;
+        try {
+             charset = BrowserMobHttpUtil.readCharsetInContentTypeHeader(contentType);
+        } catch (UnsupportedCharsetException e) {
+            log.warn("Found unsupported character set in Content-Type header '{}' in HTTP request to {}. Content will not be captured in HAR.", contentType, httpRequest.getUri(), e);
+            return;
+        }
+
+        if (charset == null) {
+            // no charset specified, so use the default -- but log a message since this might not encode the data correctly
+            charset = BrowserMobHttpUtil.DEFAULT_HTTP_CHARSET;
+            log.debug("No charset specified; using charset {} to decode contents to {}", charset, httpRequest.getUri());
+        }
+
+        if (urlEncoded) {
+            String textContents = BrowserMobHttpUtil.getContentAsString(fullMessage, charset);
+
+            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(textContents, charset, false);
+
+            ImmutableList.Builder<HarPostDataParam> paramBuilder = ImmutableList.builder();
+
+            for (Map.Entry<String, List<String>> entry : queryStringDecoder.parameters().entrySet()) {
+                for (String value : entry.getValue()) {
+                    paramBuilder.add(new HarPostDataParam(entry.getKey(), value));
+                }
+            }
+
+            harEntry.getRequest().getPostData().setParams(paramBuilder.build());
+        } else {
+            //TODO: implement capture of files and multipart form data
+
+            // not URL encoded, so let's grab the body of the POST and capture that
+            String postBody = BrowserMobHttpUtil.getContentAsString(fullMessage, charset);
+            harEntry.getRequest().getPostData().setText(postBody);
+        }
+!!!259586.java!!!	captureResponseContent(inout httpResponse : HttpResponse, inout fullMessage : byte) : void
+        // force binary if the content encoding is not supported
+        boolean forceBinary = false;
+
+        String contentType = HttpHeaders.getHeader(httpResponse, HttpHeaders.Names.CONTENT_TYPE);
+        if (contentType == null) {
+            log.warn("No content type specified in response from {}. Content will be treated as {}", originalRequest.getUri(), BrowserMobHttpUtil.UNKNOWN_CONTENT_TYPE);
+            contentType = BrowserMobHttpUtil.UNKNOWN_CONTENT_TYPE;
+        }
+
+        if (responseCaptureFilter.isResponseCompressed() && !responseCaptureFilter.isDecompressionSuccessful()) {
+            log.warn("Unable to decompress content with encoding: {}. Contents will be encoded as base64 binary data.", responseCaptureFilter.getContentEncoding());
+
+            forceBinary = true;
+        }
+
+        Charset charset;
+        try {
+            charset = BrowserMobHttpUtil.readCharsetInContentTypeHeader(contentType);
+        } catch (UnsupportedCharsetException e) {
+            log.warn("Found unsupported character set in Content-Type header '{}' in HTTP response from {}. Content will not be captured in HAR.", contentType, originalRequest.getUri(), e);
+            return;
+        }
+
+        if (charset == null) {
+            // no charset specified, so use the default -- but log a message since this might not encode the data correctly
+            charset = BrowserMobHttpUtil.DEFAULT_HTTP_CHARSET;
+            log.debug("No charset specified; using charset {} to decode contents from {}", charset, originalRequest.getUri());
+        }
+
+        if (!forceBinary && BrowserMobHttpUtil.hasTextualContent(contentType)) {
+            String text = BrowserMobHttpUtil.getContentAsString(fullMessage, charset);
+            harEntry.getResponse().getContent().setText(text);
+        } else if (dataToCapture.contains(CaptureType.RESPONSE_BINARY_CONTENT)) {
+            harEntry.getResponse().getContent().setText(BaseEncoding.base64().encode(fullMessage));
+            harEntry.getResponse().getContent().setEncoding("base64");
+        }
+
+        harEntry.getResponse().getContent().setSize(fullMessage.length);
+!!!259714.java!!!	captureResponse(inout httpResponse : HttpResponse) : void
+        HarResponse response = new HarResponse(httpResponse.getStatus().code(), httpResponse.getStatus().reasonPhrase(), httpResponse.getProtocolVersion().text());
+        harEntry.setResponse(response);
+
+        captureResponseHeaderSize(httpResponse);
+
+        captureResponseMimeType(httpResponse);
+
+        if (dataToCapture.contains(CaptureType.RESPONSE_COOKIES)) {
+            captureResponseCookies(httpResponse);
+        }
+
+        if (dataToCapture.contains(CaptureType.RESPONSE_HEADERS)) {
+            captureResponseHeaders(httpResponse);
+        }
+
+        if (BrowserMobHttpUtil.isRedirect(httpResponse)) {
+            captureRedirectUrl(httpResponse);
+        }
+!!!259842.java!!!	captureResponseMimeType(inout httpResponse : HttpResponse) : void
+        String contentType = HttpHeaders.getHeader(httpResponse, HttpHeaders.Names.CONTENT_TYPE);
+        // don't set the mimeType to null, since mimeType is a required field
+        if (contentType != null) {
+            harEntry.getResponse().getContent().setMimeType(contentType);
+        }
+!!!259970.java!!!	captureResponseCookies(inout httpResponse : HttpResponse) : void
+        List<String> setCookieHeaders = httpResponse.headers().getAll(HttpHeaders.Names.SET_COOKIE);
+        if (setCookieHeaders == null) {
+            return;
+        }
+
+        for (String setCookieHeader : setCookieHeaders) {
+            Cookie cookie = ClientCookieDecoder.LAX.decode(setCookieHeader);
+            if (cookie == null) {
+                return;
+            }
+
+            HarCookie harCookie = new HarCookie();
+
+            harCookie.setName(cookie.name());
+            harCookie.setValue(cookie.value());
+            // comment is no longer supported in the netty ClientCookieDecoder
+            harCookie.setDomain(cookie.domain());
+            harCookie.setHttpOnly(cookie.isHttpOnly());
+            harCookie.setPath(cookie.path());
+            harCookie.setSecure(cookie.isSecure());
+            if (cookie.maxAge() > 0) {
+                // use a Calendar with the current timestamp + maxAge seconds. the locale of the calendar is irrelevant,
+                // since we are dealing with timestamps.
+                Calendar expires = Calendar.getInstance();
+                // zero out the milliseconds, since maxAge is in seconds
+                expires.set(Calendar.MILLISECOND, 0);
+                // we can't use Calendar.add, since that only takes ints. TimeUnit.convert handles second->millisecond
+                // overflow reasonably well by returning the result as Long.MAX_VALUE.
+                expires.setTimeInMillis(expires.getTimeInMillis() + TimeUnit.MILLISECONDS.convert(cookie.maxAge(), TimeUnit.SECONDS));
+
+                harCookie.setExpires(expires.getTime());
+            }
+
+            harEntry.getResponse().getCookies().add(harCookie);
+        }
+!!!260098.java!!!	captureResponseHeaderSize(inout httpResponse : HttpResponse) : void
+        String statusLine = httpResponse.getProtocolVersion().toString() + ' ' + httpResponse.getStatus().toString();
+        // +2 => CRLF after status line, +4 => header/data separation
+        long responseHeadersSize = statusLine.length() + 6;
+        HttpHeaders headers = httpResponse.headers();
+        responseHeadersSize += BrowserMobHttpUtil.getHeaderSize(headers);
+
+        harEntry.getResponse().setHeadersSize(responseHeadersSize);
+!!!260226.java!!!	captureResponseHeaders(inout httpResponse : HttpResponse) : void
+        HttpHeaders headers = httpResponse.headers();
+        for (Map.Entry<String, String> header : headers.entries()) {
+            harEntry.getResponse().getHeaders().add(new HarNameValuePair(header.getKey(), header.getValue()));
+        }
+!!!260354.java!!!	captureRedirectUrl(inout httpResponse : HttpResponse) : void
+        String locationHeaderValue = HttpHeaders.getHeader(httpResponse, HttpHeaders.Names.LOCATION);
+        if (locationHeaderValue != null) {
+            harEntry.getResponse().setRedirectURL(locationHeaderValue);
+        }
+!!!260482.java!!!	captureRequestSize(inout httpContent : HttpContent) : void
+        ByteBuf bufferedContent = httpContent.content();
+        int contentSize = bufferedContent.readableBytes();
+        requestBodySize.addAndGet(contentSize);
+!!!260610.java!!!	captureResponseSize(inout httpContent : HttpContent) : void
+        ByteBuf bufferedContent = httpContent.content();
+        int contentSize = bufferedContent.readableBytes();
+        responseBodySize.addAndGet(contentSize);
+!!!260738.java!!!	captureConnectTiming() : void
+        HttpConnectTiming httpConnectTiming = HttpConnectHarCaptureFilter.consumeConnectTimingForConnection(clientAddress);
+        if (httpConnectTiming != null) {
+            harEntry.getTimings().setSsl(httpConnectTiming.getSslHandshakeTimeNanos(), TimeUnit.NANOSECONDS);
+            harEntry.getTimings().setConnect(httpConnectTiming.getConnectTimeNanos(), TimeUnit.NANOSECONDS);
+            harEntry.getTimings().setBlocked(httpConnectTiming.getBlockedTimeNanos(), TimeUnit.NANOSECONDS);
+            harEntry.getTimings().setDns(httpConnectTiming.getDnsTimeNanos(), TimeUnit.NANOSECONDS);
+        }
+!!!260866.java!!!	populateAddressFromCache(inout httpRequest : HttpRequest) : void
+        String serverHost = getHost(httpRequest);
+
+        if (serverHost != null && !serverHost.isEmpty()) {
+            String resolvedAddress = ResolvedHostnameCacheFilter.getPreviouslyResolvedAddressForHost(serverHost);
+            if (resolvedAddress != null) {
+                harEntry.setServerIPAddress(resolvedAddress);
+            } else {
+                // the resolvedAddress may be null if the ResolvedHostnameCacheFilter has expired the entry (which is unlikely),
+                // or in the far more common case that the proxy is using a chained proxy to connect to connect to the
+                // remote host. since the chained proxy handles IP address resolution, the IP address in the HAR must be blank.
+                log.trace("Unable to find cached IP address for host: {}. IP address in HAR entry will be blank.", serverHost);
+            }
+        } else {
+            log.warn("Unable to identify host from request uri: {}", httpRequest.getUri());
+        }
+!!!260994.java!!!	proxyToServerResolutionStarted(in resolvingServerHostAndPort : String) : InetSocketAddress
+        dnsResolutionStartedNanos = System.nanoTime();
+
+        // resolution started means the connection is no longer queued, so populate 'blocked' time
+        if (connectionQueuedNanos > 0L) {
+            harEntry.getTimings().setBlocked(dnsResolutionStartedNanos - connectionQueuedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setBlocked(0L, TimeUnit.NANOSECONDS);
+        }
+
+        return null;
+!!!261122.java!!!	proxyToServerResolutionFailed(in hostAndPort : String) : void
+        HarResponse response = HarCaptureUtil.createHarResponseForFailure();
+        harEntry.setResponse(response);
+
+        response.setError(HarCaptureUtil.getResolutionFailedErrorMessage(hostAndPort));
+
+        // record the amount of time we attempted to resolve the hostname in the HarTimings object
+        if (dnsResolutionStartedNanos > 0L) {
+            harEntry.getTimings().setDns(System.nanoTime() - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
+        }
+!!!261250.java!!!	proxyToServerResolutionSucceeded(in serverHostAndPort : String, inout resolvedRemoteAddress : InetSocketAddress) : void
+        long dnsResolutionFinishedNanos = System.nanoTime();
+
+        if (dnsResolutionStartedNanos > 0L) {
+            harEntry.getTimings().setDns(dnsResolutionFinishedNanos - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setDns(0L, TimeUnit.NANOSECONDS);
+        }
+
+        // the address *should* always be resolved at this point
+        InetAddress resolvedAddress = resolvedRemoteAddress.getAddress();
+        if (resolvedAddress != null) {
+            addressResolved = true;
+
+            harEntry.setServerIPAddress(resolvedAddress.getHostAddress());
+        }
+!!!261378.java!!!	proxyToServerConnectionQueued() : void
+        this.connectionQueuedNanos = System.nanoTime();
+!!!261506.java!!!	proxyToServerConnectionStarted() : void
+        this.connectionStartedNanos = System.nanoTime();
+!!!261634.java!!!	proxyToServerConnectionFailed() : void
+        HarResponse response = HarCaptureUtil.createHarResponseForFailure();
+        harEntry.setResponse(response);
+
+        response.setError(HarCaptureUtil.getConnectionFailedErrorMessage());
+
+        // record the amount of time we attempted to connect in the HarTimings object
+        if (connectionStartedNanos > 0L) {
+            harEntry.getTimings().setConnect(System.nanoTime() - connectionStartedNanos, TimeUnit.NANOSECONDS);
+        }
+!!!261762.java!!!	proxyToServerConnectionSucceeded(inout serverCtx : ChannelHandlerContext) : void
+        long connectionSucceededTimeNanos = System.nanoTime();
+
+        // make sure the previous timestamp was captured, to avoid setting an absurd value in the har (see serverToProxyResponseReceiving())
+        if (connectionStartedNanos > 0L) {
+            harEntry.getTimings().setConnect(connectionSucceededTimeNanos - connectionStartedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setConnect(0L, TimeUnit.NANOSECONDS);
+        }
+!!!261890.java!!!	proxyToServerRequestSending() : void
+        this.sendStartedNanos = System.nanoTime();
+
+        // if the hostname was not resolved (and thus the IP address populated in the har) during this request, populate the IP address from the cache
+        if (!addressResolved) {
+            populateAddressFromCache(capturedOriginalRequest);
+        }
+!!!262018.java!!!	proxyToServerRequestSent() : void
+        this.sendFinishedNanos = System.nanoTime();
+
+        // make sure the previous timestamp was captured, to avoid setting an absurd value in the har (see serverToProxyResponseReceiving())
+        if (sendStartedNanos > 0L) {
+            harEntry.getTimings().setSend(sendFinishedNanos - sendStartedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setSend(0L, TimeUnit.NANOSECONDS);
+        }
+!!!262146.java!!!	serverToProxyResponseReceiving() : void
+        this.responseReceiveStartedNanos = System.nanoTime();
+
+        // started to receive response, so populate the 'wait' time. if we started receiving a response from the server before we finished
+        // sending (for example, the server replied with a 404 while we were uploading a large file), there was no wait time, so
+        // make sure the wait is set to 0.
+        if (sendFinishedNanos > 0L && sendFinishedNanos < responseReceiveStartedNanos) {
+            harEntry.getTimings().setWait(responseReceiveStartedNanos - sendFinishedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setWait(0L, TimeUnit.NANOSECONDS);
+        }
+!!!262274.java!!!	serverToProxyResponseReceived() : void
+        long responseReceivedNanos = System.nanoTime();
+
+        // like the wait time, the receive time requires that the serverToProxyResponseReceiving() method be called before this method is invoked.
+        // typically that should happen, but it has been reported (https://github.com/lightbody/browsermob-proxy/issues/288) that it
+        // sometimes does not. therefore, to be safe, make sure responseReceiveStartedNanos is populated before setting the receive time.
+        if (responseReceiveStartedNanos > 0L) {
+            harEntry.getTimings().setReceive(responseReceivedNanos - responseReceiveStartedNanos, TimeUnit.NANOSECONDS);
+        } else {
+            harEntry.getTimings().setReceive(0L, TimeUnit.NANOSECONDS);
+        }

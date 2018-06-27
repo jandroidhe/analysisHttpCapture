@@ -1,0 +1,32 @@
+class BlacklistFilter
+!!!254466.java!!!	BlacklistFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout blacklistedUrls : Collection<BlacklistEntry>)
+        super(originalRequest, ctx);
+
+        if (blacklistedUrls != null) {
+            this.blacklistedUrls = blacklistedUrls;
+        } else {
+            this.blacklistedUrls = Collections.emptyList();
+        }
+!!!254594.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            String url = getFullUrl(httpRequest);
+
+            for (BlacklistEntry entry : blacklistedUrls) {
+                if (HttpMethod.CONNECT.equals(httpRequest.getMethod()) && entry.getHttpMethodPattern() == null) {
+                    // do not allow CONNECTs to be blacklisted unless a method pattern is explicitly specified
+                    continue;
+                }
+
+                if (entry.matches(url, httpRequest.getMethod().name())) {
+                    HttpResponseStatus status = HttpResponseStatus.valueOf(entry.getStatusCode());
+                    HttpResponse resp = new DefaultFullHttpResponse(httpRequest.getProtocolVersion(), status);
+                    HttpHeaders.setContentLength(resp, 0L);
+
+                    return resp;
+                }
+            }
+        }
+
+        return null;

@@ -1,0 +1,11 @@
+class RegisterRequestFilter
+!!!265730.java!!!	RegisterRequestFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout activityMonitor : ActivityMonitor)
+        super(originalRequest, ctx);
+
+        this.activityMonitor = activityMonitor;
+!!!265858.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            activityMonitor.requestStarted();
+        }
+
+        return super.clientToProxyRequest(httpObject);

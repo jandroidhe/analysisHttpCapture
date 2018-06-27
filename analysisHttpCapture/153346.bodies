@@ -1,0 +1,45 @@
+class WhitelistFilter
+!!!270722.java!!!	WhitelistFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout whitelistEnabled : boolean, in whitelistResponseCode : int, inout whitelistUrls : Collection<Pattern>)
+        super(originalRequest, ctx);
+
+        this.whitelistEnabled = whitelistEnabled;
+        this.whitelistResponseCode = whitelistResponseCode;
+        if (whitelistUrls != null) {
+            this.whitelistUrls = whitelistUrls;
+        } else {
+            this.whitelistUrls = Collections.emptyList();
+        }
+!!!270850.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (!whitelistEnabled) {
+            return null;
+        }
+
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            // do not allow HTTP CONNECTs to be short-circuited
+            if (ProxyUtils.isCONNECT(httpRequest)) {
+                return null;
+            }
+
+            boolean urlWhitelisted = false;
+
+            String url = getFullUrl(httpRequest);
+
+            for (Pattern pattern : whitelistUrls) {
+                if (pattern.matcher(url).matches()) {
+                    urlWhitelisted = true;
+                    break;
+                }
+            }
+
+            if (!urlWhitelisted) {
+                HttpResponseStatus status = HttpResponseStatus.valueOf(whitelistResponseCode);
+                HttpResponse resp = new DefaultFullHttpResponse(httpRequest.getProtocolVersion(), status);
+                HttpHeaders.setContentLength(resp, 0L);
+
+                return resp;
+            }
+        }
+
+        return null;

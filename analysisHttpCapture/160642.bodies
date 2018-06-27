@@ -1,0 +1,3 @@
+class RootCertificateException
+!!!323842.java!!!	RootCertificateException(in message : String, inout t : Throwable)
+        super(message, t);

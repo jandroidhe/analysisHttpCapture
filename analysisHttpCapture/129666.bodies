@@ -1,0 +1,11 @@
+class ButtonOnClick
+!!!134402.java!!!	onClick(inout dialog : DialogInterface, in which : int) : void
+            if (which >= 0) {
+                index = which;
+            } else {
+                //用户单击的是【确定】按钮
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    selectedEncode = index;
+                    changeEncode(index);
+                }
+            }

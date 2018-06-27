@@ -1,0 +1,19 @@
+class BasicHostResolver
+!!!307074.java!!!	remapHosts(inout hostRemappings : Map<String, String>) : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307202.java!!!	remapHost(in originalHost : String, in remappedHost : String) : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307330.java!!!	removeHostRemapping(in originalHost : String) : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307458.java!!!	clearHostRemappings() : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307586.java!!!	getHostRemappings() : Map<String, String>
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307714.java!!!	getOriginalHostnames(in remappedHost : String) : Collection<String>
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307842.java!!!	clearDNSCache() : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!307970.java!!!	setPositiveDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");
+!!!308098.java!!!	setNegativeDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        throw new UnsupportedOperationException(new Throwable().getStackTrace()[0].getMethodName() + " is not supported by this host resolver (" + this.getClass().getName() + ")");

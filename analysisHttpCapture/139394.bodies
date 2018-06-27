@@ -1,0 +1,157 @@
+class ViewfinderView
+!!!190210.java!!!	ViewfinderView(inout context : Context, inout attrs : AttributeSet)
+        super(context, attrs);
+
+        density = context.getResources().getDisplayMetrics().density;
+        //将像素转换成dp
+        ScreenRate = (int) (20 * density);
+
+        // Initialize these once for performance rather than calling them every time in onDraw().
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Resources resources = getResources();
+        maskColor = resources.getColor(R.color.viewfinder_mask);
+        resultColor = resources.getColor(R.color.result_view);
+        resultPointColor = resources.getColor(R.color.possible_result_points);
+        scannerAlpha = 0;
+        possibleResultPoints = new ArrayList<ResultPoint>(5);
+        lastPossibleResultPoints = null;
+!!!190338.java!!!	setCameraManager(inout cameraManager : CameraManager) : void
+        this.cameraManager = cameraManager;
+!!!190466.java!!!	onDraw(inout canvas : Canvas) : void
+        if (cameraManager == null) {
+            return; // not ready yet, early draw before done configuring
+        }
+
+        Rect frame = cameraManager.getFramingRect();
+        Rect previewFrame = cameraManager.getFramingRectInPreview();
+        if (frame == null || previewFrame == null) {
+            return;
+        }
+
+        //初始化中间线滑动的最上边和最下边
+        if(!isFirst){
+            isFirst = true;
+            slideTop = frame.top;
+            slideBottom = frame.bottom;
+        }
+
+        //获取屏幕的宽和高
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        //画出扫描框外面的阴影部分，共四个部分，扫描框的上面到屏幕上面，扫描框的下面到屏幕下面
+        //扫描框的左边面到屏幕左边，扫描框的右边到屏幕右边
+        paint.setColor(resultBitmap != null ? resultColor : maskColor);
+        canvas.drawRect(0, 0, width, frame.top, paint);
+        canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
+        canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
+        canvas.drawRect(0, frame.bottom + 1, width, height, paint);
+
+        if (resultBitmap != null) {
+            // Draw the opaque result bitmap over the scanning rectangle
+            paint.setAlpha(CURRENT_POINT_OPACITY);
+            canvas.drawBitmap(resultBitmap, null, frame, paint);
+        } else {
+
+            //画扫描框边上的角，总共8个部分
+            paint.setAlpha(0xFF);
+            paint.setColor(Color.GREEN);
+            canvas.drawRect(frame.left - 1, frame.top - 1, frame.left - 1 + ScreenRate, frame.top - 1 + CORNER_WIDTH, paint);
+            canvas.drawRect(frame.left - 1, frame.top - 1, frame.left - 1 + CORNER_WIDTH, frame.top - 1 + ScreenRate, paint);
+            canvas.drawRect(frame.right + 2 - ScreenRate, frame.top - 1, frame.right + 2, frame.top - 1 + CORNER_WIDTH, paint);
+            canvas.drawRect(frame.right+2 - CORNER_WIDTH, frame.top-1, frame.right+2, frame.top-1 + ScreenRate, paint);
+            canvas.drawRect(frame.left-1, frame.bottom+2 - CORNER_WIDTH, frame.left-1 + ScreenRate, frame.bottom+2, paint);
+            canvas.drawRect(frame.left-1, frame.bottom+2 - ScreenRate, frame.left-1 + CORNER_WIDTH, frame.bottom+2, paint);
+            canvas.drawRect(frame.right+2 - ScreenRate, frame.bottom+2 - CORNER_WIDTH, frame.right+2, frame.bottom+2, paint);
+            canvas.drawRect(frame.right+2 - CORNER_WIDTH, frame.bottom+2 - ScreenRate, frame.right+2, frame.bottom+2, paint);
+
+            paint.setColor(Color.WHITE);
+            canvas.drawLine(frame.left, frame.bottom, frame.left, frame.top, paint);
+            canvas.drawLine(frame.left, frame.top, frame.right, frame.top, paint);
+            canvas.drawLine(frame.right, frame.top, frame.right, frame.bottom, paint);
+            canvas.drawLine(frame.right, frame.bottom, frame.left, frame.bottom, paint);
+
+            //绘制中间的线,每次刷新界面，中间的线往下移动SPEEN_DISTANCE
+            slideTop += SPEEN_DISTANCE;
+            if(slideTop >= frame.bottom) {
+                slideTop = frame.top;
+            }
+            Shader shaderNew = new LinearGradient(frame.left + MIDDLE_LINE_PADDING, 0, frame.right - MIDDLE_LINE_PADDING, 0,
+                    new int[] { 0x00FFFFFF, 0xFF00FF00, 0xFF00FF00, 0x00FFFFFF }, null, Shader.TileMode.MIRROR);
+            Shader shaderOld = paint.getShader();
+            paint.setShader(shaderNew);
+            canvas.drawRect(frame.left + MIDDLE_LINE_PADDING, slideTop - MIDDLE_LINE_WIDTH/2,
+                    frame.right - MIDDLE_LINE_PADDING, slideTop + MIDDLE_LINE_WIDTH/2, paint);
+
+            paint.setShader(shaderOld);
+
+            //画扫描框下面的字
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(TEXT_SIZE * density);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTypeface(Typeface.create("system", Typeface.NORMAL));
+            //paint.setTypeface(Typeface.SANS_SERIF);
+            canvas.drawText(getResources().getString(R.string.scan_text), frame.centerX(), (float) (frame.bottom + (float)TEXT_PADDING_TOP * density), paint);
+
+            float scaleX = frame.width() / (float) previewFrame.width();
+            float scaleY = frame.height() / (float) previewFrame.height();
+
+            List<ResultPoint> currentPossible = possibleResultPoints;
+            List<ResultPoint> currentLast = lastPossibleResultPoints;
+            int frameLeft = frame.left;
+            int frameTop = frame.top;
+            if (currentPossible.isEmpty()) {
+                lastPossibleResultPoints = null;
+            } else {
+                possibleResultPoints = new ArrayList<ResultPoint>(5);
+                lastPossibleResultPoints = currentPossible;
+                paint.setAlpha(CURRENT_POINT_OPACITY);
+                paint.setColor(resultPointColor);
+                synchronized (currentPossible) {
+                    for (ResultPoint point : currentPossible) {
+                        canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
+                                frameTop + (int) (point.getY() * scaleY),
+                                POINT_SIZE, paint);
+                    }
+                }
+            }
+            if (currentLast != null) {
+                paint.setAlpha(CURRENT_POINT_OPACITY / 2);
+                paint.setColor(resultPointColor);
+                synchronized (currentLast) {
+                    float radius = POINT_SIZE / 2.0f;
+                    for (ResultPoint point : currentLast) {
+                        canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX),
+                                frameTop + (int) (point.getY() * scaleY),
+                                radius, paint);
+                    }
+                }
+            }
+
+            //只刷新扫描框的内容，其他地方不刷新
+            postInvalidateDelayed(ANIMATION_DELAY,
+                    frame.left - POINT_SIZE,
+                    frame.top - POINT_SIZE,
+                    frame.right + POINT_SIZE,
+                    frame.bottom + POINT_SIZE);
+        }
+!!!190594.java!!!	drawViewfinder() : void
+        Bitmap resultBitmap = this.resultBitmap;
+        this.resultBitmap = null;
+        if (resultBitmap != null) {
+            resultBitmap.recycle();
+        }
+        invalidate();
+!!!190722.java!!!	drawResultBitmap(inout barcode : Bitmap) : void
+        resultBitmap = barcode;
+        invalidate();
+!!!190850.java!!!	addPossibleResultPoint(inout point : ResultPoint) : void
+        List<ResultPoint> points = possibleResultPoints;
+        synchronized (points) {
+            points.add(point);
+            int size = points.size();
+            if (size > MAX_RESULT_POINTS) {
+                // trim it
+                points.subList(0, size - MAX_RESULT_POINTS / 2).clear();
+            }
+        }

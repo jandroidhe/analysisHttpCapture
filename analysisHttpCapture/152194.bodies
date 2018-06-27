@@ -1,0 +1,17 @@
+class HttpMessageInfo
+!!!314754.java!!!	HttpMessageInfo(inout originalRequest : HttpRequest, inout channelHandlerContext : ChannelHandlerContext, inout isHttps : boolean, in url : String, in originalUrl : String)
+        this.originalRequest = originalRequest;
+        this.channelHandlerContext = channelHandlerContext;
+        this.isHttps = isHttps;
+        this.url = url;
+        this.originalUrl = originalUrl;
+!!!314882.java!!!	getOriginalRequest() : HttpRequest
+        return originalRequest;
+!!!315010.java!!!	getChannelHandlerContext() : ChannelHandlerContext
+        return channelHandlerContext;
+!!!315138.java!!!	isHttps() : boolean
+        return isHttps;
+!!!315266.java!!!	getOriginalUrl() : String
+        return originalUrl;
+!!!315394.java!!!	getUrl() : String
+        return url;

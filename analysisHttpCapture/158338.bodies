@@ -1,0 +1,66 @@
+class SslUtil
+!!!298754.java!!!	getUpstreamServerSslContext(inout cipherSuites : Collection<String>, inout trustSource : TrustSource) : SslContext
+        SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
+
+        if (trustSource == null) {
+            log.warn("Disabling upstream server certificate verification. This will allow attackers to intercept communications with upstream servers.");
+
+            sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+        } else {
+            sslContextBuilder.trustManager(trustSource.getTrustedCAs());
+        }
+
+        sslContextBuilder.ciphers(cipherSuites, SupportedCipherSuiteFilter.INSTANCE);
+
+        try {
+            return sslContextBuilder.build();
+        } catch (SSLException e) {
+            throw new SslContextInitializationException("Error creating new SSL context for connection to upstream server", e);
+        }
+!!!298882.java!!!	getServerCertificate(inout sslSession : SSLSession) : X509Certificate
+        Certificate[] peerCertificates;
+        try {
+            peerCertificates = sslSession.getPeerCertificates();
+        } catch (SSLPeerUnverifiedException e) {
+            peerCertificates = null;
+        }
+
+        if (peerCertificates != null && peerCertificates.length > 0) {
+            Certificate peerCertificate = peerCertificates[0];
+            if (peerCertificate != null && peerCertificate instanceof X509Certificate) {
+                return (X509Certificate) peerCertificates[0];
+            }
+        }
+
+        // no X.509 certificate was found for this server
+        return null;
+!!!299010.java!!!	getEnabledJdkCipherSuites() : List<String>
+        try {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, null, null);
+
+            String[] defaultCiphers = sslContext.getServerSocketFactory().getDefaultCipherSuites();
+
+            return Arrays.asList(defaultCiphers);
+        } catch (Throwable t) {
+            log.info("Unable to load default JDK server cipher list from SSLContext");
+
+            // log the actual exception for debugging
+            log.debug("An error occurred while initializing an SSLContext or ServerSocketFactory", t);
+
+            return Collections.emptyList();
+        }
+!!!299138.java!!!	getDefaultCipherList() : List<String>
+        return defaultCipherList.get();
+!!!299266.java!!!	getBuiltInCipherList() : List<String>
+        try (InputStream cipherListStream = SslUtil.class.getResourceAsStream(DEFAULT_CIPHERS_LIST_RESOURCE)) {
+            if (cipherListStream == null) {
+                return Collections.emptyList();
+            }
+
+            Reader reader = new InputStreamReader(cipherListStream, StandardCharsets.UTF_8);
+
+            return CharStreams.readLines(reader);
+        } catch (IOException e) {
+            return Collections.emptyList();
+        }

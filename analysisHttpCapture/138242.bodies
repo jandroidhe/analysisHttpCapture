@@ -1,0 +1,280 @@
+class ProgressWheel
+!!!168834.java!!!	ProgressWheel(inout context : Context, inout attrs : AttributeSet)
+		super(context, attrs);
+
+		parseAttributes(context.obtainStyledAttributes(attrs, 
+				R.styleable.ProgressWheel));
+!!!168962.java!!!	onAttachedToWindow() : void
+		super.onAttachedToWindow();
+
+		setupBounds();
+		setupPaints();
+		invalidate();
+
+!!!169090.java!!!	onDetachedFromWindow() : void
+		invalidate();
+		super.onDetachedFromWindow();
+!!!169218.java!!!	setupPaints() : void
+		barPaint.setColor(barColor);
+        barPaint.setAntiAlias(true);
+        barPaint.setStyle(Style.STROKE);
+        barPaint.setStrokeWidth(barWidth);
+        
+        rimPaint.setColor(rimColor);
+        rimPaint.setAntiAlias(true);
+        rimPaint.setStyle(Style.STROKE);
+        rimPaint.setStrokeWidth(rimWidth);
+
+        spinRimPaint.setColor(spinRimColor);
+        spinRimPaint.setAntiAlias(true);
+        spinRimPaint.setStyle(Style.STROKE);
+        spinRimPaint.setStrokeWidth(rimWidth);
+
+		spinCirclePaint.setColor(spinCircleColor);
+		spinCirclePaint.setAntiAlias(true);
+		spinCirclePaint.setStyle(Style.FILL);
+		spinCirclePaint.setShadowLayer(1, 2, 2, 0x40000000);
+        
+        circlePaint.setColor(circleColor);
+        circlePaint.setAntiAlias(true);
+        circlePaint.setStyle(Style.FILL);
+
+		barCirclePaint.setColor(barColor);
+		barCirclePaint.setAntiAlias(true);
+		barCirclePaint.setStyle(Style.FILL);
+		barCirclePaint.setStrokeWidth(barWidth);
+        
+        textPaint.setColor(textColor);
+        textPaint.setStyle(Style.FILL);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(textSize);
+!!!169346.java!!!	setupBounds() : void
+		paddingTop = this.getPaddingTop();
+	    paddingBottom = this.getPaddingBottom();
+	    paddingLeft = this.getPaddingLeft();
+	    paddingRight = this.getPaddingRight();
+		
+		rectBounds = new RectF(paddingLeft,
+				paddingTop,
+                this.getLayoutParams().width - paddingRight,
+                this.getLayoutParams().height - paddingBottom);
+		
+		circleBounds = new RectF(paddingLeft + barWidth,
+				paddingTop + barWidth,
+                this.getLayoutParams().width - paddingRight - barWidth,
+                this.getLayoutParams().height - paddingBottom - barWidth);
+		
+		fullRadius = (this.getLayoutParams().width - paddingRight - barWidth)/2;
+	    circleRadius = (fullRadius - barWidth) + 1;   //内部圆的半径
+
+		arcR = barWidth/2;      //圆弧的半径
+		startArcX = (float) (-circleBounds.width()/2* Math.sin( 2* Math.PI/360*(startDegree+270))+this.getLayoutParams().width/2);   //计算时角度要换成弧度
+		startArcY = (float) (circleBounds.height()/2* Math.cos(2 * Math.PI / 360 * (startDegree+270)) + this.getLayoutParams().height/2);
+!!!169474.java!!!	parseAttributes(inout a : TypedArray) : void
+		barWidth = (int) a.getDimension(R.styleable.ProgressWheel_barWidth_progress,
+			barWidth);
+		
+		rimWidth = (int) a.getDimension(R.styleable.ProgressWheel_rimWidth_progress,
+			rimWidth);
+		
+		spinSpeed = (int) a.getInteger(R.styleable.ProgressWheel_spinSpeed_progress,
+			spinSpeed);
+		
+		delayMillis = (int) a.getInteger(R.styleable.ProgressWheel_delayMillis_progress,
+			delayMillis);
+		if(delayMillis<0) {
+			delayMillis = 0;
+		}
+	    
+	    barColor = a.getColor(R.styleable.ProgressWheel_barColor_progress, barColor);
+	    
+	    barLength = (int) a.getDimension(R.styleable.ProgressWheel_barLength_progress,
+	    	barLength);
+	    
+	    textSize = (int) a.getDimension(R.styleable.ProgressWheel_textSize_progress,
+	    	textSize);
+	    
+	    textColor = (int) a.getColor(R.styleable.ProgressWheel_textColor_progress,
+				textColor);
+	    
+	    setText(a.getString(R.styleable.ProgressWheel_text_progress));
+	    
+	    rimColor = (int) a.getColor(R.styleable.ProgressWheel_rimColor_progress,
+	    	rimColor);
+
+        spinRimColor = (int) a.getColor(R.styleable.ProgressWheel_spinRimColor_progress,
+                spinRimColor);
+	    
+	    circleColor = (int) a.getColor(R.styleable.ProgressWheel_circleColor_progress, circleColor);
+		spinCircleColor = (int) a.getColor(R.styleable.ProgressWheel_spinCircleColor_progress, spinCircleColor);
+
+        barDegree = (int) a.getInteger(R.styleable.ProgressWheel_barDegree_progress,-1);
+!!!169602.java!!!	onDraw(inout canvas : Canvas) : void
+		super.onDraw(canvas);
+
+		//Draw the rim
+        if(isSpinning()){
+            canvas.drawArc(circleBounds, 360, 360, false, spinRimPaint);
+        }else {
+            canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
+        }
+
+		//Draw the bar
+		if(isSpinning) {
+            if(barDegree != -1) {    //按度数
+                canvas.drawArc(circleBounds, progress - 90, barDegree, false,
+                        barPaint);
+					//结束度数
+					double t = (progress - 90+barDegree + 270);
+					//起始点坐标
+					float startX = (float) (-circleBounds.width()/2* Math.sin( 2* Math.PI/360*(progress - 90+270))+this.getLayoutParams().width/2);   //计算时角度要换成弧度
+					float startY = (float) (circleBounds.height()/2* Math.cos(2 * Math.PI / 360 * (progress - 90 + 270)) + this.getLayoutParams().height/2);
+					//结束点坐标
+					float endX = (float) (-circleBounds.width() / 2 * Math.sin(2 * Math.PI / 360 * t) + this.getLayoutParams().width / 2);
+					float endY = (float) (circleBounds.height() / 2 * Math.cos(2 * Math.PI / 360 * t) + this.getLayoutParams().height / 2);
+					//计算两点间距离
+					float tmpR = (float) Math.sqrt((endX-startX)*(endX-startX)+(endY-startY)*(endY-startY));
+//					canvas.drawCircle(startX, startY, tmpR, barPaint);    //画圆弧起始圆
+//					canvas.drawCircle(x, y, tmpR, barPaint);    //画圆弧起始圆
+					//确定圆心点
+					double tmp = (progress - 90 + barDegree)+(360-barDegree)/2+270;
+					float x2 = (float) (-circleBounds.width() / 2 * Math.sin(2 * Math.PI / 360 * tmp) + this.getLayoutParams().width / 2);
+					float y2 = (float) (circleBounds.height() / 2 * Math.cos(2 * Math.PI / 360 * tmp) + this.getLayoutParams().height / 2);
+					canvas.drawCircle(x2, y2, tmpR, spinCirclePaint);   //画圆
+            }else{     //按长度
+                canvas.drawArc(circleBounds, progress - 90, barLength, false,
+                        barPaint);
+				//结束度数
+				double t = (progress - 90+barLength + 270);
+				//起始点坐标
+				float startX = (float) (-circleBounds.width()/2* Math.sin( 2* Math.PI/360*(progress - 90+270))+this.getLayoutParams().width/2);   //计算时角度要换成弧度
+				float startY = (float) (circleBounds.height()/2* Math.cos(2 * Math.PI / 360 * (progress - 90 + 270)) + this.getLayoutParams().height/2);
+				//结束点坐标
+				float endX = (float) (-circleBounds.width() / 2 * Math.sin(2 * Math.PI / 360 * t) + this.getLayoutParams().width / 2);
+				float endY = (float) (circleBounds.height() / 2 * Math.cos(2 * Math.PI / 360 * t) + this.getLayoutParams().height / 2);
+				//计算两点间距离
+				float tmpR = (float) Math.sqrt((endX-startX)*(endX-startX)+(endY-startY)*(endY-startY));
+//				canvas.drawCircle(startX, startY, tmpR, barPaint);    //画圆弧起始圆
+//				canvas.drawCircle(x, y, tmpR, barPaint);    //画圆弧起始圆
+				//确定圆心点
+				double tmp = (progress - 90 + barLength)+(360-barLength)/2+270;
+				float x2 = (float) (-circleBounds.width() / 2 * Math.sin(2 * Math.PI / 360 * tmp) + this.getLayoutParams().width / 2);
+				float y2 = (float) (circleBounds.height() / 2 * Math.cos(2 * Math.PI / 360 * tmp) + this.getLayoutParams().height / 2);
+				canvas.drawCircle(x2, y2, tmpR, spinCirclePaint);   //画圆
+			}
+		} else {
+			canvas.drawArc(circleBounds, startDegree, progress, false, barPaint);    // -90 从顶上开始
+			double t = progress+startDegree+270;
+			if(progress != 0) {
+				canvas.drawCircle(startArcX, startArcY, arcR, barCirclePaint);    //画圆弧起始圆
+
+				float x = (float) (-circleBounds.width() / 2 * Math.sin(2 * Math.PI / 360 * t) + this.getLayoutParams().width / 2);
+				float y = (float) (circleBounds.height() / 2 * Math.cos(2 * Math.PI / 360 * t) + this.getLayoutParams().height / 2);
+				canvas.drawCircle(x, y, arcR, barCirclePaint);   //画圆弧结束圆
+			}
+		}
+		//Draw the inner circle
+		canvas.drawCircle((circleBounds.width()/2) + rimWidth + paddingLeft,
+				(circleBounds.height()/2) + rimWidth + paddingTop,
+				circleRadius,
+				circlePaint);
+		//Draw the text (attempts to center it horizontally and vertically)
+		int offsetNum = 0;
+		for(String s : splitText) {
+			float offset = textPaint.measureText(s) / 2;
+			canvas.drawText(s, this.getWidth() / 2 - offset, 
+				this.getHeight() / 2 + (textSize*(offsetNum)) 
+				- ((splitText.length-1)*(textSize/2)), textPaint);
+			offsetNum++;
+		}
+!!!169730.java!!!	resetCount() : void
+		progress = 0;
+		setText("0%");
+		invalidate();
+!!!169858.java!!!	stopSpinning() : void
+		spinHandler.sendEmptyMessageDelayed(1,200);
+!!!169986.java!!!	spin() : void
+		isSpinning = true;
+		spinHandler.sendEmptyMessage(0);
+!!!170114.java!!!	isSpinning() : boolean
+        return isSpinning;
+!!!170242.java!!!	incrementProgress() : void
+		isSpinning = false;
+		progress++;
+		setText(Math.round(((float)progress/360)*100) + "%");
+		spinHandler.sendEmptyMessage(0);
+!!!170370.java!!!	setProgress(in i : int) : void
+	    isSpinning = false;
+	    progress=i;
+	    spinHandler.sendEmptyMessage(0);
+!!!170498.java!!!	setText(in text : String) : void
+		this.text = text;
+		splitText = this.text.split("\n");
+!!!170626.java!!!	getCircleRadius() : int
+		return circleRadius;
+!!!170754.java!!!	setCircleRadius(in circleRadius : int) : void
+		this.circleRadius = circleRadius;
+!!!170882.java!!!	getBarLength() : int
+		return barLength;
+!!!171010.java!!!	setBarLength(in barLength : int) : void
+		this.barLength = barLength;
+!!!171138.java!!!	getBarWidth() : int
+		return barWidth;
+!!!171266.java!!!	setBarWidth(in barWidth : int) : void
+		this.barWidth = barWidth;
+!!!171394.java!!!	getTextSize() : int
+		return textSize;
+!!!171522.java!!!	setTextSize(in textSize : int) : void
+		this.textSize = textSize;
+!!!171650.java!!!	getPaddingTop() : int
+		return paddingTop;
+!!!171778.java!!!	setPaddingTop(in paddingTop : int) : void
+		this.paddingTop = paddingTop;
+!!!171906.java!!!	getPaddingBottom() : int
+		return paddingBottom;
+!!!172034.java!!!	setPaddingBottom(in paddingBottom : int) : void
+		this.paddingBottom = paddingBottom;
+!!!172162.java!!!	getPaddingLeft() : int
+		return paddingLeft;
+!!!172290.java!!!	setPaddingLeft(in paddingLeft : int) : void
+		this.paddingLeft = paddingLeft;
+!!!172418.java!!!	getPaddingRight() : int
+		return paddingRight;
+!!!172546.java!!!	setPaddingRight(in paddingRight : int) : void
+		this.paddingRight = paddingRight;
+!!!172674.java!!!	getBarColor() : int
+		return barColor;
+!!!172802.java!!!	setBarColor(in barColor : int) : void
+		this.barColor = barColor;
+!!!172930.java!!!	getCircleColor() : int
+		return circleColor;
+!!!173058.java!!!	setCircleColor(in circleColor : int) : void
+		this.circleColor = circleColor;
+!!!173186.java!!!	getRimColor() : int
+		return rimColor;
+!!!173314.java!!!	setRimColor(in rimColor : int) : void
+		this.rimColor = rimColor;
+!!!173442.java!!!	getSpinRimColor() : int
+        return spinRimColor;
+!!!173570.java!!!	setSpinRimColor(in spinRimColor : int) : void
+        this.spinRimColor = spinRimColor;
+!!!173698.java!!!	getRimShader() : Shader
+		return rimPaint.getShader();
+!!!173826.java!!!	setRimShader(inout shader : Shader) : void
+		this.rimPaint.setShader(shader);
+!!!173954.java!!!	getTextColor() : int
+		return textColor;
+!!!174082.java!!!	setTextColor(in textColor : int) : void
+		this.textColor = textColor;
+!!!174210.java!!!	getSpinSpeed() : int
+		return spinSpeed;
+!!!174338.java!!!	setSpinSpeed(in spinSpeed : int) : void
+		this.spinSpeed = spinSpeed;
+!!!174466.java!!!	getRimWidth() : int
+		return rimWidth;
+!!!174594.java!!!	setRimWidth(in rimWidth : int) : void
+		this.rimWidth = rimWidth;
+!!!174722.java!!!	getDelayMillis() : int
+		return delayMillis;
+!!!174850.java!!!	setDelayMillis(in delayMillis : int) : void
+		this.delayMillis = delayMillis;

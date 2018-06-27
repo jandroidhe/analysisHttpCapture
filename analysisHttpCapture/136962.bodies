@@ -1,0 +1,110 @@
+class SharedPreferenceUtils
+!!!161410.java!!!	putInt(inout context : Context, in key : String, in value : int) : void
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().putInt(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!161538.java!!!	getInt(inout context : Context, in key : String, in defaultValue : int) : int
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            return sp.getInt(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+!!!161666.java!!!	putLong(inout context : Context, in key : String, in value : long) : void
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().putLong(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!161794.java!!!	getLong(inout context : Context, in key : String, in defaultValue : long) : long
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            return sp.getLong(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+!!!161922.java!!!	putString(inout context : Context, in key : String, in value : String) : void
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().putString(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!162050.java!!!	getString(inout context : Context, in key : String, in defaultValue : String) : String
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            return sp.getString(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+!!!162178.java!!!	putBoolean(inout context : Context, in key : String, inout value : boolean) : void
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().putBoolean(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!162306.java!!!	getBoolean(inout context : Context, in key : String, inout defaultValue : boolean) : boolean
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            return sp.getBoolean(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+!!!162434.java!!!	remove(inout context : Context, in key : String) : void
+        try {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            sp.edit().remove(key).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!162562.java!!!	Object2String(inout object : Object) : String
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(object);
+            String string = new String(Base64.encode(byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
+            objectOutputStream.close();
+            return string;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+!!!162690.java!!!	String2Object(in objectString : String) : Object
+        byte[] mobileBytes = Base64.decode(objectString.getBytes(), Base64.DEFAULT);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(mobileBytes);
+        ObjectInputStream objectInputStream = null;
+        try {
+            objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            Object object = objectInputStream.readObject();
+            objectInputStream.close();
+            return object;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+!!!162818.java!!!	save(inout context : Context, in key : String, inout saveObject : Object) : void
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String string = Object2String(saveObject);
+        editor.putString(key, string);
+        editor.commit();
+!!!162946.java!!!	get(inout context : Context, in key : String) : Object
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String string = sharedPreferences.getString(key, null);
+        if (string != null) {
+            Object object = String2Object(string);
+            return object;
+        } else {
+            return null;
+        }

@@ -1,0 +1,8 @@
+class updateResultRunnable
+!!!150146.java!!!	updateResultRunnable(in resultString : String)
+            this.resultString = resultString;
+!!!150274.java!!!	run() : void
+            if(resultTextView!=null && resultTextView.getTag().equals(tag)) {
+                resultTextView.append(resultString);
+                resultTextView.requestFocus();
+            }

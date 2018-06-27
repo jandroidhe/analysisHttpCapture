@@ -1,0 +1,5 @@
+class MyWebViewDownLoadListener
+!!!149762.java!!!	onDownloadStart(in url : String, in userAgent : String, in contentDisposition : String, in mimetype : String, in contentLength : long) : void
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);

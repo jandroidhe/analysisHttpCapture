@@ -1,0 +1,17 @@
+class PreviewCallback
+!!!184834.java!!!	PreviewCallback(inout configManager : CameraConfigurationManager)
+        this.configManager = configManager;
+!!!184962.java!!!	setHandler(inout previewHandler : Handler, in previewMessage : int) : void
+        this.previewHandler = previewHandler;
+        this.previewMessage = previewMessage;
+!!!185090.java!!!	onPreviewFrame(inout data : byte, inout camera : Camera) : void
+        Point cameraResolution = configManager.getCameraResolution();
+        Handler thePreviewHandler = previewHandler;
+        if (cameraResolution != null && thePreviewHandler != null) {
+            Message message = thePreviewHandler.obtainMessage(previewMessage, cameraResolution.x,
+                    cameraResolution.y, data);
+            message.sendToTarget();
+            previewHandler = null;
+        } else {
+            Log.d(TAG, "Got preview callback, but no handler or resolution available");
+        }

@@ -1,0 +1,3 @@
+class InsecureTrustManagerFactory
+!!!297090.java!!!	engineGetTrustManagers() : TrustManager
+        return new TrustManager[]{tm};

@@ -1,0 +1,16 @@
+class DelegatingHostResolver
+!!!309762.java!!!	DelegatingHostResolver(inout resolver : AdvancedHostResolver)
+        this.resolver = resolver;
+!!!309890.java!!!	getResolver() : AdvancedHostResolver
+        return resolver;
+!!!310018.java!!!	setResolver(inout resolver : AdvancedHostResolver) : void
+        this.resolver = resolver;
+!!!310146.java!!!	resolve(in host : String, in port : int) : InetSocketAddress
+        Collection<InetAddress> resolvedAddresses = resolver.resolve(host);
+        if (!resolvedAddresses.isEmpty()) {
+            InetAddress resolvedAddress = Iterables.get(resolvedAddresses, 0);
+            return new InetSocketAddress(resolvedAddress, port);
+        }
+
+        // no address found by the resolver
+        throw new UnknownHostException(host);

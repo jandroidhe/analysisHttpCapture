@@ -1,0 +1,29 @@
+class SubjectAlternativeNameHolder
+!!!323970.java!!!	addIpAddress(in ipAddress : String) : void
+        sans.add(new GeneralName(GeneralName.iPAddress, ipAddress));
+!!!324098.java!!!	addDomainName(in subjectAlternativeName : String) : void
+        sans.add(new GeneralName(GeneralName.dNSName, subjectAlternativeName));
+!!!324226.java!!!	fillInto(inout certGen : X509v3CertificateBuilder) : void
+        if (!sans.isEmpty()) {
+            ASN1Encodable[] encodables = sans.toArray(new ASN1Encodable[sans
+                    .size()]);
+            certGen.addExtension(Extension.subjectAlternativeName, false,
+                    new DERSequence(encodables));
+        }
+!!!324354.java!!!	addAll(inout subjectAlternativeNames : Collection<List<?>>) : void
+        if (subjectAlternativeNames != null) {
+            for (List<?> each : subjectAlternativeNames) {
+                sans.add(parseGeneralName(each));
+            }
+        }
+!!!324482.java!!!	parseGeneralName(inout nameEntry : List<?>) : ASN1Encodable
+        if (nameEntry == null || nameEntry.size() != 2) {
+            throw new IllegalArgumentException(nameEntry != null ? String.valueOf(nameEntry) : "nameEntry is null");
+        }
+        String tag = String.valueOf(nameEntry.get(0));
+        Matcher m = TAGS_PATTERN.matcher(tag);
+        if (m.matches()) {
+            return new GeneralName(Integer.valueOf(tag),
+                    String.valueOf(nameEntry.get(1)));
+        }
+        throw new IllegalArgumentException(String.valueOf(nameEntry));

@@ -1,0 +1,100 @@
+class ServerResponseCaptureFilter
+!!!268546.java!!!	ServerResponseCaptureFilter(inout originalRequest : HttpRequest, inout decompressEncodedContent : boolean)
+        super(originalRequest);
+
+        this.decompressEncodedContent = decompressEncodedContent;
+!!!268674.java!!!	ServerResponseCaptureFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout decompressEncodedContent : boolean)
+        super(originalRequest, ctx);
+
+        this.decompressEncodedContent = decompressEncodedContent;
+!!!268802.java!!!	serverToProxyResponse(inout httpObject : HttpObject) : HttpObject
+        if (httpObject instanceof HttpResponse) {
+            httpResponse = (HttpResponse) httpObject;
+            captureContentEncoding(httpResponse);
+        }
+
+        if (httpObject instanceof HttpContent) {
+            HttpContent httpContent = (HttpContent) httpObject;
+
+            storeResponseContent(httpContent);
+
+            if (httpContent instanceof LastHttpContent) {
+                LastHttpContent lastContent = (LastHttpContent) httpContent;
+                captureTrailingHeaders(lastContent);
+
+                captureFullResponseContents();
+            }
+        }
+
+        return super.serverToProxyResponse(httpObject);
+!!!268930.java!!!	captureFullResponseContents() : void
+        // start by setting fullResponseContent to the raw, (possibly) compressed byte stream. replace it
+        // with the decompressed bytes if decompression is successful.
+        fullResponseContents = getRawResponseContents();
+
+        // if the content is compressed, we need to decompress it. but don't use
+        // the netty HttpContentCompressor/Decompressor in the pipeline because we don't actually want it to
+        // change the message sent to the client
+        if (contentEncoding != null) {
+            responseCompressed = true;
+
+            if (decompressEncodedContent) {
+                decompressContents();
+            }  else {
+                // will not decompress response
+            }
+        } else {
+            // no compression
+            responseCompressed = false;
+        }
+!!!269058.java!!!	decompressContents() : void
+        if (contentEncoding.equals(HttpHeaders.Values.GZIP)) {
+            try {
+                fullResponseContents = BrowserMobHttpUtil.decompressContents(getRawResponseContents());
+                decompressionSuccessful = true;
+            } catch (RuntimeException e) {
+                log.warn("Failed to decompress response with encoding type " + contentEncoding + " when decoding request from " + originalRequest.getUri(), e);
+            }
+        } else {
+            log.warn("Cannot decode unsupported content encoding type {}", contentEncoding);
+        }
+!!!269186.java!!!	captureContentEncoding(inout httpResponse : HttpResponse) : void
+        contentEncoding = HttpHeaders.getHeader(httpResponse, HttpHeaders.Names.CONTENT_ENCODING);
+!!!269314.java!!!	captureTrailingHeaders(inout lastContent : LastHttpContent) : void
+        trailingHeaders = lastContent.trailingHeaders();
+
+        // technically, the Content-Encoding header can be in a trailing header, although this is excruciatingly uncommon
+        if (trailingHeaders != null) {
+            String trailingContentEncoding = trailingHeaders.get(HttpHeaders.Names.CONTENT_ENCODING);
+            if (trailingContentEncoding != null) {
+                contentEncoding = trailingContentEncoding;
+            }
+        }
+
+!!!269442.java!!!	storeResponseContent(inout httpContent : HttpContent) : void
+        ByteBuf bufferedContent = httpContent.content();
+        byte[] content = BrowserMobHttpUtil.extractReadableBytes(bufferedContent);
+
+        try {
+            rawResponseContents.write(content);
+        } catch (IOException e) {
+            // can't happen
+        }
+!!!269570.java!!!	getHttpResponse() : HttpResponse
+        return httpResponse;
+!!!269698.java!!!	getFullResponseContents() : byte
+        return fullResponseContents;
+!!!269826.java!!!	getRawResponseContents() : byte
+        return rawResponseContents.toByteArray();
+!!!269954.java!!!	getTrailingHeaders() : HttpHeaders
+        return trailingHeaders;
+!!!270082.java!!!	isResponseCompressed() : boolean
+        return responseCompressed;
+!!!270210.java!!!	isDecompressionSuccessful() : boolean
+        if (!decompressEncodedContent) {
+            return false;
+        }
+
+        return decompressionSuccessful;
+!!!270338.java!!!	getContentEncoding() : String
+        return contentEncoding;

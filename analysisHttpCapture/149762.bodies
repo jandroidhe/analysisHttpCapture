@@ -1,0 +1,9 @@
+class UnsupportedCharsetException
+!!!252674.java!!!	UnsupportedCharsetException(inout e : java.nio.charset.UnsupportedCharsetException)
+        super(e);
+
+        if (e == null) {
+            throw new IllegalArgumentException("net.lightbody.bmp.exception.UnsupportedCharsetException must be initialized with a non-null instance of java.nio.charset.UnsupportedCharsetException");
+        }
+!!!252802.java!!!	getUnsupportedCharsetExceptionCause() : java.nio.charset.UnsupportedCharsetException
+        return (java.nio.charset.UnsupportedCharsetException) this.getCause();

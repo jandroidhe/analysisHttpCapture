@@ -1,0 +1,51 @@
+class CertificateInfo
+!!!273154.java!!!	getCommonName() : String
+        return commonName;
+!!!273282.java!!!	getOrganization() : String
+        return organization;
+!!!273410.java!!!	getOrganizationalUnit() : String
+        return organizationalUnit;
+!!!273538.java!!!	getNotBefore() : Date
+        return notBefore;
+!!!273666.java!!!	getNotAfter() : Date
+        return notAfter;
+!!!273794.java!!!	getEmail() : String
+        return email;
+!!!273922.java!!!	getLocality() : String
+        return locality;
+!!!274050.java!!!	getState() : String
+        return state;
+!!!274178.java!!!	getCountryCode() : String
+        return countryCode;
+!!!274306.java!!!	getSubjectAlternativeNames() : List<String>
+        return subjectAlternativeNames;
+!!!274434.java!!!	commonName(in commonName : String) : CertificateInfo
+        this.commonName = commonName;
+        return this;
+!!!274562.java!!!	organization(in organization : String) : CertificateInfo
+        this.organization = organization;
+        return this;
+!!!274690.java!!!	organizationalUnit(in organizationalUnit : String) : CertificateInfo
+        this.organizationalUnit = organizationalUnit;
+        return this;
+!!!274818.java!!!	notBefore(inout notBefore : Date) : CertificateInfo
+        this.notBefore = notBefore;
+        return this;
+!!!274946.java!!!	notAfter(inout notAfter : Date) : CertificateInfo
+        this.notAfter = notAfter;
+        return this;
+!!!275074.java!!!	email(in email : String) : CertificateInfo
+        this.email = email;
+        return this;
+!!!275202.java!!!	locality(in locality : String) : CertificateInfo
+        this.locality = locality;
+        return this;
+!!!275330.java!!!	state(in state : String) : CertificateInfo
+        this.state = state;
+        return this;
+!!!275458.java!!!	countryCode(in countryCode : String) : CertificateInfo
+        this.countryCode = countryCode;
+        return this;
+!!!275586.java!!!	subjectAlternativeNames(inout subjectAlternativeNames : List<String>) : CertificateInfo
+        this.subjectAlternativeNames = subjectAlternativeNames;
+        return this;

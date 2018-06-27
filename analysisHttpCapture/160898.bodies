@@ -1,0 +1,3 @@
+class MillisecondsDuration
+!!!320258.java!!!	toString() : String
+        return String.valueOf(System.currentTimeMillis() - mStartTime);

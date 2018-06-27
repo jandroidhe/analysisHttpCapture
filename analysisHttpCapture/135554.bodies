@@ -1,0 +1,69 @@
+class TraceRouteWithPing
+!!!152578.java!!!	TraceRouteWithPing(in host : String, inout task : TraceTask)
+        urlToPing = host;
+        mTask = task;
+!!!152706.java!!!	executeTraceRoute() : void
+        this.ttl = 1;
+        this.finishedTasks = 0;
+        this.traces = new ArrayList<TraceRouteContainer>();
+
+        new ExecutePingAsyncTask(50).execute();
+!!!152834.java!!!	parseIpFromPing(in ping : String) : String
+        String ip = "";
+        if (ping.contains(FROM_PING) || ping.contains(SMALL_FROM_PING)) {
+            // Get ip when ttl exceeded
+            int index = ping.indexOf(FROM_PING);
+
+            if(index==0){
+                index = ping.indexOf(SMALL_FROM_PING);
+            }
+
+            ip = ping.substring(index + 5);
+            if (ip.contains(PARENTHESE_OPEN_PING)) {
+                // Get ip when in parenthese
+                int indexOpen = ip.indexOf(PARENTHESE_OPEN_PING);
+                int indexClose = ip.indexOf(PARENTHESE_CLOSE_PING);
+
+                ip = ip.substring(indexOpen + 1, indexClose);
+            } else {
+                // Get ip when after from
+                ip = ip.substring(0, ip.indexOf("\n"));
+                if (ip.contains(":")) {
+                    index = ip.indexOf(":");
+                } else {
+                    index = ip.indexOf(" ");
+                }
+
+                ip = ip.substring(0, index);
+            }
+        } else {
+            // Get ip when ping succeeded
+            int indexOpen = ping.indexOf(PARENTHESE_OPEN_PING);
+            int indexClose = ping.indexOf(PARENTHESE_CLOSE_PING);
+
+            ip = ping.substring(indexOpen + 1, indexClose);
+        }
+
+        return ip;
+!!!152962.java!!!	parseIpToPingFromPing(in ping : String) : String
+        String ip = "";
+        if (ping.contains(PING)) {
+            // Get ip when ping succeeded
+            int indexOpen = ping.indexOf(PARENTHESE_OPEN_PING);
+            int indexClose = ping.indexOf(PARENTHESE_CLOSE_PING);
+
+            ip = ping.substring(indexOpen + 1, indexClose);
+        }
+
+        return ip;
+!!!153090.java!!!	parseTimeFromPing(in ping : String) : String
+        String time = "";
+        if (ping.contains(TIME_PING)) {
+            int index = ping.indexOf(TIME_PING);
+
+            time = ping.substring(index + 5);
+            index = time.indexOf(" ");
+            time = time.substring(0, index);
+        }
+
+        return time;

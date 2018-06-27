@@ -1,0 +1,65 @@
+class LoadingDialog
+!!!167298.java!!!	LoadingDialog(inout context : Context)
+        super(context, R.style.JzAlertDialogWhite);
+!!!167426.java!!!	LoadingDialog(inout context : Context, in text : String)
+        super(context, R.style.JzAlertDialogWhite);
+        this.mText = text;
+!!!167554.java!!!	LoadingDialog(inout context : Context, in text : String, inout canBack : boolean)
+        super(context, R.style.JzAlertDialogWhite);
+        this.mText = text;
+        mContext = context;
+        mCanBack = canBack;
+!!!167682.java!!!	LoadingDialog(inout context : Context, in text : String, inout canBack : boolean, inout singleLine : boolean)
+        super(context, R.style.JzAlertDialogWhite);
+        this.mText = text;
+        mContext = context;
+        mCanBack = canBack;
+        mSingleLine = singleLine;
+!!!167810.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_loading2_dialog);
+        TextView mMessage = (TextView) findViewById(R.id.loading_dialog_message);
+        if ((mText == null) || (mText.equals(""))) {
+            mMessage.setVisibility(View.GONE);
+        } else {
+            mMessage.setVisibility(View.VISIBLE);
+            mMessage.setSingleLine(mSingleLine);
+            mMessage.setEllipsize(TextUtils.TruncateAt.END);
+            mMessage.setText(mText);
+        }
+        mProgressWheel = (ProgressWheel) findViewById(R.id.progressBar);
+!!!167938.java!!!	onKeyUp(in keyCode : int, inout event : KeyEvent) : boolean
+        if (!mCanBack) {
+            Toast.makeText(mContext, "操作正在进行中，请稍后", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+!!!168066.java!!!	setOnDismissListener(inout listener : OnDismissListener) : void
+        super.setOnDismissListener(listener);
+!!!168194.java!!!	setSingleLine(inout singleLine : boolean) : void
+        TextView mMessage = (TextView) findViewById(R.id.loading_dialog_message);
+!!!168322.java!!!	show() : void
+        try {
+            super.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!168450.java!!!	onAttachedToWindow() : void
+        super.onAttachedToWindow();
+        if(mProgressWheel != null) {
+            mProgressWheel.spin();
+        }
+!!!168578.java!!!	onDetachedFromWindow() : void
+        super.onDetachedFromWindow();
+        if(mProgressWheel != null) {
+            mProgressWheel.stopSpinning();
+        }
+!!!168706.java!!!	dismiss() : void
+        try {
+            super.dismiss();
+            if (mProgressWheel != null) {
+                mProgressWheel.stopSpinning();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }

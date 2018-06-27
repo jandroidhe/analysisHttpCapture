@@ -1,0 +1,73 @@
+class HarEntry
+!!!230402.java!!!	HarEntry(in pageref : String)
+        this.pageref = pageref;
+!!!230530.java!!!	getPageref() : String
+        return pageref;
+!!!230658.java!!!	setPageref(in pageref : String) : void
+        this.pageref = pageref;
+!!!230786.java!!!	getStartedDateTime() : Date
+        return startedDateTime;
+!!!230914.java!!!	setStartedDateTime(inout startedDateTime : Date) : void
+        this.startedDateTime = startedDateTime;
+!!!231042.java!!!	getTime() : long
+        return getTime(TimeUnit.MILLISECONDS);
+!!!231170.java!!!	getTime(inout timeUnit : TimeUnit) : long
+        HarTimings timings = getTimings();
+        if (timings == null) {
+            return -1;
+        }
+
+        long timeNanos = 0;
+        if (timings.getBlocked(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getBlocked(TimeUnit.NANOSECONDS);
+        }
+
+        if (timings.getDns(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getDns(TimeUnit.NANOSECONDS);
+        }
+
+        if (timings.getConnect(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getConnect(TimeUnit.NANOSECONDS);
+        }
+
+        if (timings.getSend(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getSend(TimeUnit.NANOSECONDS);
+        }
+
+        if (timings.getWait(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getWait(TimeUnit.NANOSECONDS);
+        }
+
+        if (timings.getReceive(TimeUnit.NANOSECONDS) > 0) {
+            timeNanos += timings.getReceive(TimeUnit.NANOSECONDS);
+        }
+
+        return timeUnit.convert(timeNanos, TimeUnit.NANOSECONDS);
+!!!231298.java!!!	getRequest() : HarRequest
+        return request;
+!!!231426.java!!!	setRequest(inout request : HarRequest) : void
+        this.request = request;
+!!!231554.java!!!	getResponse() : HarResponse
+        return response;
+!!!231682.java!!!	setResponse(inout response : HarResponse) : void
+        this.response = response;
+!!!231810.java!!!	getCache() : HarCache
+        return cache;
+!!!231938.java!!!	setCache(inout cache : HarCache) : void
+        this.cache = cache;
+!!!232066.java!!!	getTimings() : HarTimings
+        return timings;
+!!!232194.java!!!	setTimings(inout timings : HarTimings) : void
+        this.timings = timings;
+!!!232322.java!!!	getServerIPAddress() : String
+        return serverIPAddress;
+!!!232450.java!!!	setServerIPAddress(in serverIPAddress : String) : void
+        this.serverIPAddress = serverIPAddress;
+!!!232578.java!!!	getComment() : String
+        return comment;
+!!!232706.java!!!	setComment(in comment : String) : void
+        this.comment = comment;
+!!!232834.java!!!	getConnection() : String
+        return connection;
+!!!232962.java!!!	setConnection(in connection : String) : void
+        this.connection = connection;

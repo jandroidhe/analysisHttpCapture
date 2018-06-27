@@ -1,0 +1,7 @@
+class CertificateSourceException
+!!!281986.java!!!	CertificateSourceException(in message : String)
+        super(message);
+!!!282114.java!!!	CertificateSourceException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!282242.java!!!	CertificateSourceException(inout cause : Throwable)
+        super(cause);

@@ -1,0 +1,11 @@
+class PowerStatusReceiver
+!!!188802.java!!!	onReceive(inout context : Context, inout intent : Intent) : void
+            if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
+                // 0 indicates that we're on battery
+                boolean onBatteryNow = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) <= 0;
+                if (onBatteryNow) {
+                    InactivityTimer.this.onActivity();
+                } else {
+                    InactivityTimer.this.cancel();
+                }
+            }

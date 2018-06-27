@@ -1,0 +1,62 @@
+class TrustUtil
+!!!299394.java!!!	getBuiltinTrustedCAs() : X509Certificate
+        return builtinTrustedCAs.get();
+!!!299522.java!!!	getJavaTrustedCAs() : X509Certificate
+        return javaTrustedCAs.get();
+!!!299650.java!!!	readX509CertificatesFromPem(in pemEncodedCAs : String) : X509Certificate
+        List<X509Certificate> certificates = new ArrayList<>(500);
+
+        Matcher pemMatcher = CA_PEM_PATTERN.matcher(pemEncodedCAs);
+
+        while (pemMatcher.find()) {
+            String singleCAPem = pemMatcher.group();
+
+            X509Certificate certificate = readSingleX509Certificate(singleCAPem);
+            certificates.add(certificate);
+        }
+
+        return certificates.toArray(new X509Certificate[0]);
+!!!299778.java!!!	readSingleX509Certificate(in x509CertificateAsPem : String) : X509Certificate
+        return securityProviderTool.decodePemEncodedCertificate(new StringReader(x509CertificateAsPem));
+!!!299906.java!!!	getDefaultJavaTrustManager() : X509TrustManager
+        TrustManagerFactory tmf;
+        try {
+            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            // initializing the trust store with a null KeyStore will load the default JVM trust store
+            tmf.init((KeyStore) null);
+        } catch (NoSuchAlgorithmException | KeyStoreException e) {
+            throw new TrustSourceException("Unable to retrieve default TrustManagerFactory", e);
+        }
+
+        // Get hold of the default trust manager
+        for (TrustManager tm : tmf.getTrustManagers()) {
+            if (tm instanceof X509TrustManager) {
+                return (X509TrustManager) tm;
+            }
+        }
+
+        // didn't find an X509TrustManager
+        throw new TrustSourceException("No X509TrustManager found");
+!!!300034.java!!!	extractTrustedCertificateEntries(inout trustStore : KeyStore) : List<X509Certificate>
+        try {
+            Enumeration<String> aliases = trustStore.aliases();
+            List<String> keyStoreAliases = Collections.list(aliases);
+
+            List<X509Certificate> trustedCertificates = new ArrayList<>(keyStoreAliases.size());
+
+            for (String alias : keyStoreAliases) {
+                if (trustStore.entryInstanceOf(alias, KeyStore.TrustedCertificateEntry.class)) {
+                    Certificate certificate = trustStore.getCertificate(alias);
+                    if (!(certificate instanceof X509Certificate)) {
+                        log.debug("Skipping non-X509Certificate in KeyStore. Certificate type: {}", certificate.getType());
+                        continue;
+                    }
+
+                    trustedCertificates.add((X509Certificate) certificate);
+                }
+            }
+
+            return trustedCertificates;
+        } catch (KeyStoreException e) {
+            throw new KeyStoreAccessException("Error occurred while retrieving trusted CAs from KeyStore", e);
+        }

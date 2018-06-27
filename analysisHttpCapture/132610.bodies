@@ -1,0 +1,55 @@
+class PreviewFragment
+!!!146050.java!!!	getInstance() : PreviewFragment
+        if (previewFragment == null) {
+            previewFragment = new PreviewFragment();
+        }
+        return previewFragment;
+!!!146178.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+!!!146306.java!!!	onCreateView(inout inflater : LayoutInflater, inout container : ViewGroup, inout savedInstanceState : Bundle) : View
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_preview, container, false);
+        ButterKnife.bind(this, view);
+
+        if(SysApplication.isInitProxy) {
+            harLog = ((SysApplication) getActivity().getApplication()).proxy.getHar().getLog();
+            harEntryList.addAll(harLog.getEntries());
+        }
+        recyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), RecycleViewDivider.VERTICAL_LIST));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(previewAdapter = new PreviewAdapter());
+
+        if(((MainActivity) getActivity()).searchView!=null){
+            ((MainActivity) getActivity()).searchView.setVisibility(View.VISIBLE);
+        }
+
+        return view;
+!!!147074.java!!!	setUserVisibleHint(inout isVisibleToUser : boolean) : void
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+//            ((MainActivity) getActivity()).navigationView.setCheckedItem(R.id.nav_preview);
+            notifyHarChange();
+        }
+!!!147202.java!!!	notifyHarChange() : void
+        if (previewAdapter != null) {
+            harLog = ((MainActivity) getActivity()).getFiltedHar().getLog();
+            harEntryList.clear();
+            harEntryList.addAll(harLog.getEntries());
+            previewAdapter.notifyDataSetChanged();
+        }
+!!!147586.java!!!	onBackPressed() : boolean
+        return false;
+!!!147714.java!!!	filterItem(inout s : CharSequence) : void
+        if(previewAdapter!=null) {
+            previewAdapter.getFilter().filter(s);
+        }
+!!!147842.java!!!	onResume() : void
+        super.onResume();
+
+        // 这里为了解决返回后焦点在搜索栏的bug
+        if(recyclerView!=null) {
+            recyclerView.requestFocus();
+            if(((MainActivity)getActivity()).searchView!=null) {
+                filterItem(((MainActivity) getActivity()).searchView.getQuery());
+            }
+        }

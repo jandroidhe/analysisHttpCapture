@@ -1,0 +1,93 @@
+class HarTimings
+!!!247042.java!!!	getComment() : String
+        return comment;
+!!!247170.java!!!	setComment(in comment : String) : void
+        this.comment = comment;
+!!!247298.java!!!	getBlocked(inout timeUnit : TimeUnit) : long
+        if (blockedNanos == -1) {
+            return -1;
+        } else {
+            return timeUnit.convert(blockedNanos, TimeUnit.NANOSECONDS);
+        }
+!!!247426.java!!!	setBlocked(in blocked : long, inout timeUnit : TimeUnit) : void
+        if (blocked == -1) {
+            this.blockedNanos = -1;
+        } else {
+            this.blockedNanos = TimeUnit.NANOSECONDS.convert(blocked, timeUnit);
+        }
+!!!247554.java!!!	getDns(inout timeUnit : TimeUnit) : long
+        if (dnsNanos == -1) {
+            return -1;
+        } else {
+            return timeUnit.convert(dnsNanos, TimeUnit.NANOSECONDS);
+        }
+!!!247682.java!!!	setDns(in dns : long, inout timeUnit : TimeUnit) : void
+        if (dns == -1) {
+            this.dnsNanos = -1;
+        } else{
+            this.dnsNanos = TimeUnit.NANOSECONDS.convert(dns, timeUnit);
+        }
+!!!247810.java!!!	getConnect(inout timeUnit : TimeUnit) : long
+        if (connectNanos == -1) {
+            return -1;
+        } else {
+            return timeUnit.convert(connectNanos, TimeUnit.NANOSECONDS);
+        }
+!!!247938.java!!!	setConnect(in connect : long, inout timeUnit : TimeUnit) : void
+        if (connect == -1) {
+            this.connectNanos = -1;
+        } else {
+            this.connectNanos = TimeUnit.NANOSECONDS.convert(connect, timeUnit);
+        }
+!!!248066.java!!!	getSend(inout timeUnit : TimeUnit) : long
+        return timeUnit.convert(sendNanos, TimeUnit.NANOSECONDS);
+!!!248194.java!!!	setSend(in send : long, inout timeUnit : TimeUnit) : void
+        this.sendNanos = TimeUnit.NANOSECONDS.convert(send, timeUnit);
+!!!248322.java!!!	getWait(inout timeUnit : TimeUnit) : long
+        return timeUnit.convert(waitNanos, TimeUnit.NANOSECONDS);
+!!!248450.java!!!	setWait(in wait : long, inout timeUnit : TimeUnit) : void
+        this.waitNanos = TimeUnit.NANOSECONDS.convert(wait, timeUnit);
+!!!248578.java!!!	getReceive(inout timeUnit : TimeUnit) : long
+        return timeUnit.convert(receiveNanos, TimeUnit.NANOSECONDS);
+!!!248706.java!!!	setReceive(in receive : long, inout timeUnit : TimeUnit) : void
+        this.receiveNanos = TimeUnit.NANOSECONDS.convert(receive, timeUnit);
+!!!248834.java!!!	getSsl(inout timeUnit : TimeUnit) : long
+        if (sslNanos == -1) {
+            return -1;
+        } else {
+            return timeUnit.convert(sslNanos, TimeUnit.NANOSECONDS);
+        }
+!!!248962.java!!!	setSsl(in ssl : long, inout timeUnit : TimeUnit) : void
+        if (ssl == -1) {
+            this.sslNanos = -1;
+        } else {
+            this.sslNanos = TimeUnit.NANOSECONDS.convert(ssl, timeUnit);
+        }
+!!!249090.java!!!	getBlocked() : Long
+        return getBlocked(TimeUnit.MILLISECONDS);
+!!!249218.java!!!	setBlocked(in blocked : long) : void
+        setBlocked(blocked, TimeUnit.MILLISECONDS);
+!!!249346.java!!!	getDns() : Long
+        return getDns(TimeUnit.MILLISECONDS);
+!!!249474.java!!!	setDns(in dns : long) : void
+        setDns(dns, TimeUnit.MILLISECONDS);
+!!!249602.java!!!	getConnect() : Long
+        return getConnect(TimeUnit.MILLISECONDS);
+!!!249730.java!!!	setConnect(in connect : long) : void
+        setConnect(connect, TimeUnit.MILLISECONDS);
+!!!249858.java!!!	getSend() : long
+        return getSend(TimeUnit.MILLISECONDS);
+!!!249986.java!!!	setSend(in send : long) : void
+        setSend(send, TimeUnit.MILLISECONDS);
+!!!250114.java!!!	getWait() : long
+        return getWait(TimeUnit.MILLISECONDS);
+!!!250242.java!!!	setWait(in wait : long) : void
+        setWait(wait, TimeUnit.MILLISECONDS);
+!!!250370.java!!!	getReceive() : long
+        return getReceive(TimeUnit.MILLISECONDS);
+!!!250498.java!!!	setReceive(in receive : long) : void
+        setReceive(receive, TimeUnit.MILLISECONDS);
+!!!250626.java!!!	getSsl() : Long
+        return getSsl(TimeUnit.MILLISECONDS);
+!!!250754.java!!!	setSsl(in ssl : long) : void
+        setSsl(ssl, TimeUnit.MILLISECONDS);

@@ -1,0 +1,12 @@
+class PingTask
+!!!193410.java!!!	getHost() : String
+      return host;
+!!!193538.java!!!	PingTask(in host : String)
+      super();
+      this.host = host;
+      Pattern p = Pattern.compile(MATCH_PING_HOST_IP);
+      Matcher m = p.matcher(host);
+      if (m.find()) {
+        this.host = m.group();
+      }
+

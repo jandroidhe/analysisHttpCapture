@@ -1,0 +1,192 @@
+class HttpConnectHarCaptureFilter
+!!!262530.java!!!	HttpConnectHarCaptureFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout har : Har, in currentPageRef : String)
+        super(originalRequest, ctx);
+
+        if (har == null) {
+            throw new IllegalStateException("Attempted har capture when har is null");
+        }
+
+        if (!ProxyUtils.isCONNECT(originalRequest)) {
+            throw new IllegalStateException("Attempted HTTP CONNECT har capture on non-HTTP CONNECT request");
+        }
+
+        this.har = har;
+        this.currentPageRef = currentPageRef;
+
+        this.clientAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+
+        // create and cache an HTTP CONNECT timing object to capture timing-related information
+        this.httpConnectTiming = new HttpConnectTiming();
+        httpConnectTimes.put(clientAddress, httpConnectTiming);
+!!!262658.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            // store the CONNECT start time in case of failure, so we can populate the HarEntry with it
+            requestStartTime = new Date();
+        }
+
+        return null;
+!!!262786.java!!!	proxyToServerResolutionFailed(in hostAndPort : String) : void
+        // since this is a CONNECT, which is not handled by the HarCaptureFilter, we need to create and populate the
+        // entire HarEntry and add it to this har.
+        HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getResolutionFailedErrorMessage(hostAndPort));
+        har.getLog().addEntry(harEntry);
+
+        // record the amount of time we attempted to resolve the hostname in the HarTimings object
+        if (dnsResolutionStartedNanos > 0L) {
+            harEntry.getTimings().setDns(System.nanoTime() - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        httpConnectTimes.remove(clientAddress);
+!!!262914.java!!!	proxyToServerConnectionFailed() : void
+        // since this is a CONNECT, which is not handled by the HarCaptureFilter, we need to create and populate the
+        // entire HarEntry and add it to this har.
+        HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getConnectionFailedErrorMessage());
+        har.getLog().addEntry(harEntry);
+
+        // record the amount of time we attempted to connect in the HarTimings object
+        if (connectionStartedNanos > 0L) {
+            harEntry.getTimings().setConnect(System.nanoTime() - connectionStartedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        httpConnectTimes.remove(clientAddress);
+!!!263042.java!!!	proxyToServerConnectionSucceeded(inout serverCtx : ChannelHandlerContext) : void
+        this.connectionSucceededTimeNanos = System.nanoTime();
+
+        if (connectionStartedNanos > 0L) {
+            httpConnectTiming.setConnectTimeNanos(connectionSucceededTimeNanos - connectionStartedNanos);
+        } else {
+            httpConnectTiming.setConnectTimeNanos(0L);
+        }
+
+        if (sslHandshakeStartedNanos > 0L) {
+            httpConnectTiming.setSslHandshakeTimeNanos(connectionSucceededTimeNanos - sslHandshakeStartedNanos);
+        } else {
+            httpConnectTiming.setSslHandshakeTimeNanos(0L);
+        }
+!!!263170.java!!!	proxyToServerConnectionSSLHandshakeStarted() : void
+        this.sslHandshakeStartedNanos = System.nanoTime();
+!!!263298.java!!!	serverToProxyResponseTimedOut() : void
+        HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getResponseTimedOutErrorMessage());
+        har.getLog().addEntry(harEntry);
+
+        // include this timeout time in the HarTimings object
+        long timeoutTimestampNanos = System.nanoTime();
+
+        // if the proxy started to send the request but has not yet finished, we are currently "sending"
+        if (sendStartedNanos > 0L && sendFinishedNanos == 0L) {
+            harEntry.getTimings().setSend(timeoutTimestampNanos - sendStartedNanos, TimeUnit.NANOSECONDS);
+        }
+        // if the entire request was sent but the proxy has not begun receiving the response, we are currently "waiting"
+        else if (sendFinishedNanos > 0L && responseReceiveStartedNanos == 0L) {
+            harEntry.getTimings().setWait(timeoutTimestampNanos - sendFinishedNanos, TimeUnit.NANOSECONDS);
+        }
+        // if the proxy has already begun to receive the response, we are currenting "receiving"
+        else if (responseReceiveStartedNanos > 0L) {
+            harEntry.getTimings().setReceive(timeoutTimestampNanos - responseReceiveStartedNanos, TimeUnit.NANOSECONDS);
+        }
+!!!263426.java!!!	proxyToServerConnectionQueued() : void
+        this.connectionQueuedNanos = System.nanoTime();
+!!!263554.java!!!	proxyToServerResolutionStarted(in resolvingServerHostAndPort : String) : InetSocketAddress
+        dnsResolutionStartedNanos = System.nanoTime();
+
+        if (connectionQueuedNanos > 0L) {
+            httpConnectTiming.setBlockedTimeNanos(dnsResolutionStartedNanos - connectionQueuedNanos);
+        } else {
+            httpConnectTiming.setBlockedTimeNanos(0L);
+        }
+
+        return null;
+!!!263682.java!!!	proxyToServerResolutionSucceeded(in serverHostAndPort : String, inout resolvedRemoteAddress : InetSocketAddress) : void
+        this.dnsResolutionFinishedNanos = System.nanoTime();
+
+        if (dnsResolutionStartedNanos > 0L) {
+            httpConnectTiming.setDnsTimeNanos(dnsResolutionFinishedNanos - dnsResolutionStartedNanos);
+        } else {
+            httpConnectTiming.setDnsTimeNanos(0L);
+        }
+
+        // the address *should* always be resolved at this point
+        this.resolvedAddress = resolvedRemoteAddress.getAddress();
+!!!263810.java!!!	proxyToServerConnectionStarted() : void
+        this.connectionStartedNanos = System.nanoTime();
+!!!263938.java!!!	proxyToServerRequestSending() : void
+        this.sendStartedNanos = System.nanoTime();
+!!!264066.java!!!	proxyToServerRequestSent() : void
+        this.sendFinishedNanos = System.nanoTime();
+!!!264194.java!!!	serverToProxyResponseReceiving() : void
+        this.responseReceiveStartedNanos = System.nanoTime();
+!!!264322.java!!!	populateTimingsForFailedCONNECT(inout harEntry : HarEntry) : void
+        HarTimings timings = harEntry.getTimings();
+
+        if (connectionQueuedNanos > 0L && dnsResolutionStartedNanos > 0L) {
+            timings.setBlocked(dnsResolutionStartedNanos - connectionQueuedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        if (dnsResolutionStartedNanos > 0L && dnsResolutionFinishedNanos > 0L) {
+            timings.setDns(dnsResolutionFinishedNanos - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        if (connectionStartedNanos > 0L && connectionSucceededTimeNanos > 0L) {
+            timings.setConnect(connectionSucceededTimeNanos - connectionStartedNanos, TimeUnit.NANOSECONDS);
+
+            if (sslHandshakeStartedNanos > 0L) {
+                timings.setSsl(connectionSucceededTimeNanos - this.sslHandshakeStartedNanos, TimeUnit.NANOSECONDS);
+            }
+        }
+
+        if (sendStartedNanos > 0L && sendFinishedNanos >= 0L) {
+            timings.setSend(sendFinishedNanos - sendStartedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        if (sendFinishedNanos > 0L && responseReceiveStartedNanos >= 0L) {
+            timings.setWait(responseReceiveStartedNanos - sendFinishedNanos, TimeUnit.NANOSECONDS);
+        }
+
+        // since this method is for HTTP CONNECT failures only, we can't populate a "received" time, since that would
+        // require the CONNECT to be successful, in which case this method wouldn't be called.
+!!!264450.java!!!	createHarEntryForFailedCONNECT(in errorMessage : String) : HarEntry
+        HarEntry harEntry = new HarEntry(currentPageRef);
+        harEntry.setStartedDateTime(requestStartTime);
+
+        HarRequest request = createRequestForFailedConnect(originalRequest);
+        harEntry.setRequest(request);
+
+        HarResponse response = HarCaptureUtil.createHarResponseForFailure();
+        harEntry.setResponse(response);
+
+        response.setError(errorMessage);
+
+        populateTimingsForFailedCONNECT(harEntry);
+
+        populateServerIpAddress(harEntry);
+
+
+        return harEntry;
+!!!264578.java!!!	populateServerIpAddress(inout harEntry : HarEntry) : void
+        // populate the server IP address if it was resolved as part of this request. otherwise, populate the IP address from the cache.
+        if (resolvedAddress != null) {
+            harEntry.setServerIPAddress(resolvedAddress.getHostAddress());
+        } else {
+            String serverHost = HttpUtil.getHostFromRequest(modifiedHttpRequest);
+            if (serverHost != null && !serverHost.isEmpty()) {
+                String resolvedAddress = ResolvedHostnameCacheFilter.getPreviouslyResolvedAddressForHost(serverHost);
+                if (resolvedAddress != null) {
+                    harEntry.setServerIPAddress(resolvedAddress);
+                } else {
+                    // the resolvedAddress may be null if the ResolvedHostnameCacheFilter has expired the entry (which is unlikely),
+                    // or in the far more common case that the proxy is using a chained proxy to connect to connect to the
+                    // remote host. since the chained proxy handles IP address resolution, the IP address in the HAR must be blank.
+                    log.trace("Unable to find cached IP address for host: {}. IP address in HAR entry will be blank.", serverHost);
+                }
+            } else {
+                log.warn("Unable to identify host from request uri: {}", modifiedHttpRequest.getUri());
+            }
+        }
+!!!264706.java!!!	createRequestForFailedConnect(inout httpConnectRequest : HttpRequest) : HarRequest
+        String url = getFullUrl(httpConnectRequest);
+
+        return new HarRequest(httpConnectRequest.getMethod().toString(), url, httpConnectRequest.getProtocolVersion().text());
+!!!264834.java!!!	consumeConnectTimingForConnection(inout clientAddress : InetSocketAddress) : HttpConnectTiming
+        return httpConnectTimes.remove(clientAddress);
+!!!264962.java!!!	setModifiedHttpRequest(inout modifiedHttpRequest : HttpRequest) : void
+        this.modifiedHttpRequest = modifiedHttpRequest;

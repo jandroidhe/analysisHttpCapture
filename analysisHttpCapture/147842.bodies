@@ -1,0 +1,50 @@
+class HarCookie
+!!!227970.java!!!	getName() : String
+        return name;
+!!!228098.java!!!	setName(in name : String) : void
+        this.name = name;
+!!!228226.java!!!	getValue() : String
+        return value;
+!!!228354.java!!!	getDecodeValue() : String
+        try{
+            return URLDecoder.decode(value);
+        }catch (Exception e) {
+            return value;
+        }
+!!!228482.java!!!	setValue(in value : String) : void
+        this.value = value;
+!!!228610.java!!!	getPath() : String
+        return path;
+!!!228738.java!!!	setPath(in path : String) : void
+        this.path = path;
+!!!228866.java!!!	getDomain() : String
+        return domain;
+!!!228994.java!!!	setDomain(in domain : String) : void
+        this.domain = domain;
+!!!229122.java!!!	getExpires() : Date
+        return expires;
+!!!229250.java!!!	setExpires(inout expires : Date) : void
+        this.expires = expires;
+!!!229378.java!!!	getHttpOnly() : Boolean
+        return httpOnly;
+!!!229506.java!!!	setHttpOnly(inout httpOnly : Boolean) : void
+        this.httpOnly = httpOnly;
+!!!229634.java!!!	getSecure() : Boolean
+        return secure;
+!!!229762.java!!!	setSecure(inout secure : Boolean) : void
+        this.secure = secure;
+!!!229890.java!!!	getComment() : String
+        return comment;
+!!!230018.java!!!	setComment(in comment : String) : void
+        this.comment = comment;
+!!!230146.java!!!	toString() : String
+        return "HarCookie{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                ", path='" + path + '\'' +
+                ", domain='" + domain + '\'' +
+                ", expires=" + expires +
+                ", httpOnly=" + httpOnly +
+                ", secure=" + secure +
+                ", comment='" + comment + '\'' +
+                '}';

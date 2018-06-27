@@ -1,0 +1,57 @@
+class HarLog
+!!!233218.java!!!	HarLog(inout creator : HarNameVersion, inout server : BrowserMobProxyServer)
+        this.creator = creator;
+        this.server = server;
+!!!233346.java!!!	addPage(inout page : HarPage) : void
+        pages.add(page);
+!!!233474.java!!!	deletePage(inout page : HarPage) : Boolean
+        return pages.remove(page);
+!!!233602.java!!!	addEntry(inout entry : HarEntry) : void
+        int count = 0;
+        for (HarEntry har:entries) {
+            if (entry.getPageref().equals(har.getPageref())) {
+                count++;
+            }
+        }
+        if(count >= 999) {
+            if(server!=null){
+                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
+                        .format(new Date(System.currentTimeMillis()));
+
+                // 检查是否存在重复添加
+                Boolean repeatAdd = false;
+                for (HarPage page:pages) {
+                    if(page.getId().equals(time)){
+                        repeatAdd = true;
+                    }
+                }
+                if(!repeatAdd) {
+                    server.newPage(time);
+                }
+            }
+        }
+        entries.add(entry);
+!!!233730.java!!!	clearAllEntries() : void
+        entries.clear();
+!!!233858.java!!!	getVersion() : String
+        return version;
+!!!233986.java!!!	getCreator() : HarNameVersion
+        return creator;
+!!!234114.java!!!	setCreator(inout creator : HarNameVersion) : void
+        this.creator = creator;
+!!!234242.java!!!	getBrowser() : HarNameVersion
+        return browser;
+!!!234370.java!!!	setBrowser(inout browser : HarNameVersion) : void
+        this.browser = browser;
+!!!234498.java!!!	getPages() : HarPage
+        return pages;
+!!!234626.java!!!	getEntries() : HarEntry
+        return entries;
+!!!234754.java!!!	setPages(inout pages : List<HarPage>) : void
+        this.pages = pages;
+!!!234882.java!!!	setEntries(inout entries : List<HarEntry>) : void
+        this.entries = entries;
+!!!235010.java!!!	getComment() : String
+        return comment;
+!!!235138.java!!!	setComment(in comment : String) : void
+        this.comment = comment;

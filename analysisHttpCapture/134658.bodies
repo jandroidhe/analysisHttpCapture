@@ -1,0 +1,14 @@
+class BaseTask
+!!!149890.java!!!	BaseTask(in url : String, inout resultTextView : TextView)
+        this.url = url;
+        this.resultTextView = resultTextView;
+!!!150018.java!!!	doTask() : void
+        resultTextView.setText("");
+        tag = System.currentTimeMillis()+"";
+        resultTextView.setTag(tag);
+        // TraceTask运行于主线程
+        if(this instanceof TraceTask){
+            getExecRunnable().run();
+        }else {
+            new Thread(getExecRunnable()).start();
+        }

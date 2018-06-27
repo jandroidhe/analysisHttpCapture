@@ -1,0 +1,9 @@
+class FinishListener
+!!!187522.java!!!	FinishListener(inout activityToFinish : Activity)
+        this.activityToFinish = activityToFinish;
+!!!187650.java!!!	onCancel(inout dialogInterface : DialogInterface) : void
+        run();
+!!!187778.java!!!	onClick(inout dialogInterface : DialogInterface, in i : int) : void
+        run();
+!!!187906.java!!!	run() : void
+        activityToFinish.finish();

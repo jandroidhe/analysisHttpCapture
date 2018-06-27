@@ -1,0 +1,74 @@
+class HttpsAwareFiltersAdapter
+!!!253186.java!!!	HttpsAwareFiltersAdapter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext)
+        super(originalRequest, ctx);
+!!!253314.java!!!	isHttps() : boolean
+        Attribute<Boolean> isHttpsAttr = ctx.attr(AttributeKey.<Boolean>valueOf(IS_HTTPS_ATTRIBUTE_NAME));
+
+        Boolean isHttps = isHttpsAttr.get();
+        if (isHttps == null) {
+            return false;
+        } else {
+            return isHttps;
+        }
+!!!253442.java!!!	getFullUrl(inout modifiedRequest : HttpRequest) : String
+        // special case: for HTTPS requests, the full URL is scheme (https://) + the URI of this request
+        if (ProxyUtils.isCONNECT(modifiedRequest)) {
+            // CONNECT requests contain the default port, even if it isn't specified on the request.
+            String hostNoDefaultPort = BrowserMobHttpUtil.removeMatchingPort(modifiedRequest.getUri(), 443);
+            return "https://" + hostNoDefaultPort;
+        }
+
+        // To get the full URL, we need to retrieve the Scheme, Host + Port, Path, and Query Params from the request.
+        // If the request URI starts with http:// or https://, it is already a full URL and can be returned directly.
+        if (HttpUtil.startsWithHttpOrHttps(modifiedRequest.getUri())) {
+            return modifiedRequest.getUri();
+        }
+
+        // The URI did not include the scheme and host, so examine the request to obtain them:
+        // Scheme: the scheme (HTTP/HTTPS) are based on the type of connection, obtained from isHttps()
+        // Host and Port: available for HTTP and HTTPS requests using the getHostAndPort() helper method.
+        // Path + Query Params: since the request URI doesn't start with the scheme, we can safely assume that the URI
+        //    contains only the path and query params.
+        String hostAndPort = getHostAndPort(modifiedRequest);
+        String path = modifiedRequest.getUri();
+        String url;
+        if (isHttps()) {
+            url = "https://" + hostAndPort + path;
+        } else {
+            url = "http://" + hostAndPort + path;
+        }
+        return url;
+!!!253570.java!!!	getOriginalUrl() : String
+        return getFullUrl(originalRequest);
+!!!253698.java!!!	getHost(inout modifiedRequest : HttpRequest) : String
+        String serverHost;
+        if (isHttps()) {
+            HostAndPort hostAndPort = HostAndPort.fromString(getHttpsRequestHostAndPort());
+            serverHost = hostAndPort.getHostText();
+        } else {
+            serverHost = HttpUtil.getHostFromRequest(modifiedRequest);
+        }
+        return serverHost;
+!!!253826.java!!!	getHostAndPort(inout modifiedRequest : HttpRequest) : String
+        // For HTTP requests, the host and port can be read from the request itself using the URI and/or
+        //   Host header. for HTTPS requests, the host and port are not available in the request. by using the
+        //   getHttpsRequestHostAndPort() helper method, we can retrieve the host and port for HTTPS requests.
+        if (isHttps()) {
+            return getHttpsRequestHostAndPort();
+        } else {
+            return HttpUtil.getHostAndPortFromRequest(modifiedRequest);
+        }
+!!!253954.java!!!	getHttpsRequestHostAndPort() : String
+        if (!isHttps()) {
+            throw new IllegalStateException("Request is not HTTPS. Cannot get host and port on non-HTTPS request using this method.");
+        }
+
+        Attribute<String> hostnameAttr = ctx.attr(AttributeKey.<String>valueOf(HOST_ATTRIBUTE_NAME));
+        return hostnameAttr.get();
+!!!254082.java!!!	getHttpsOriginalRequestHostAndPort() : String
+        if (!isHttps()) {
+            throw new IllegalStateException("Request is not HTTPS. Cannot get original host and port on non-HTTPS request using this method.");
+        }
+
+        Attribute<String> hostnameAttr = ctx.attr(AttributeKey.<String>valueOf(ORIGINAL_HOST_ATTRIBUTE_NAME));
+        return hostnameAttr.get();

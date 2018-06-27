@@ -1,0 +1,7 @@
+class MyViewHolder
+!!!146818.java!!!	MyViewHolder(inout view : View)
+                super(view);
+                tv = (TextView) view.findViewById(R.id.tv_url);
+                detailTextView = (TextView) view.findViewById(R.id.tv_detail);
+                rootView = view;
+                iconView = (ImageView) view.findViewById(R.id.iv_icon);

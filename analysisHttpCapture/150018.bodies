@@ -1,0 +1,19 @@
+class AddHeadersFilter
+!!!252930.java!!!	AddHeadersFilter(inout originalRequest : HttpRequest, inout additionalHeaders : Map<String, String>)
+        super(originalRequest);
+
+        if (additionalHeaders != null) {
+            this.additionalHeaders = additionalHeaders;
+        } else {
+            this.additionalHeaders = Collections.emptyMap();
+        }
+!!!253058.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            for (Map.Entry<String, String> header : additionalHeaders.entrySet()) {
+                httpRequest.headers().add(header.getKey(), header.getValue());
+            }
+        }
+
+        return null;

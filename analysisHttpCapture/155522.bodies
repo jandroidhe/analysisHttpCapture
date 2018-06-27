@@ -1,0 +1,7 @@
+class ExportException
+!!!282498.java!!!	ExportException(in message : String)
+        super(message);
+!!!282626.java!!!	ExportException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!282754.java!!!	ExportException(inout cause : Throwable)
+        super(cause);

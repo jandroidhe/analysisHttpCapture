@@ -1,0 +1,19 @@
+class CertificateGenerationStatistics
+!!!290178.java!!!	certificateCreated(in startTimeMs : long, in finishTimeMs : long) : void
+        certificatesGenerated.incrementAndGet();
+        certificateGenerationTimeMs.addAndGet(finishTimeMs - startTimeMs);
+
+        // record the timestamp of the first certificate generation
+        firstCertificateGeneratedTimestamp.compareAndSet(0L, System.currentTimeMillis());
+!!!290306.java!!!	getCertificatesGenerated() : int
+        return certificatesGenerated.get();
+!!!290434.java!!!	getTotalCertificateGenerationTimeMs() : long
+        return certificateGenerationTimeMs.get();
+!!!290562.java!!!	getAvgCertificateGenerationTimeMs() : long
+        if (certificatesGenerated.get() > 0) {
+            return certificateGenerationTimeMs.get() / certificatesGenerated.get();
+        } else {
+            return 0L;
+        }
+!!!290690.java!!!	firstCertificateGeneratedTimestamp() : long
+        return firstCertificateGeneratedTimestamp.get();

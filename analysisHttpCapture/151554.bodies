@@ -1,0 +1,20 @@
+class HttpsHostCaptureFilter
+!!!265090.java!!!	HttpsHostCaptureFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext)
+        super(originalRequest, ctx);
+!!!265218.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            if (ProxyUtils.isCONNECT(httpRequest)) {
+                Attribute<String> hostname = ctx.attr(AttributeKey.<String>valueOf(HttpsAwareFiltersAdapter.HOST_ATTRIBUTE_NAME));
+                String hostAndPort = httpRequest.getUri();
+
+                // CONNECT requests contain the port, even when using the default port. a sensible default is to remove the
+                // default port, since in most cases it is not explicitly specified and its presence (in a HAR file, for example)
+                // would be unexpected.
+                String hostNoDefaultPort = BrowserMobHttpUtil.removeMatchingPort(hostAndPort, 443);
+                hostname.set(hostNoDefaultPort);
+            }
+        }
+
+        return null;

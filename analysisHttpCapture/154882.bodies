@@ -1,0 +1,79 @@
+class RootCertificateGenerator
+!!!277890.java!!!	RootCertificateGenerator(inout rootCertificateInfo : CertificateInfo, in messageDigest : String, inout keyGenerator : KeyGenerator, inout securityProviderTool : SecurityProviderTool)
+        if (rootCertificateInfo == null) {
+            throw new IllegalArgumentException("CA root certificate cannot be null");
+        }
+
+        if (messageDigest == null) {
+            throw new IllegalArgumentException("Message digest cannot be null");
+        }
+
+        if (keyGenerator == null) {
+            throw new IllegalArgumentException("Key generator cannot be null");
+        }
+
+        if (securityProviderTool == null) {
+            throw new IllegalArgumentException("Certificate tool cannot be null");
+        }
+
+        this.rootCertificateInfo = rootCertificateInfo;
+        this.messageDigest = messageDigest;
+        this.keyGenerator = keyGenerator;
+        this.securityProviderTool = securityProviderTool;
+!!!278018.java!!!	load() : CertificateAndKey
+        // only generate the materials once, so they can can be saved if desired
+        return generatedCertificateAndKey.get();
+!!!278146.java!!!	generateRootCertificate() : CertificateAndKey
+        long generationStart = System.currentTimeMillis();
+
+        // create the public and private key pair that will be used to sign the generated certificate
+        KeyPair caKeyPair = keyGenerator.generate();
+
+        // delegate the creation and signing of the X.509 certificate to the certificate tool
+        CertificateAndKey certificateAndKey = securityProviderTool.createCARootCertificate(
+                rootCertificateInfo,
+                caKeyPair,
+                messageDigest);
+
+        long generationFinished = System.currentTimeMillis();
+
+        log.info("Generated CA root certificate and private key in {}ms. Key generator: {}. Signature algorithm: {}.",
+                generationFinished - generationStart, keyGenerator, messageDigest);
+
+        return certificateAndKey;
+!!!278274.java!!!	encodeRootCertificateAsPem() : String
+        return securityProviderTool.encodeCertificateAsPem(generatedCertificateAndKey.get().getCertificate());
+!!!278402.java!!!	encodePrivateKeyAsPem(in privateKeyPassword : String) : String
+        return securityProviderTool.encodePrivateKeyAsPem(generatedCertificateAndKey.get().getPrivateKey(), privateKeyPassword, DEFAULT_PEM_ENCRYPTION_ALGORITHM);
+!!!278530.java!!!	saveRootCertificateAsPemFile(inout file : File) : void
+        String pemEncodedCertificate = securityProviderTool.encodeCertificateAsPem(generatedCertificateAndKey.get().getCertificate());
+
+        EncryptionUtil.writePemStringToFile(file, pemEncodedCertificate);
+!!!278658.java!!!	savePrivateKeyAsPemFile(inout file : File, in passwordForPrivateKey : String) : void
+        String pemEncodedPrivateKey = securityProviderTool.encodePrivateKeyAsPem(generatedCertificateAndKey.get().getPrivateKey(), passwordForPrivateKey, DEFAULT_PEM_ENCRYPTION_ALGORITHM);
+
+        EncryptionUtil.writePemStringToFile(file, pemEncodedPrivateKey);
+!!!278786.java!!!	saveRootCertificateAndKey(in keyStoreType : String, inout file : File, in privateKeyAlias : String, in password : String) : void
+        CertificateAndKey certificateAndKey = generatedCertificateAndKey.get();
+
+        KeyStore keyStore = securityProviderTool.createRootCertificateKeyStore(keyStoreType, certificateAndKey, privateKeyAlias, password);
+
+        securityProviderTool.saveKeyStore(file, keyStore, password);
+!!!278914.java!!!	builder() : RootCertificateGenerator::Builder
+        return new Builder();
+!!!279682.java!!!	getDefaultCommonName() : String
+        String hostname;
+        try {
+            hostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            hostname = "localhost";
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+
+        String currentDateTime = dateFormat.format(new Date());
+
+        String defaultCN = "Generated CA (" + hostname + ") " + currentDateTime;
+
+        // CN fields can only be 64 characters
+        return defaultCN.length() <= 64 ? defaultCN : defaultCN.substring(0, 63);

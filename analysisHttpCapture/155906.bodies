@@ -1,0 +1,7 @@
+class KeyStoreAccessException
+!!!284034.java!!!	KeyStoreAccessException(in message : String)
+        super(message);
+!!!284162.java!!!	KeyStoreAccessException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!284290.java!!!	KeyStoreAccessException(inout cause : Throwable)
+        super(cause);

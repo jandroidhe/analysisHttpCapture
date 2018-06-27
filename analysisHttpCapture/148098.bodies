@@ -1,0 +1,43 @@
+class HarResponse
+!!!244482.java!!!	HarResponse(in status : int, in statusText : String, in httpVersion : String)
+        this.status = status;
+        this.statusText = statusText;
+        this.httpVersion = httpVersion;
+!!!244610.java!!!	getStatus() : int
+        return status;
+!!!244738.java!!!	setStatus(in status : int) : void
+        this.status = status;
+!!!244866.java!!!	getStatusText() : String
+        return statusText;
+!!!244994.java!!!	setStatusText(in statusText : String) : void
+        this.statusText = statusText;
+!!!245122.java!!!	getHttpVersion() : String
+        return httpVersion;
+!!!245250.java!!!	setHttpVersion(in httpVersion : String) : void
+        this.httpVersion = httpVersion;
+!!!245378.java!!!	getCookies() : HarCookie
+        return cookies;
+!!!245506.java!!!	getHeaders() : HarNameValuePair
+        return headers;
+!!!245634.java!!!	getContent() : HarContent
+        return content;
+!!!245762.java!!!	getRedirectURL() : String
+        return redirectURL;
+!!!245890.java!!!	setRedirectURL(in redirectURL : String) : void
+        this.redirectURL = redirectURL;
+!!!246018.java!!!	getHeadersSize() : long
+        return headersSize;
+!!!246146.java!!!	setHeadersSize(in headersSize : long) : void
+        this.headersSize = headersSize;
+!!!246274.java!!!	getBodySize() : long
+        return bodySize;
+!!!246402.java!!!	setBodySize(in bodySize : long) : void
+        this.bodySize = bodySize;
+!!!246530.java!!!	getComment() : String
+        return comment;
+!!!246658.java!!!	setComment(in comment : String) : void
+        this.comment = comment;
+!!!246786.java!!!	getError() : String
+        return error;
+!!!246914.java!!!	setError(in error : String) : void
+        this.error = error;

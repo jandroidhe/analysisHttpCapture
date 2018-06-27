@@ -1,0 +1,38 @@
+class Authority
+!!!317186.java!!!	Authority()
+        keyStoreDir = new File(Environment.getExternalStorageDirectory() + "/har/");
+        alias = "littleproxy-mitm"; // proxy id
+        password = "Be Your Own Lantern".toCharArray();
+        organization = "LittleProxy-mitm"; // proxy name
+        commonName = organization + ", describe proxy here"; // MITM is bad
+                                                             // normally
+        organizationalUnitName = "Certificate Authority";
+        certOrganization = organization; // proxy name
+        certOrganizationalUnitName = organization
+                + ", describe proxy purpose here, since Man-In-The-Middle is bad normally.";
+!!!317314.java!!!	Authority(inout keyStoreDir : File, in alias : String, inout password : char, in commonName : String, in organization : String, in organizationalUnitName : String, in certOrganization : String, in certOrganizationalUnitName : String)
+        super();
+        this.keyStoreDir = keyStoreDir;
+        this.alias = alias;
+        this.password = password;
+        this.commonName = commonName;
+        this.organization = organization;
+        this.organizationalUnitName = organizationalUnitName;
+        this.certOrganization = certOrganization;
+        this.certOrganizationalUnitName = certOrganizationalUnitName;
+!!!317442.java!!!	aliasFile(in fileExtension : String) : File
+        return new File(keyStoreDir, alias + fileExtension);
+!!!317570.java!!!	alias() : String
+        return alias;
+!!!317698.java!!!	password() : char
+        return password;
+!!!317826.java!!!	commonName() : String
+        return commonName;
+!!!317954.java!!!	organization() : String
+        return organization;
+!!!318082.java!!!	organizationalUnitName() : String
+        return organizationalUnitName;
+!!!318210.java!!!	certOrganisation() : String
+        return certOrganization;
+!!!318338.java!!!	certOrganizationalUnitName() : String
+        return certOrganizationalUnitName;

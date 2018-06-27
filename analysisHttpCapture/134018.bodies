@@ -1,0 +1,4 @@
+class Receiver
+!!!148994.java!!!	onReceive(inout context : Context, inout intent : Intent) : void
+            initProxyWebView();
+            Log.i("~~~~", "Receiver initProxyWebView");

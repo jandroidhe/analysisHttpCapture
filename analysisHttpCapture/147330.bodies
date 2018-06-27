@@ -1,0 +1,15 @@
+class ClientUtil
+!!!223106.java!!!	createNativeCacheManipulatingResolver() : AdvancedHostResolver
+        return new NativeCacheManipulatingResolver();
+!!!223234.java!!!	createNativeResolver() : AdvancedHostResolver
+        return new NativeResolver();
+!!!223362.java!!!	createDnsJavaResolver() : AdvancedHostResolver
+        return new DnsJavaResolver();
+!!!223490.java!!!	createDnsJavaWithNativeFallbackResolver() : AdvancedHostResolver
+        return new ChainedHostResolver(ImmutableList.of(new DnsJavaResolver(), new NativeCacheManipulatingResolver()));
+!!!223618.java!!!	getConnectableAddress() : InetAddress
+        try {
+            return InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException("Could not resolve localhost", e);
+        }

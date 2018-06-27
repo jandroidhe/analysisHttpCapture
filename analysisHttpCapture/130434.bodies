@@ -1,0 +1,18 @@
+class OnGlobalLayoutListener
+!!!136322.java!!!	OnGlobalLayoutListener(inout view : View)
+            mView = view;
+!!!136450.java!!!	onGlobalLayout() : void
+            int currentHeight = mView.getHeight();
+            if (currentHeight < mLastHeightOfContainer) { // 软键盘打开
+                if (mHeightOfVisibility == 0) {
+                    mHeightOfVisibility = currentHeight;
+                }
+                isKeyboardOpen = true;
+            } else if (currentHeight > mLastHeightOfContainer && mLastHeightOfContainer != 0) { // 软键盘关闭
+                isKeyboardOpen = false;
+                // 隐藏搜索框
+                if (shouldExitSearchView) {
+                    searchItem.collapseActionView();
+                }
+            }
+            mLastHeightOfContainer = currentHeight;

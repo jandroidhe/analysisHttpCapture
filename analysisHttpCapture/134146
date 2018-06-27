@@ -1,0 +1,1599 @@
+format 76
+"util" // source::main::java::net::lightbody::bmp::util
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/util/"
+  java_package "net.lightbody.bmp.util"
+  classview 132610 "util"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 152066 "HttpMessageContents"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Helper class to wrap the contents of an {@link io.netty.handler.codec.http.HttpMessage}. Contains convenience methods to extract and
+manipulate the contents of the wrapped {@link io.netty.handler.codec.http.HttpMessage}.
+
+TODO: Currently this class only wraps FullHttpMessages, since it must modify the Content-Length header; determine if this may be applied to chunked messages as well"
+      attribute 220802 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(HttpMessageContents.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 220930 "httpMessage"
+	const_attribute private explicit_type "FullHttpMessage"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 221058 "textContents"
+	volatile private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment " caches for contents, to avoid repeated re-extraction of data"
+      end
+
+      attribute 221186 "binaryContents"
+	volatile private explicit_type "byte"
+	multiplicity "[]"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 313730 "HttpMessageContents"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "httpMessage" explicit_type "FullHttpMessage"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 313858 "setTextContents"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "newContents" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces the contents of the wrapped HttpMessage with the specified text contents, encoding them in the character set specified by the
+message's Content-Type header. Note that this method does not update the Content-Type header, so if the content type will change as a
+result of this call, the Content-Type header should be updated before calling this method.
+
+@param newContents new message contents"
+      end
+
+      operation 313986 "setBinaryContents"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newBinaryContents" explicit_type "byte"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces the contents of the wrapped HttpMessage with the specified binary contents. Note that this method does not update the
+Content-Type header, so if the content type will change as a result of this call, the Content-Type header should be updated before
+calling this method.
+
+@param newBinaryContents new message contents"
+      end
+
+      operation 314114 "getTextContents"
+	public explicit_return_type "String"
+	nparams 0
+	nexceptions 1
+	  explicit_exception "java.nio.charset.UnsupportedCharsetException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the contents of this message as a String, decoded according to the message's Content-Type header. This method caches
+the contents, so repeated calls to this method should not incur a penalty; however, modifications to the message contents
+outside of this class will result in stale data returned from this method.
+
+@return String representation of the entity body
+@throws java.nio.charset.UnsupportedCharsetException if the character set declared in the message is not supported on this platform"
+      end
+
+      operation 314242 "getBinaryContents"
+	public explicit_return_type "byte"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the binary contents of this message. This method caches the contents, so repeated calls to this method should not incur a
+penalty; however, modifications to the message contents outside of this class will result in stale data returned from this method.
+
+@return binary contents of the entity body"
+      end
+
+      operation 314370 "getContentType"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the Content-Type header of this message. If no Content-Type is present, returns the assumed default Content-Type (see
+{@link BrowserMobHttpUtil#UNKNOWN_CONTENT_TYPE}).
+
+@return the message's content type"
+      end
+
+      operation 314498 "getCharset"
+	public explicit_return_type "Charset"
+	nparams 0
+	nexceptions 1
+	  explicit_exception "java.nio.charset.UnsupportedCharsetException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the character set of the entity body. If the Content-Type is not a textual type, this value is meaningless.
+If no character set is specified, this method will return the default ISO-8859-1 character set. If the Content-Type
+specifies a character set, but the character set is not supported on this platform, this method throws an
+{@link java.nio.charset.UnsupportedCharsetException}.
+
+@return the entity body's character set
+@throws java.nio.charset.UnsupportedCharsetException if the character set declared in the message is not supported on this platform"
+      end
+
+      operation 314626 "isText"
+	public explicit_return_type "boolean"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if this message's Content-Type header indicates that it contains a textual data type. See {@link BrowserMobHttpUtil#hasTextualContent(String)}.
+
+@return true if the Content-Type header is a textual type, otherwise false"
+      end
+    end
+
+    class 152194 "HttpMessageInfo"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Encapsulates additional HTTP message data passed to request and response filters."
+      attribute 221314 "originalRequest"
+	const_attribute private explicit_type "HttpRequest"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 221442 "channelHandlerContext"
+	const_attribute private explicit_type "ChannelHandlerContext"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 221570 "isHttps"
+	const_attribute private explicit_type "boolean"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 221698 "url"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 221826 "originalUrl"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 314754 "HttpMessageInfo"
+	public explicit_return_type ""
+	nparams 5
+	  param inout name "originalRequest" explicit_type "HttpRequest"
+	  param inout name "channelHandlerContext" explicit_type "ChannelHandlerContext"
+	  param inout name "isHttps" explicit_type "boolean"
+	  param in name "url" explicit_type "String"
+	  param in name "originalUrl" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 314882 "getOriginalRequest"
+	public explicit_return_type "HttpRequest"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The original request from the client. Does not reflect any modifications from previous filters."
+      end
+
+      operation 315010 "getChannelHandlerContext"
+	public explicit_return_type "ChannelHandlerContext"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The {@link ChannelHandlerContext} for this request's client connection."
+      end
+
+      operation 315138 "isHttps"
+	public explicit_return_type "boolean"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if this is an HTTPS message."
+      end
+
+      operation 315266 "getOriginalUrl"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the full, absolute URL of the original request from the client for both HTTP and HTTPS URLs. The URL
+will not reflect modifications from this or other filters."
+      end
+
+      operation 315394 "getUrl"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the full, absolute URL of this request from the client for both HTTP and HTTPS URLs. The URL will reflect
+modifications from filters. If this method is called while a request filter is processing, it will reflect any
+modifications to the URL from all previous filters."
+      end
+    end
+
+    class 159618 "BrowserMobHttpUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility class with static methods for processing HTTP requests and responses."
+      attribute 219778 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(BrowserMobHttpUtil.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 219906 "UNKNOWN_CONTENT_TYPE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"application/octet-stream\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Default MIME content type if no Content-Type header is present. According to the HTTP 1.1 spec, section 7.2.1:
+<pre>
+    Any HTTP/1.1 message containing an entity-body SHOULD include a Content-Type header field defining the media
+    type of that body. If and only if the media type is not given by a Content-Type field, the recipient MAY
+    attempt to guess the media type via inspection of its content and/or the name extension(s) of the URI used to
+    identify the resource. If the media type remains unknown, the recipient SHOULD treat it as
+    type \"application/octet-stream\".
+</pre>
+"
+      end
+
+      attribute 220034 "DEFAULT_HTTP_CHARSET"
+	class_attribute const_attribute public explicit_type "Charset"
+	init_value " StandardCharsets.UTF_8"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The default charset when the Content-Type header does not specify a charset. According to RFC 7231 Appendix B:
+<pre>
+    The default charset of ISO-8859-1 for text media types has been
+    removed; the default is now whatever the media type definition says.
+    Likewise, special treatment of ISO-8859-1 has been removed from the
+    Accept-Charset header field.
+</pre>
+
+Technically, we would have to determine the charset on a per-content-type basis, but generally speaking, UTF-8 is a
+pretty safe default. (NOTE: In the previous HTTP/1.1 spec, section 3.7.1, the default charset was defined as ISO-8859-1.)
+"
+      end
+
+      attribute 220162 "DECOMPRESS_BUFFER_SIZE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 16192"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Buffer size when decompressing content.
+"
+      end
+
+      operation 311810 "getHeaderSize"
+	class_operation public explicit_return_type "long"
+	nparams 1
+	  param inout name "headers" explicit_type "HttpHeaders"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the size of the headers, including the 2 CRLFs at the end of the header block.
+
+@param headers headers to size
+@return length of the headers, in bytes"
+      end
+
+      operation 311938 "decompressContents"
+	class_operation public explicit_return_type "byte"
+	nparams 1
+	  param inout name "fullMessage" explicit_type "byte"
+	nexceptions 1
+	  exception class_ref 149506 // DecompressionException
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Decompresses the gzipped byte stream.
+
+@param fullMessage gzipped byte stream to decomress
+@return decompressed bytes
+@throws DecompressionException thrown if the fullMessage cannot be read or decompressed for any reason"
+      end
+
+      operation 312066 "hasTextualContent"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "contentType" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the content type string indicates textual content. Currently these are any Content-Types that start with one of the
+following:
+<pre>
+    text/
+    application/x-javascript
+    application/javascript
+    application/json
+    application/xml
+    application/xhtml+xml
+</pre>
+
+@param contentType contentType string to parse
+@return true if the content type is textual"
+      end
+
+      operation 312194 "extractReadableBytes"
+	class_operation public explicit_return_type "byte"
+	nparams 1
+	  param inout name "content" explicit_type "ByteBuf"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts all readable bytes from the ByteBuf as a byte array.
+
+@param content ByteBuf to read
+@return byte array containing the readable bytes from the ByteBuf"
+      end
+
+      operation 312322 "getContentAsString"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param inout name "content" explicit_type "byte"
+	  param inout name "charset" explicit_type "Charset"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Converts the byte array into a String based on the specified charset. The charset cannot be null.
+
+@param content bytes to convert to a String
+@param charset the character set of the content
+@return String containing the converted content
+@throws IllegalArgumentException if charset is null"
+      end
+
+      operation 312450 "readCharsetInContentTypeHeader"
+	class_operation public explicit_return_type "Charset"
+	nparams 1
+	  param in name "contentTypeHeader" explicit_type "String"
+	nexceptions 1
+	  exception class_ref 149762 // UnsupportedCharsetException
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reads the charset directly from the Content-Type header string. If the Content-Type header does not contain a charset,
+is malformed or unparsable, or if the header is null or empty, this method returns null.
+
+@param contentTypeHeader the Content-Type header string; can be null or empty
+@return the character set indicated in the contentTypeHeader, or null if the charset is not present or is not parsable
+@throws UnsupportedCharsetException if there is a charset specified in the content-type header, but it is not supported on this platform"
+      end
+
+      operation 312578 "getRawPathAndParamsFromRequest"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "httpRequest" explicit_type "HttpRequest"
+	nexceptions 1
+	  explicit_exception "URISyntaxException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the raw (unescaped) path + query string from the specified request. The returned path will not include
+the scheme, host, or port.
+
+@param httpRequest HTTP request
+@return the unescaped path + query string from the HTTP request
+@throws URISyntaxException if the path could not be parsed (due to invalid characters in the URI, etc.)"
+      end
+
+      operation 312706 "getRawPathAndParamsFromUri"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param in name "uriString" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "URISyntaxException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the raw (unescaped) path and query parameters from the URI, stripping out the scheme, host, and port.
+The path will begin with a leading '/'. For example, 'http://example.com/some/resource?param%20name=param%20value'
+would return '/some/resource?param%20name=param%20value'.
+
+@param uriString the URI to parse, containing a scheme, host, port, path, and query parameters
+@return the unescaped path and query parameters from the URI
+@throws URISyntaxException if the specified URI is invalid or cannot be parsed"
+      end
+
+      operation 312834 "isRedirect"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "httpResponse" explicit_type "HttpResponse"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the specified response is an HTTP redirect response, i.e. a 300, 301, 302, 303, or 307.
+
+@param httpResponse HTTP response
+@return true if the response is a redirect, otherwise false"
+      end
+
+      operation 312962 "removeMatchingPort"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param in name "hostWithPort" explicit_type "String"
+	  param in name "portNumber" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes a port from a host+port if the string contains the specified port. If the host+port does not contain
+a port, or contains another port, the string is returned unaltered. For example, if hostWithPort is the
+string {@code www.website.com:443}, this method will return {@code www.website.com}.
+
+<b>Note:</b> The hostWithPort string is not a URI and should not contain a scheme or resource. This method does
+not attempt to validate the specified host; it <i>might</i> throw IllegalArgumentException if there was a problem
+parsing the hostname, but makes no guarantees. In general, it should be validated externally, if necessary.
+
+@param hostWithPort string containing a hostname and optional port
+@param portNumber port to remove from the string
+@return string with the specified port removed, or the original string if it did not contain the portNumber"
+      end
+
+      operation 313090 "base64EncodeBasicCredentials"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param in name "username" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Base64-encodes the specified username and password for Basic Authorization for HTTP requests or upstream proxy
+authorization. The format of Basic auth is \"username:password\" as a base64 string.
+
+@param username username to encode
+@param password password to encode
+@return a base-64 encoded string containing <code>username:password</code>"
+      end
+    end
+
+    class 159746 "BrowserMobProxyUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "General utility class for functionality and classes used mostly internally by BrowserMob Proxy."
+      attribute 220290 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(BrowserMobProxyUtil.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 220418 "VERSION_CLASSPATH_RESOURCE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"/net/lightbody/bmp/version\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Classpath resource containing this build's version string.
+"
+      end
+
+      attribute 220546 "UNKNOWN_VERSION_STRING"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"UNKNOWN-VERSION\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Default value if the version string cannot be read.
+"
+      end
+
+      attribute 220674 "version"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " Suppliers.memoize(new Supplier<String>() {
+        @Override
+        public String get() {
+            return readVersionFileOnClasspath();
+        }
+    })"
+	stereotype "Supplier"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Singleton version string loader.
+"
+      end
+
+      operation 313218 "copyHarThroughPageRef"
+	class_operation public return_type class_ref 131202 // Har
+	nparams 2
+	  param inout name "har" type class_ref 131202 // Har
+	  param in name "pageRef" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Copies {@link HarEntry} and {@link HarPage} references from the specified har to a new har copy, up to and including
+the specified pageRef. Does not perform a \"deep copy\", so any subsequent modification to the entries or pages will
+be reflected in the copied har.
+
+@param har existing har to copy
+@param pageRef last page ID to copy
+@return copy of a {@link Har} with entries and pages from the original har, or null if the input har is null"
+      end
+
+      operation 313346 "getVersionString"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the version of BrowserMob Proxy, e.g. \"2.1.0\".
+
+@return BMP version string"
+      end
+
+      operation 313474 "readVersionFileOnClasspath"
+	class_operation private explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reads the version of this build from the classpath resource specified by {@link #VERSION_CLASSPATH_RESOURCE}.
+
+@return version string from the classpath version resource"
+      end
+    end
+
+    class 159874 "ClasspathResourceUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility class for dealing with classpath resources."
+      operation 313602 "classpathResourceToString"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param in name "resource" explicit_type "String"
+	  param inout name "charset" explicit_type "Charset"
+	nexceptions 1
+	  exception class_ref 156418 // UncheckedIOException
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves a classpath resource using the {@link ClasspathResourceUtil} classloader and converts it to a String using the specified
+character set. If any error occurs while reading the resource, this method throws
+{@link net.lightbody.bmp.mitm.exception.UncheckedIOException}. If the classpath resource cannot be found, this
+method throws a FileNotFoundException wrapped in an UncheckedIOException.
+
+@param resource classpath resource to load
+@param charset charset to use to decode the classpath resource
+@return a String
+@throws UncheckedIOException if the classpath resource cannot be found or cannot be read for any reason"
+      end
+    end
+
+    class 160002 "HttpObjectUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility class to assist with manipulation of {@link io.netty.handler.codec.http.HttpObject} instances, including
+{@link io.netty.handler.codec.http.HttpMessage} and {@link io.netty.handler.codec.http.HttpContent}."
+      attribute 221954 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(HttpObjectUtil.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 315522 "replaceTextHttpEntityBody"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "message" explicit_type "FullHttpMessage"
+	  param in name "newContents" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces the entity body of the message with the specified contents. Encodes the message contents according to charset in the message's
+Content-Type header, or uses {@link BrowserMobHttpUtil#DEFAULT_HTTP_CHARSET} if none is specified.
+<b>Note:</b> If the charset of the message is not supported on this platform, this will throw an {@link java.nio.charset.UnsupportedCharsetException}.
+
+TODO: Currently this method only works for FullHttpMessages, since it must modify the Content-Length header; determine if this may be applied to chunked messages as well
+
+@param message the HTTP message to manipulate
+@param newContents the new entity body contents
+@throws java.nio.charset.UnsupportedCharsetException if the charset in the message is not supported on this platform"
+      end
+
+      operation 315650 "replaceTextHttpEntityBody"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "message" explicit_type "LastHttpContent"
+	  param in name "newContents" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 315778 "replaceBinaryHttpEntityBody"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "message" explicit_type "FullHttpMessage"
+	  param inout name "newBinaryContents" explicit_type "byte"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces an HTTP entity body with the specified binary contents.
+TODO: Currently this method only works for FullHttpMessages, since it must modify the Content-Length header; determine if this may be applied to chunked messages as well
+
+@param message the HTTP message to manipulate
+@param newBinaryContents the new entity body contents"
+      end
+
+      operation 315906 "replaceBinaryHttpEntityBody"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "message" explicit_type "LastHttpContent"
+	  param inout name "newBinaryContents" explicit_type "byte"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316034 "extractHttpEntityBody"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param inout name "httpContent" explicit_type "HttpContent"
+	  param inout name "charset" explicit_type "Charset"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts the entity body from an HTTP content object, according to the specified character set. The character set cannot be null. If
+the character set is not specified or is unknown, you still must specify a suitable default charset (see {@link BrowserMobHttpUtil#DEFAULT_HTTP_CHARSET}).
+
+@param httpContent HTTP content object to extract the entity body from
+@param charset character set of the entity body
+@return String representation of the entity body
+@throws IllegalArgumentException if the charset is null"
+      end
+
+      operation 316162 "extractHttpEntityBody"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "httpMessage" explicit_type "FullHttpMessage"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts the entity body from a FullHttpMessage, according to the character set in the message's Content-Type header. If the Content-Type
+header is not present or does not specify a charset, assumes the ISO-8859-1 character set (see {@link BrowserMobHttpUtil#DEFAULT_HTTP_CHARSET}).
+
+@param httpMessage HTTP message to extract entity body from
+@return String representation of the entity body
+@throws java.nio.charset.UnsupportedCharsetException if there is a charset specified in the content-type header, but it is not supported"
+      end
+
+      operation 316290 "getCharsetFromMessage"
+	class_operation public explicit_return_type "Charset"
+	nparams 1
+	  param inout name "httpMessage" explicit_type "HttpMessage"
+	nexceptions 1
+	  exception class_ref 149762 // UnsupportedCharsetException
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Derives the charset from the Content-Type header in the HttpMessage. If the Content-Type header is not present or does not contain
+a character set, this method returns the ISO-8859-1 character set. See {@link BrowserMobHttpUtil#readCharsetInContentTypeHeader(String)}
+for more details.
+
+@param httpMessage HTTP message to extract charset from
+@return the charset associated with the HTTP message, or the default charset if none is present
+@throws UnsupportedCharsetException if there is a charset specified in the content-type header, but it is not supported"
+      end
+
+      operation 316418 "extractBinaryHttpEntityBody"
+	class_operation public explicit_return_type "byte"
+	nparams 1
+	  param inout name "httpContent" explicit_type "HttpContent"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts the binary contents from an HTTP message.
+
+@param httpContent HTTP content object to extract the entity body from
+@return binary contents of the HTTP message"
+      end
+    end
+
+    class 160130 "HttpUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Contains utility methods for netty {@link HttpRequest} and related objects."
+      operation 316546 "getHostFromRequest"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "httpRequest" explicit_type "HttpRequest"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Identify the host of an HTTP request. This method uses the URI of the request if possible, otherwise it attempts to find the host
+in the request headers.
+
+@param httpRequest HTTP request to parse the host from
+@return the host the request is connecting to, or null if no host can be found"
+      end
+
+      operation 316674 "getHostAndPortFromRequest"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "httpRequest" explicit_type "HttpRequest"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Gets the host and port from the specified request. Returns the host and port from the request URI if available,
+otherwise retrieves the host and port from the Host header.
+
+@param httpRequest HTTP request
+@return host and port of the request"
+      end
+
+      operation 316802 "startsWithHttpOrHttps"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "uri" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the string starts with http:// or https://.
+
+@param uri string to evaluate
+@return true if the string starts with http:// or https://"
+      end
+
+      operation 316930 "getHostAndPortFromUri"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param in name "uriString" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "URISyntaxException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the host and port from the specified URI.
+
+@param uriString URI to retrieve the host and port from
+@return the host and port from the URI as a String
+@throws URISyntaxException if the specified URI is invalid or cannot be parsed"
+      end
+
+      operation 317058 "parseHostHeader"
+	class_operation private explicit_return_type "String"
+	nparams 2
+	  param inout name "httpRequest" explicit_type "HttpRequest"
+	  param inout name "includePort" explicit_type "boolean"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves the host and, optionally, the port from the specified request's Host header.
+
+@param httpRequest HTTP request
+@param includePort when true, include the port
+@return the host and, optionally, the port specified in the request's Host header"
+      end
+    end
+  end
+
+  deploymentview 132610 "util"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 148994 "BrowserMobHttpUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.io.BaseEncoding;
+import com.google.common.net.HostAndPort;
+import com.google.common.net.MediaType;
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import net.lightbody.bmp.exception.DecompressionException;
+import net.lightbody.bmp.exception.UnsupportedCharsetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.InflaterInputStream;
+${definition}"
+      associated_classes
+	class_ref 159618 // BrowserMobHttpUtil
+      end
+    end
+
+    artifact 149122 "BrowserMobProxyUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import net.lightbody.bmp.core.har.Har;
+import net.lightbody.bmp.core.har.HarEntry;
+import net.lightbody.bmp.core.har.HarLog;
+import net.lightbody.bmp.core.har.HarPage;
+import net.lightbody.bmp.mitm.exception.UncheckedIOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
+${definition}"
+      associated_classes
+	class_ref 159746 // BrowserMobProxyUtil
+      end
+    end
+
+    artifact 149250 "ClasspathResourceUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.io.CharStreams;
+import net.lightbody.bmp.mitm.exception.UncheckedIOException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
+${definition}"
+      associated_classes
+	class_ref 159874 // ClasspathResourceUtil
+      end
+    end
+
+    artifact 149378 "HttpMessageContents"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import io.netty.handler.codec.http.FullHttpMessage;
+import io.netty.handler.codec.http.HttpHeaders;
+import net.lightbody.bmp.exception.UnsupportedCharsetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.nio.charset.Charset;
+${definition}"
+      associated_classes
+	class_ref 152066 // HttpMessageContents
+      end
+    end
+
+    artifact 149506 "HttpMessageInfo"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.HttpRequest;
+${definition}"
+      associated_classes
+	class_ref 152194 // HttpMessageInfo
+      end
+    end
+
+    artifact 149634 "HttpObjectUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import io.netty.handler.codec.http.FullHttpMessage;
+import io.netty.handler.codec.http.HttpContent;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMessage;
+import io.netty.handler.codec.http.LastHttpContent;
+import net.lightbody.bmp.exception.UnsupportedCharsetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.nio.charset.Charset;
+${definition}"
+      associated_classes
+	class_ref 160002 // HttpObjectUtil
+      end
+    end
+
+    artifact 149762 "HttpUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.net.HostAndPort;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Locale;
+${definition}"
+      associated_classes
+	class_ref 160130 // HttpUtil
+      end
+    end
+  end
+end

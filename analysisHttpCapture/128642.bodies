@@ -1,0 +1,21 @@
+class ResponseFilterRule
+!!!143618.java!!!	getRuleType() : ResponseFilterRule::RULE_TYPE
+        return ruleType;
+!!!143746.java!!!	setRuleType(inout ruleType : ResponseFilterRule::RULE_TYPE) : void
+        this.ruleType = ruleType;
+!!!143874.java!!!	getUrl() : String
+        return url;
+!!!144002.java!!!	setUrl(in url : String) : void
+        this.url = url;
+!!!144130.java!!!	getReplaceRegex() : String
+        return replaceRegex;
+!!!144258.java!!!	setReplaceRegex(in replaceRegex : String) : void
+        this.replaceRegex = replaceRegex;
+!!!144386.java!!!	getReplaceContent() : String
+        return replaceContent;
+!!!144514.java!!!	setReplaceContent(in replaceContent : String) : void
+        this.replaceContent = replaceContent;
+!!!144642.java!!!	getEnable() : Boolean
+        return isEnable;
+!!!144770.java!!!	setEnable(inout enable : Boolean) : void
+        isEnable = enable;

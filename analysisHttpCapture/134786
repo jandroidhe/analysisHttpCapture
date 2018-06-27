@@ -1,0 +1,923 @@
+format 76
+"manager" // source::main::java::net::lightbody::bmp::mitm::manager
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/mitm/manager/"
+  java_package "net.lightbody.bmp.mitm.manager"
+  classview 133250 "manager"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 156802 "ImpersonatingMitmManager"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link MitmManager} that will create SSLEngines for clients that present impersonated certificates for upstream servers. The impersonated
+certificates will be signed using the certificate and private key specified in an {@link #rootCertificateSource}. The impersonated server
+certificates will be created by the {@link #securityProviderTool} based on the {@link CertificateInfo} returned by the {@link #certificateInfoGenerator}."
+      classrelation 157058 // <realization>
+	relation 157058 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 157058 // <realization>
+	  b parent class_ref 156930 // MitmManager
+      end
+
+      attribute 211842 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(ImpersonatingMitmManager.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 211970 "serverCipherSuites"
+	const_attribute private explicit_type "String"
+	stereotype "List"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Cipher suites allowed on proxy connections to upstream servers.
+"
+      end
+
+      attribute 212098 "clientCipherSuites"
+	const_attribute private explicit_type "String"
+	stereotype "List"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Cipher suites allowed on client connections to the proxy.
+"
+      end
+
+      attribute 212226 "upstreamServerSslContext"
+	const_attribute private explicit_type "SslContext"
+	init_value " Suppliers.memoize(new Supplier<SslContext>() {
+        @Override
+        public SslContext get() {
+            return SslUtil.getUpstreamServerSslContext(serverCipherSuites, trustSource);
+        }
+    })"
+	stereotype "Supplier"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The SSLContext that will be used for communications with all upstream servers. This can be reused, so store it as a lazily-loaded singleton.
+"
+      end
+
+      attribute 212354 "sslContextCache"
+	const_attribute private explicit_type "String, SslContext"
+	stereotype "Cache"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Cache for impersonating netty SslContexts. SslContexts can be safely reused, so caching the impersonating contexts avoids
+repeatedly re-impersonating upstream servers.
+"
+      end
+
+      classrelation 157186 // serverKeyGenerator (<unidirectional association>)
+	relation 157186 --->
+	  a role_name "serverKeyGenerator" const_relation private
+	    comment "
+Generator used to create public and private keys for the server certificates.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157186 // serverKeyGenerator (<unidirectional association>)
+	  b parent class_ref 155010 // KeyGenerator
+      end
+
+      classrelation 157314 // rootCertificateSource (<unidirectional association>)
+	relation 157314 --->
+	  a role_name "rootCertificateSource" const_relation private
+	    comment "
+The source of the CA's {@link CertificateAndKey} that will be used to sign generated server certificates.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157314 // rootCertificateSource (<unidirectional association>)
+	  b parent class_ref 153730 // CertificateAndKeySource
+      end
+
+      attribute 212482 "serverCertificateMessageDigest"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The message digest used to sign the server certificate, such as SHA512.
+See https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest for information
+on supported message digests.
+"
+      end
+
+      classrelation 157442 // trustSource (<unidirectional association>)
+	relation 157442 --->
+	  a role_name "trustSource" const_relation private
+	    comment "
+The source of trusted root CAs. May be null, which disables all upstream certificate validation. Disabling upstream
+certificate validation allows attackers to intercept communciations and should only be used during testing.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157442 // trustSource (<unidirectional association>)
+	  b parent class_ref 146306 // TrustSource
+      end
+
+      classrelation 157570 // certificateInfoGenerator (<unidirectional association>)
+	relation 157570 --->
+	  a role_name "certificateInfoGenerator" const_relation private
+	    comment "
+Utility used to generate {@link CertificateInfo} objects when impersonating an upstream server.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157570 // certificateInfoGenerator (<unidirectional association>)
+	  b parent class_ref 153986 // CertificateInfoGenerator
+      end
+
+      classrelation 157698 // securityProviderTool (<unidirectional association>)
+	relation 157698 --->
+	  a role_name "securityProviderTool" const_relation private
+	    comment "
+Tool implementation that is used to generate, sign, and otherwise manipulate server certificates.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157698 // securityProviderTool (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      classrelation 157826 // rootCertificate (<unidirectional association>)
+	relation 157826 --->
+	  stereotype "Supplier"
+	  a role_name "rootCertificate" init_value " Suppliers.memoize(new Supplier<CertificateAndKey>() {
+        @Override
+        public CertificateAndKey get() {
+            return rootCertificateSource.load();
+        }
+    })" private
+	    comment "The CA root root certificate used to sign generated server certificates. {@link CertificateAndKeySource#load()}
+is only called once to retrieve the CA root certificate, which will be used to impersonate all server certificates.
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 157826 // rootCertificate (<unidirectional association>)
+	  b parent class_ref 153602 // CertificateAndKey
+      end
+
+      classrelation 157954 // statistics (<unidirectional association>)
+	relation 157954 --->
+	  a role_name "statistics" init_value " new CertificateGenerationStatistics()" const_relation private
+	    comment "
+Simple server certificate generation statistics.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157954 // statistics (<unidirectional association>)
+	  b parent class_ref 157058 // CertificateGenerationStatistics
+      end
+
+      operation 287362 "ImpersonatingMitmManager"
+	public explicit_return_type ""
+	nparams 10
+	  param inout name "rootCertificateSource" type class_ref 153730 // CertificateAndKeySource
+	  param inout name "serverKeyGenerator" type class_ref 155010 // KeyGenerator
+	  param in name "serverMessageDigest" explicit_type "String"
+	  param inout name "trustSource" type class_ref 146306 // TrustSource
+	  param in name "sslContextCacheConcurrencyLevel" explicit_type "int"
+	  param in name "cacheExpirationIntervalMs" explicit_type "long"
+	  param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	  param inout name "certificateInfoGenerator" type class_ref 153986 // CertificateInfoGenerator
+	  param inout name "serverCipherSuites" explicit_type "Collection<String>"
+	  param inout name "clientCipherSuites" explicit_type "Collection<String>"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} ${p6}, ${t7} ${p7}, ${t8} ${p8}, ${t9} ${p9}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new ImpersonatingMitmManager. In general, use {@link ImpersonatingMitmManager.Builder}
+to construct new instances."
+      end
+
+      operation 287490 "serverSslEngine"
+	public explicit_return_type "SSLEngine"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 287618 "serverSslEngine"
+	public explicit_return_type "SSLEngine"
+	nparams 2
+	  param in name "peerHost" explicit_type "String"
+	  param in name "peerPort" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 287746 "clientSslEngineFor"
+	public explicit_return_type "SSLEngine"
+	nparams 2
+	  param inout name "httpRequest" explicit_type "HttpRequest"
+	  param inout name "sslSession" explicit_type "SSLSession"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 287874 "getHostnameImpersonatingSslContext"
+	private explicit_return_type "SslContext"
+	nparams 2
+	  param in name "hostnameToImpersonate" explicit_type "String"
+	  param in name "sslSession" explicit_type "SSLSession"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}, final ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieves an SSLContext that impersonates the specified hostname. If an impersonating SSLContext has already been
+created for this hostname and is stored in the cache, it will be reused. Otherwise, a certificate will be created
+which impersonates the specified hostname.
+
+@param hostnameToImpersonate the hostname for which the impersonated SSLContext is being requested
+@param sslSession the upstream server SSLSession
+@return SSLContext which will present an impersonated certificate"
+      end
+
+      operation 288002 "createImpersonatingSslContext"
+	private explicit_return_type "SslContext"
+	nparams 2
+	  param inout name "sslSession" explicit_type "SSLSession"
+	  param in name "hostnameToImpersonate" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates an SSLContext that will present an impersonated certificate for the specified hostname to the client.
+This is a convenience method for {@link #createImpersonatingSslContext(CertificateInfo)} that generates the
+{@link CertificateInfo} from the specified hostname using the {@link #certificateInfoGenerator}.
+
+@param sslSession sslSession between the proxy and the upstream server
+@param hostnameToImpersonate hostname (supplied by the client's HTTP CONNECT) that will be impersonated
+@return an SSLContext presenting a certificate matching the hostnameToImpersonate"
+      end
+
+      operation 288130 "createImpersonatingSslContext"
+	private explicit_return_type "SslContext"
+	nparams 1
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates an {@link SslContext} using an impersonated certificate containing the information in the specified
+certificateInfo.
+
+@param certificateInfo certificate information to impersonate
+@return an SslContext that will present the impersonated certificate to the client"
+      end
+
+      operation 288258 "getStatistics"
+	public return_type class_ref 157058 // CertificateGenerationStatistics
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns basic certificate generation statistics for this MitmManager."
+      end
+
+      class 157186 "Builder"
+	visibility public 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	classrelation 158082 // rootCertificateSource (<unidirectional association>)
+	  relation 158082 --->
+	    a role_name "rootCertificateSource" init_value " RootCertificateGenerator.builder().build()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 158082 // rootCertificateSource (<unidirectional association>)
+	    b parent class_ref 153730 // CertificateAndKeySource
+	end
+
+	classrelation 158210 // serverKeyGenerator (<unidirectional association>)
+	  relation 158210 --->
+	    a role_name "serverKeyGenerator" init_value " new RSAKeyGenerator()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 158210 // serverKeyGenerator (<unidirectional association>)
+	    b parent class_ref 155010 // KeyGenerator
+	end
+
+	classrelation 158338 // trustSource (<unidirectional association>)
+	  relation 158338 --->
+	    a role_name "trustSource" init_value " TrustSource.defaultTrustSource()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 158338 // trustSource (<unidirectional association>)
+	    b parent class_ref 146306 // TrustSource
+	end
+
+	attribute 212610 "cacheConcurrencyLevel"
+	  private explicit_type "int"
+	  init_value " 8"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 212738 "cacheExpirationIntervalMs"
+	  private explicit_type "long"
+	  init_value " TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES)"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 212866 "serverMessageDigest"
+	  private explicit_type "String"
+	  init_value " MitmConstants.DEFAULT_MESSAGE_DIGEST"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	classrelation 158466 // securityProviderTool (<unidirectional association>)
+	  relation 158466 --->
+	    a role_name "securityProviderTool" init_value " new DefaultSecurityProviderTool()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 158466 // securityProviderTool (<unidirectional association>)
+	    b parent class_ref 154626 // SecurityProviderTool
+	end
+
+	classrelation 158594 // certificateInfoGenerator (<unidirectional association>)
+	  relation 158594 --->
+	    a role_name "certificateInfoGenerator" init_value " new HostnameCertificateInfoGenerator()" private
+	      cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 158594 // certificateInfoGenerator (<unidirectional association>)
+	    b parent class_ref 153986 // CertificateInfoGenerator
+	end
+
+	attribute 212994 "serverCiphers"
+	  private explicit_type "String"
+	  stereotype "Collection"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 213122 "clientCiphers"
+	  private explicit_type "String"
+	  stereotype "Collection"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	operation 288642 "rootCertificateSource"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "certificateAndKeySource" type class_ref 153730 // CertificateAndKeySource
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The source of the CA root certificate that will be used to sign the impersonated server certificates. Custom
+certificates can be used by supplying an implementation of {@link CertificateAndKeySource}, such as
+{@link net.lightbody.bmp.mitm.PemFileCertificateSource}. Alternatively, a new root certificate can be generated
+and saved (for later import into browsers) using {@link RootCertificateGenerator}.
+
+@param certificateAndKeySource impersonation materials source to use"
+	end
+
+	operation 288770 "serverMessageDigest"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param in name "serverMessageDigest" explicit_type "String"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The message digest that will be used when signing server certificates with the root certificate's private key."
+	end
+
+	operation 288898 "trustAllServers"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "trustAllServers" explicit_type "boolean"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "When true, no upstream certificate verification will be performed. <b>This will make it possible for
+attackers to MITM communications with the upstream server</b>, so use trustAllServers only when testing.
+Calling this method with 'true' will remove any trustSource set with {@link #trustSource(TrustSource)}.
+Calling this method with 'false' has no effect unless trustAllServers was previously called with 'true'.
+To set a specific TrustSource, use {@link #trustSource(TrustSource)}."
+	end
+
+	operation 289026 "trustSource"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "trustSource" type class_ref 146306 // TrustSource
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The TrustSource that supplies the trusted root CAs used to validate upstream servers' certificates."
+	end
+
+	operation 289154 "serverKeyGenerator"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "serverKeyGenerator" type class_ref 155010 // KeyGenerator
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The {@link KeyGenerator} that will be used to generate the server public and private keys."
+	end
+
+	operation 289282 "cacheConcurrencyLevel"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param in name "cacheConcurrencyLevel" explicit_type "int"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The concurrency level for the SSLContext cache. Increase this beyond the default value for high-volume proxy servers."
+	end
+
+	operation 289410 "cacheExpirationInterval"
+	  public return_type class_ref 157186 // Builder
+	  nparams 2
+	    param in name "cacheExpirationInterval" explicit_type "long"
+	    param inout name "timeUnit" explicit_type "TimeUnit"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The length of time SSLContexts with forged certificates will be kept in the cache."
+	end
+
+	operation 289538 "certificateInfoGenerator"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "certificateInfoGenerator" type class_ref 153986 // CertificateInfoGenerator
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The {@link CertificateInfoGenerator} that will populate {@link CertificateInfo} objects containing certificate data for
+forced X509Certificates."
+	end
+
+	operation 289666 "serverCiphers"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "serverCiphers" explicit_type "Collection<String>"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The cipher suites allowed on connections to upstream servers. Cipher suite names should be specified in Java
+format, rather than OpenSSL format (e.g., TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384), even when using OpenSSL.
+Ciphers will be preferred in the order they are returned by the collection's iterator."
+	end
+
+	operation 289794 "clientCiphers"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "clientCiphers" explicit_type "Collection<String>"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The cipher suites allowed on client connections to the proxy. Cipher suite names should be specified in Java
+format, rather than OpenSSL format (e.g., TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384), even when using OpenSSL.
+Ciphers will be preferred in the order they are returned by the collection's iterator."
+	end
+
+	operation 289922 "certificateTool"
+	  public return_type class_ref 157186 // Builder
+	  nparams 1
+	    param inout name "securityProviderTool" type class_ref 154626 // SecurityProviderTool
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The {@link SecurityProviderTool} implementation that will be used to generate certificates."
+	end
+
+	operation 290050 "build"
+	  public return_type class_ref 156802 // ImpersonatingMitmManager
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 288386 "builder"
+	class_operation public return_type class_ref 157186 // Builder
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method to return a new {@link Builder} instance default default values: a {@link RootCertificateGenerator}
+that dynamically generates an RSA root certificate and RSA server certificates."
+      end
+
+      operation 288514 "builderWithECC"
+	class_operation public return_type class_ref 157186 // Builder
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method to return a new {@link Builder} instance that will dynamically create EC root certificates and
+EC server certificates, but otherwise uses default values."
+      end
+    end
+  end
+
+  deploymentview 131586 "manager"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 145538 "ImpersonatingMitmManager"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import android.os.Build;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.SupportedCipherSuiteFilter;
+import net.lightbody.bmp.mitm.CertificateAndKey;
+import net.lightbody.bmp.mitm.CertificateAndKeySource;
+import net.lightbody.bmp.mitm.CertificateInfo;
+import net.lightbody.bmp.mitm.CertificateInfoGenerator;
+import net.lightbody.bmp.mitm.HostnameCertificateInfoGenerator;
+import net.lightbody.bmp.mitm.RootCertificateGenerator;
+import net.lightbody.bmp.mitm.TrustSource;
+import net.lightbody.bmp.mitm.exception.MitmException;
+import net.lightbody.bmp.mitm.exception.SslContextInitializationException;
+import net.lightbody.bmp.mitm.keys.ECKeyGenerator;
+import net.lightbody.bmp.mitm.keys.KeyGenerator;
+import net.lightbody.bmp.mitm.keys.RSAKeyGenerator;
+import net.lightbody.bmp.mitm.stats.CertificateGenerationStatistics;
+import net.lightbody.bmp.mitm.tools.DefaultSecurityProviderTool;
+import net.lightbody.bmp.mitm.tools.SecurityProviderTool;
+import net.lightbody.bmp.mitm.util.EncryptionUtil;
+import net.lightbody.bmp.mitm.util.MitmConstants;
+import net.lightbody.bmp.mitm.util.SslUtil;
+import net.lightbody.bmp.util.HttpUtil;
+import org.littleshoot.proxy.MitmManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLSession;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 156802 // ImpersonatingMitmManager
+      end
+    end
+  end
+end

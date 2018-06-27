@@ -1,0 +1,4 @@
+class ISO8601DateFormatter
+!!!251906.java!!!	serialize(inout value : Date, inout jgen : JsonGenerator, inout provider : SerializerProvider) : void
+        DateFormat df = (DateFormat) provider.getConfig().getDateFormat().clone();
+        jgen.writeString(df.format(value));

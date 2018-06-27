@@ -1,0 +1,6 @@
+class MitmConstants
+!!!298626.java!!!	is32BitJvm() : boolean
+        Integer bits = Integer.getInteger("sun.arch.data.model");
+
+        return bits != null && bits == 32;
+

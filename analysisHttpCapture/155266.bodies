@@ -1,0 +1,7 @@
+class CertificateCreationException
+!!!281474.java!!!	CertificateCreationException(in message : String)
+        super(message);
+!!!281602.java!!!	CertificateCreationException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!281730.java!!!	CertificateCreationException(inout cause : Throwable)
+        super(cause);

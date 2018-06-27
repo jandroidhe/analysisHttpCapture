@@ -1,0 +1,55 @@
+class AutoFocusManager
+!!!178178.java!!!	AutoFocusManager(inout context : Context, inout camera : Camera)
+        this.camera = camera;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String currentFocusMode = camera.getParameters().getFocusMode();
+        useAutoFocus = true;
+        Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
+        start();
+!!!178306.java!!!	onAutoFocus(inout success : boolean, inout theCamera : Camera) : void
+        focusing = false;
+        autoFocusAgainLater();
+!!!178434.java!!!	autoFocusAgainLater() : void
+        if (!stopped && outstandingTask == null) {
+            AutoFocusTask newTask = new AutoFocusTask();
+            try {
+                newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                outstandingTask = newTask;
+            } catch (RejectedExecutionException ree) {
+                Log.w(TAG, "Could not request auto focus", ree);
+            }
+        }
+!!!178562.java!!!	start() : void
+        if (useAutoFocus) {
+            outstandingTask = null;
+            if (!stopped && !focusing) {
+                try {
+                    camera.autoFocus(this);
+                    focusing = true;
+                } catch (RuntimeException re) {
+                    // Have heard RuntimeException reported in Android 4.0.x+; continue?
+                    Log.w(TAG, "Unexpected exception while focusing", re);
+                    // Try again later to keep cycle going
+                    autoFocusAgainLater();
+                }
+            }
+        }
+!!!178690.java!!!	cancelOutstandingTask() : void
+        if (outstandingTask != null) {
+            if (outstandingTask.getStatus() != AsyncTask.Status.FINISHED) {
+                outstandingTask.cancel(true);
+            }
+            outstandingTask = null;
+        }
+!!!178818.java!!!	stop() : void
+        stopped = true;
+        if (useAutoFocus) {
+            cancelOutstandingTask();
+            // Doesn't hurt to call this even if not focusing
+            try {
+                camera.cancelAutoFocus();
+            } catch (RuntimeException re) {
+                // Have heard RuntimeException reported in Android 4.0.x+; continue?
+                Log.w(TAG, "Unexpected exception while cancelling focusing", re);
+            }
+        }

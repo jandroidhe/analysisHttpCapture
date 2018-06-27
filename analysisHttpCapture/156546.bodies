@@ -1,0 +1,19 @@
+class ECKeyGenerator
+!!!286338.java!!!	ECKeyGenerator()
+        this.namedCurve = DEFAULT_NAMED_CURVE;
+!!!286466.java!!!	ECKeyGenerator(in namedCurve : String)
+        this.namedCurve = namedCurve;
+!!!286594.java!!!	generate() : KeyPair
+        // obtain an EC key pair generator for the specified named curve
+        KeyPairGenerator generator;
+        try {
+            generator = java.security.KeyPairGenerator.getInstance(EC_KEY_GEN_ALGORITHM);
+            ECGenParameterSpec ecName = new ECGenParameterSpec(namedCurve);
+            generator.initialize(ecName);
+        } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+            throw new KeyGeneratorException("Unable to generate EC public/private key pair using named curve: " + namedCurve, e);
+        }
+
+        return generator.generateKeyPair();
+!!!286722.java!!!	toString() : String
+        return "EC (" + namedCurve + ")";

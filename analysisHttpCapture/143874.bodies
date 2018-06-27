@@ -1,0 +1,4 @@
+class LDNetAsyncTaskResult
+!!!192770.java!!!	LDNetAsyncTaskResult(inout task : LDNetAsyncTaskEx, inout  : Data...data)
+	    mTask = task;
+	    mData = data;

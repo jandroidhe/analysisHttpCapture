@@ -1,0 +1,7 @@
+class ImportException
+!!!283010.java!!!	ImportException(in message : String)
+        super(message);
+!!!283138.java!!!	ImportException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!283266.java!!!	ImportException(inout cause : Throwable)
+        super(cause);

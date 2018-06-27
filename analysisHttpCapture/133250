@@ -1,0 +1,1881 @@
+format 76
+"dns" // source::main::java::net::lightbody::bmp::proxy::dns
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/proxy/dns/"
+  java_package "net.lightbody.bmp.proxy.dns"
+  classview 131714 "dns"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 145922 "AdvancedHostResolver"
+      visibility public stereotype "interface"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This interface defines the \"core\" DNS-manipulation functionality that BrowserMob Proxy supports, in addition to the basic name resolution
+capability defined in {@link net.lightbody.bmp.proxy.dns.HostResolver}. AdvancedHostResolvers should apply any remappings before attempting
+to resolve the hostname in the {@link HostResolver#resolve(String)} method."
+      classrelation 160898 // <generalisation>
+	relation 160898 ---|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 160898 // <generalisation>
+	  b parent class_ref 158722 // HostResolver
+      end
+
+      operation 304770 "remapHosts"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "hostRemappings" explicit_type "Map<String, String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces the host remappings in the existing list of remappings (if any) with the specified remappings. The remappings will be
+applied in the order specified by the Map's iterator.
+<p/>
+<b>Note:</b> The original hostnames must exactly match the requested hostname. It is not a domain or regular expression match.
+
+@param hostRemappings Map of {@code <original hostname, remapped hostname>}"
+      end
+
+      operation 304898 "remapHost"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "originalHost" explicit_type "String"
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remaps an individual host. If there are any existing remappings, the new remapping will be applied last, after all existing
+remappings are applied. If there is already a remapping for the specified originalHost, it will be removed before
+the new remapping is added to the end of the host remapping list (and will therefore be the last remapping applied).
+
+@param originalHost Original host to remap. Must exactly match the requested hostname (not a domain or regular expression match).
+@param remappedHost hostname that will replace originalHost"
+      end
+
+      operation 305026 "removeHostRemapping"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes the specified host remapping. If the remapping does not exist, this method has no effect.
+
+@param originalHost currently-remapped hostname"
+      end
+
+      operation 305154 "clearHostRemappings"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes all hostname remappings."
+      end
+
+      operation 305282 "getHostRemappings"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all host remappings in effect. Iterating over the returned Map is guaranteed to return remappings in the order in which the
+remappings are actually applied.
+
+@return Map of {@code <original hostname, remapped hostname>}"
+      end
+
+      operation 305410 "getOriginalHostnames"
+	public explicit_return_type "Collection<String>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the original address or addresses that are remapped to the specified remappedHost. Iterating over the returned Collection is
+guaranteed to return original mappings in the order in which the remappings are applied.
+
+@param remappedHost remapped hostname
+@return original hostnames that are remapped to the specified remappedHost, or an empty Collection if no remapping is defined to the remappedHost"
+      end
+
+      operation 305538 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Clears both the positive (successful DNS lookups) and negative (failed DNS lookups) cache."
+      end
+
+      operation 305666 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the positive (successful DNS lookup) timeout when making DNS lookups.
+<p/>
+<b>Note:</b> The timeUnit parameter does not guarantee the specified precision; implementations may need to reduce precision, depending on the underlying
+DNS implementation. For example, the Oracle JVM's DNS cache only supports timeouts in whole seconds, so specifying a timeout of 1200ms will result
+in a timeout of 1 second.
+
+@param timeout maximum lookup time
+@param timeUnit units of the timeout value"
+      end
+
+      operation 305794 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the negative (failed DNS lookup) timeout when making DNS lookups.
+<p/>
+<b>Note:</b> The timeUnit parameter does not guarantee the specified precision; implementations may need to reduce precision, depending on the underlying
+DNS implementation. For example, the Oracle JVM's DNS cache only supports timeouts in whole seconds, so specifying a timeout of 1200ms will result
+in a timeout of 1 second.
+
+@param timeout maximum lookup time
+@param timeUnit units of the timeout value"
+      end
+    end
+
+    class 147074 "DelegatingHostResolver"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A LittleProxy HostResolver that delegates to the specified {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} instance. This class
+serves as a bridge between {@link AdvancedHostResolver} and {@link org.littleshoot.proxy.HostResolver}."
+      classrelation 161410 // <realization>
+	relation 161410 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161410 // <realization>
+	  b parent class_ref 159106 // HostResolver
+      end
+
+      classrelation 161538 // resolver (<unidirectional association>)
+	relation 161538 --->
+	  a role_name "resolver" volatile private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 161538 // resolver (<unidirectional association>)
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      operation 309762 "DelegatingHostResolver"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "resolver" type class_ref 145922 // AdvancedHostResolver
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new resolver that will delegate to the specified resolver.
+
+@param resolver HostResolver to delegate to"
+      end
+
+      operation 309890 "getResolver"
+	public return_type class_ref 145922 // AdvancedHostResolver
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 310018 "setResolver"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "resolver" type class_ref 145922 // AdvancedHostResolver
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 310146 "resolve"
+	public explicit_return_type "InetSocketAddress"
+	nparams 2
+	  param in name "host" explicit_type "String"
+	  param in name "port" explicit_type "int"
+	nexceptions 1
+	  explicit_exception "UnknownHostException"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 158594 "AbstractHostNameRemapper"
+      abstract visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class that provides host name remapping capabilities for AdvancedHostResolvers. Subclasses must implement {@link #resolveRemapped(String)}
+instead of {@link net.lightbody.bmp.proxy.dns.HostResolver#resolve(String)}, which takes the remapped host as the input parameter."
+      classrelation 161026 // <realization>
+	relation 161026 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161026 // <realization>
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      attribute 218498 "remappedHostNames"
+	const_attribute private explicit_type "ImmutableMap<String, String>"
+	init_value " new AtomicReference<>(ImmutableMap.<String, String>of())"
+	stereotype "AtomicReference"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Host name remappings, maintained as a reference to an ImmutableMap. The ImmutableMap type is specified explicitly because ImmutableMap
+guarantees the iteration order of the map's entries. Specifying ImmutableMap also makes clear that the underlying map will never change,
+and that any modifications to the host name remappings will result in an entirely new map.
+
+The current implementation does not actually use any of the special features of AtomicReference, but it does rely on synchronizing on
+the AtomicReference when performing write operations. It could be replaced by a volatile reference to a Map and separate lock object.
+"
+      end
+
+      operation 305922 "remapHosts"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "hostRemappings" explicit_type "Map<String, String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306050 "remapHost"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "originalHost" explicit_type "String"
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306178 "removeHostRemapping"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306306 "clearHostRemappings"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306434 "getHostRemappings"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306562 "getOriginalHostnames"
+	public explicit_return_type "Collection<String>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306690 "applyRemapping"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Applies this class's host name remappings to the specified original host, returning the remapped host name (if any), or the originalHost
+if there is no remapped host name.
+
+@param originalHost original host name to resolve
+@return a remapped host, or the original host if no mapping exists"
+      end
+
+      operation 306818 "resolveRemapped"
+	abstract public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Resolves the specified remapped host. Subclasses should provide resolution by implementing this method, rather than overriding
+{@link net.lightbody.bmp.proxy.dns.HostResolver#resolve(String)}.
+
+@param remappedHost remapped hostname to resolve
+@return resolved InetAddresses, or an empty list if no addresses were found"
+      end
+
+      operation 306946 "resolve"
+	public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Retrieves the remapped hostname and resolves it using {@link #resolveRemapped(String)}.
+
+@param originalHost original hostname to resolve
+@return InetAddresses resolved from the remapped hostname, or an empty list if no addresses were found"
+      end
+    end
+
+    class 158722 "HostResolver"
+      visibility public stereotype "interface"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Defines the basic functionality that {@link net.lightbody.bmp.BrowserMobProxy} implementations require when resolving hostnames."
+      operation 304642 "resolve"
+	public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "host" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Resolves a hostname to one or more IP addresses. The iterator over the returned Collection is recommended to reflect the ordering
+returned by the underlying name lookup service. For example, if a DNS server returns three IP addresses, 1.1.1.1, 2.2.2.2, and
+3.3.3.3, corresponding to www.somehost.com, the returned Collection iterator is recommended to iterate in
+the order [1.1.1.1, 2.2.2.2, 3.3.3.3].
+
+@param host host to resolve
+@return resolved InetAddresses, or an empty collection if no addresses were found"
+      end
+    end
+
+    class 158850 "BasicHostResolver"
+      abstract visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link AdvancedHostResolver} that throws UnsupportedOperationException on all methods except {@link HostResolver#resolve(String)}.
+Use this class to supply a {@link HostResolver} to {@link net.lightbody.bmp.BrowserMobProxy#setHostNameResolver(AdvancedHostResolver)}
+if you do not need {@link AdvancedHostResolver} functionality."
+      classrelation 161154 // <realization>
+	relation 161154 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161154 // <realization>
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      operation 307074 "remapHosts"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "hostRemappings" explicit_type "Map<String, String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307202 "remapHost"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "originalHost" explicit_type "String"
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307330 "removeHostRemapping"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307458 "clearHostRemappings"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307586 "getHostRemappings"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307714 "getOriginalHostnames"
+	public explicit_return_type "Collection<String>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307842 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307970 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308098 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 158978 "ChainedHostResolver"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} that applies the AdvancedHostResolver methods to multiple implementations. Methods
+are applied to the resolvers in the order specified when the ChainedHostResolver is constructed. AdvancedHostResolver methods that modify the
+resolver are guaranteed to complete atomically over all resolvers. For example, if one thread makes a call to
+{@link #resolve(String)} while another thread is remapping hosts using
+{@link #remapHost(String, String)}, the call to {@link #resolve(String)} is guaranteed to
+apply the newly-remapped hosts to <i>all</i> resolvers managed by this ChainedHostResolver, or to <i>no</i> resolvers, but the call to
+{@link #resolve(String)} will never result in the host name remappings applied only to \"some\" of the chained resolvers.
+<p/>
+For getter methods (all read-only methods except {@link #resolve(String)}), the ChainedHostResolver returns results from the first chained resolver.
+<p/>
+The atomic write methods specified by AdvancedHostResolver are:
+<ul>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#remapHost(String, String)}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#remapHosts(java.util.Map)}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#removeHostRemapping(String)}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#clearHostRemappings()}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#setNegativeDNSCacheTimeout(int, java.util.concurrent.TimeUnit)}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#setPositiveDNSCacheTimeout(int, java.util.concurrent.TimeUnit)}</li>
+    <li>{@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver#clearDNSCache()}</li>
+</ul>"
+      classrelation 161282 // <realization>
+	relation 161282 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161282 // <realization>
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      attribute 218626 "resolvers"
+	const_attribute private explicit_type "? extends AdvancedHostResolver"
+	stereotype "List"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 218754 "readWriteLock"
+	const_attribute private explicit_type "ReadWriteLock"
+	init_value " new ReentrantReadWriteLock()"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 218882 "readLock"
+	const_attribute private explicit_type "Lock"
+	init_value " readWriteLock.readLock()"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 219010 "writeLock"
+	const_attribute private explicit_type "Lock"
+	init_value " readWriteLock.writeLock()"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 308226 "ChainedHostResolver"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "resolvers" explicit_type "Collection<? extends AdvancedHostResolver>"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a ChainedHostResolver that applies {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} methods to the specified resolvers
+in the order specified by the collection's iterator.
+
+@param resolvers resolvers to invoke, in the order specified by the collection's iterator"
+      end
+
+      operation 308354 "getResolvers"
+	public explicit_return_type "Collection<? extends AdvancedHostResolver>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the resolvers used by this ChainedHostResolver. The iterator of the collection is guaranteed to return the resolvers in the order
+in which they are queried.
+
+@return resolvers used by this ChainedHostResolver"
+      end
+
+      operation 308482 "remapHosts"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "hostRemappings" explicit_type "Map<String, String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308610 "remapHost"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "originalHost" explicit_type "String"
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308738 "removeHostRemapping"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "originalHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308866 "clearHostRemappings"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308994 "getHostRemappings"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309122 "getOriginalHostnames"
+	public explicit_return_type "Collection<String>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309250 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309378 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309506 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309634 "resolve"
+	public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "host" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 159234 "DnsJavaResolver"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} that uses dnsjava to perform DNS lookups. This implementation provides full
+cache manipulation capabilities."
+      classrelation 161666 // <generalisation>
+	relation 161666 ---|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161666 // <generalisation>
+	  b parent class_ref 158594 // AbstractHostNameRemapper
+      end
+
+      classrelation 161794 // <realization>
+	relation 161794 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161794 // <realization>
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      attribute 219138 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(DnsJavaResolver.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 219266 "cache"
+	const_attribute private explicit_type "Cache"
+	init_value " new Cache()"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "DNS cache used for dnsjava lookups.
+"
+      end
+
+      attribute 219394 "DNS_NETWORK_FAILURE_RETRY_COUNT"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " 5"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Maximum number of times to retry a DNS lookup due to a failure to connect to the DNS server.
+"
+      end
+
+      operation 310274 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310402 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310530 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310658 "resolveRemapped"
+	public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310786 "resolveHostByType"
+	protected explicit_return_type "Collection<InetAddress>"
+	nparams 2
+	  param in name "host" explicit_type "String"
+	  param in name "type" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Resolves the specified host using dnsjava, retrieving addresses of the specified type.
+
+@param host hostname to resolve
+@param type one of {@link org.xbill.DNS.Type}, typically {@link org.xbill.DNS.Type#A} (IPv4) or {@link org.xbill.DNS.Type#AAAA} (IPv6).
+@return resolved addresses, or an empty collection if no addresses could be resolved"
+      end
+    end
+
+    class 159362 "NativeCacheManipulatingResolver"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} that provides native JVM lookup using {@link net.lightbody.bmp.proxy.dns.NativeResolver}
+but also implements DNS cache manipulation functionality.
+<p/>
+<b>Important note:</b> The Oracle JVM does not provide any public facility to manipulate the JVM's DNS cache. This class uses reflection to forcibly
+manipulate the cache, which includes access to private class members that are not part of the published Java specification. As such, this
+implementation is brittle and may break in a future Java release, or may not work on non-Oracle JVMs. If this implementation cannot
+perform any of its operations due to a failure to find or set the relevant field using reflection, it will log a warning but will not
+throw an exception. You are using this class at your own risk! <b>JVM cache manipulation does not work on Windows</b> -- this class will behave exactly
+the same as {@link net.lightbody.bmp.proxy.dns.NativeResolver} on that platform."
+      classrelation 162178 // <generalisation>
+	relation 162178 ---|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 162178 // <generalisation>
+	  b parent class_ref 159490 // NativeResolver
+      end
+
+      attribute 219650 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(NativeCacheManipulatingResolver.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 311426 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311554 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311682 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 159490 "NativeResolver"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An {@link net.lightbody.bmp.proxy.dns.AdvancedHostResolver} that provides native JVM lookup using {@link java.net.InetAddress}.
+<b>This implementation does not provide any cache manipulation.</b> Attempting to manipulate the DNS cache will result in a DEBUG-level
+log statement and will not raise an exception. The {@link net.lightbody.bmp.proxy.dns.DnsJavaResolver} provides support for cache
+manipulation. If you absolutely need to manipulate the native JVM DNS cache, see
+{@link net.lightbody.bmp.proxy.dns.NativeCacheManipulatingResolver} for details."
+      classrelation 161922 // <generalisation>
+	relation 161922 ---|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 161922 // <generalisation>
+	  b parent class_ref 158594 // AbstractHostNameRemapper
+      end
+
+      classrelation 162050 // <realization>
+	relation 162050 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 162050 // <realization>
+	  b parent class_ref 145922 // AdvancedHostResolver
+      end
+
+      attribute 219522 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(NativeResolver.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 310914 "clearDNSCache"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311042 "setPositiveDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311170 "setNegativeDNSCacheTimeout"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "timeout" explicit_type "int"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311298 "resolveRemapped"
+	public explicit_return_type "Collection<InetAddress>"
+	nparams 1
+	  param in name "remappedHost" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132482 "dns"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 147842 "HostResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.net.InetAddress;
+import java.util.Collection;
+${definition}"
+      associated_classes
+	class_ref 158722 // HostResolver
+      end
+    end
+
+    artifact 147970 "AdvancedHostResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 145922 // AdvancedHostResolver
+      end
+    end
+
+    artifact 148098 "AbstractHostNameRemapper"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+${definition}"
+      associated_classes
+	class_ref 158594 // AbstractHostNameRemapper
+      end
+    end
+
+    artifact 148226 "BasicHostResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 158850 // BasicHostResolver
+      end
+    end
+
+    artifact 148354 "ChainedHostResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.collect.ImmutableList;
+import java.net.InetAddress;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+${definition}"
+      associated_classes
+	class_ref 158978 // ChainedHostResolver
+      end
+    end
+
+    artifact 148482 "DelegatingHostResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.collect.Iterables;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+import java.util.Collection;
+${definition}"
+      associated_classes
+	class_ref 147074 // DelegatingHostResolver
+      end
+    end
+
+    artifact 148610 "DnsJavaResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.net.InetAddresses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xbill.DNS.AAAARecord;
+import org.xbill.DNS.ARecord;
+import org.xbill.DNS.Cache;
+import org.xbill.DNS.DClass;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Type;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 159234 // DnsJavaResolver
+      end
+    end
+
+    artifact 148738 "NativeResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 159490 // NativeResolver
+      end
+    end
+
+    artifact 148866 "NativeCacheManipulatingResolver"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.util.LinkedHashMap;
+import java.util.concurrent.TimeUnit;
+${definition}"
+      associated_classes
+	class_ref 159362 // NativeCacheManipulatingResolver
+      end
+    end
+  end
+end

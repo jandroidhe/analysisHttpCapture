@@ -1,0 +1,36 @@
+class MergeTrustManager
+!!!323202.java!!!	MergeTrustManager(inout trustStore : KeyStore)
+        if (trustStore == null) {
+            throw new IllegalArgumentException("Missed trust store");
+        }
+        this.javaTm = defaultTrustManager(null);
+        this.addedTm = defaultTrustManager(trustStore);
+!!!323330.java!!!	getAcceptedIssuers() : X509Certificate
+        List<X509Certificate> issuers = new ArrayList<X509Certificate>();
+        issuers.addAll(Arrays.asList(addedTm.getAcceptedIssuers()));
+        issuers.addAll(Arrays.asList(javaTm.getAcceptedIssuers()));
+        return issuers.toArray(new X509Certificate[issuers.size()]);
+!!!323458.java!!!	checkServerTrusted(inout chain : X509Certificate, in authType : String) : void
+        try {
+            addedTm.checkServerTrusted(chain, authType);
+        } catch (CertificateException e) {
+            javaTm.checkServerTrusted(chain, authType);
+        }
+!!!323586.java!!!	checkClientTrusted(inout chain : X509Certificate, in authType : String) : void
+        try {
+            javaTm.checkClientTrusted(chain, authType);
+        } catch (CertificateException e) {
+            addedTm.checkClientTrusted(chain, authType);
+        }
+!!!323714.java!!!	defaultTrustManager(inout trustStore : KeyStore) : X509TrustManager
+        String tma = TrustManagerFactory.getDefaultAlgorithm();
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(tma);
+        tmf.init(trustStore);
+        TrustManager[] trustManagers = tmf.getTrustManagers();
+        for (TrustManager each : trustManagers) {
+            if (each instanceof X509TrustManager) {
+                return (X509TrustManager) each;
+            }
+        }
+        throw new IllegalStateException("Missed X509TrustManager in "
+                + Arrays.toString(trustManagers));

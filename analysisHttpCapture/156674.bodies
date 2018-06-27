@@ -1,0 +1,18 @@
+class RSAKeyGenerator
+!!!286850.java!!!	RSAKeyGenerator()
+        this.keySize = DEFAULT_KEY_SIZE;
+!!!286978.java!!!	RSAKeyGenerator(in keySize : int)
+        this.keySize = keySize;
+!!!287106.java!!!	generate() : KeyPair
+        // obtain an RSA key pair generator for the specified key size
+        KeyPairGenerator generator;
+        try {
+            generator = KeyPairGenerator.getInstance(RSA_KEY_GEN_ALGORITHM);
+            generator.initialize(keySize);
+        } catch (NoSuchAlgorithmException e) {
+            throw new KeyGeneratorException("Unable to generate " + keySize + "-bit RSA public/private key pair", e);
+        }
+
+        return generator.generateKeyPair();
+!!!287234.java!!!	toString() : String
+        return "RSA (" + keySize + ")";

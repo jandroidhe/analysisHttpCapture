@@ -1,0 +1,191 @@
+class CameraManager
+!!!182786.java!!!	CameraManager(inout context : Context)
+        this.context = context;
+        this.configManager = new CameraConfigurationManager(context);
+        previewCallback = new PreviewCallback(configManager);
+!!!182914.java!!!	openDriver(inout holder : SurfaceHolder) : void
+        Camera theCamera = camera;
+        if (theCamera == null) {
+
+            if (requestedCameraId >= 0) {
+                theCamera = OpenCameraInterface.open(requestedCameraId);
+            } else {
+                theCamera = OpenCameraInterface.open();
+            }
+
+            if (theCamera == null) {
+                throw new IOException();
+            }
+            camera = theCamera;
+        }
+        theCamera.setPreviewDisplay(holder);
+
+        if (!initialized) {
+            initialized = true;
+            configManager.initFromCameraParameters(theCamera);
+            if (requestedFramingRectWidth > 0 && requestedFramingRectHeight > 0) {
+                setManualFramingRect(requestedFramingRectWidth, requestedFramingRectHeight);
+                requestedFramingRectWidth = 0;
+                requestedFramingRectHeight = 0;
+            }
+        }
+
+        Camera.Parameters parameters = theCamera.getParameters();
+        String parametersFlattened = parameters == null ? null : parameters.flatten(); // Save these, temporarily
+        try {
+            configManager.setDesiredCameraParameters(theCamera, false);
+        } catch (RuntimeException re) {
+            // Driver failed
+            Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
+            Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
+            // Reset:
+            if (parametersFlattened != null) {
+                parameters = theCamera.getParameters();
+                parameters.unflatten(parametersFlattened);
+                try {
+                    theCamera.setParameters(parameters);
+                    configManager.setDesiredCameraParameters(theCamera, true);
+                } catch (RuntimeException re2) {
+                    // Well, darn. Give up
+                    Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
+                }
+            }
+        }
+
+!!!183042.java!!!	isOpen() : boolean
+        return camera != null;
+!!!183170.java!!!	closeDriver() : void
+        if (camera != null) {
+            camera.release();
+            camera = null;
+            // Make sure to clear these each time we close the camera, so that any scanning rect
+            // requested by intent is forgotten.
+            framingRect = null;
+            framingRectInPreview = null;
+        }
+!!!183298.java!!!	startPreview() : void
+        Camera theCamera = camera;
+        if (theCamera != null && !previewing) {
+            theCamera.startPreview();
+            previewing = true;
+            autoFocusManager = new AutoFocusManager(context, camera);
+        }
+!!!183426.java!!!	stopPreview() : void
+        if (autoFocusManager != null) {
+            autoFocusManager.stop();
+            autoFocusManager = null;
+        }
+        if (camera != null && previewing) {
+            camera.stopPreview();
+            previewCallback.setHandler(null, 0);
+            previewing = false;
+        }
+!!!183554.java!!!	setTorch(inout newSetting : boolean) : void
+        if (newSetting != configManager.getTorchState(camera)) {
+            if (camera != null) {
+                if (autoFocusManager != null) {
+                    autoFocusManager.stop();
+                }
+                configManager.setTorch(camera, newSetting);
+                if (autoFocusManager != null) {
+                    autoFocusManager.start();
+                }
+            }
+        }
+!!!183682.java!!!	requestPreviewFrame(inout handler : Handler, in message : int) : void
+        Camera theCamera = camera;
+        if (theCamera != null && previewing) {
+            previewCallback.setHandler(handler, message);
+            theCamera.setOneShotPreviewCallback(previewCallback);
+        }
+!!!183810.java!!!	getFramingRect() : Rect
+        if (framingRect == null) {
+            if (camera == null) {
+                return null;
+            }
+            Point screenResolution = configManager.getScreenResolution();
+            if (screenResolution == null) {
+                // Called early, before init even finished
+                return null;
+            }
+
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            //int width = (int) (metrics.widthPixels * 0.6);
+            //int height = (int) (width * 0.9);
+
+            int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
+            int height = width;
+            //int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+
+            int leftOffset = (screenResolution.x - width) / 2;
+            int topOffset = (screenResolution.y - height) / 2;
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+            Log.d(TAG, "Calculated framing rect: " + framingRect);
+        }
+        return framingRect;
+!!!183938.java!!!	findDesiredDimensionInRange(in resolution : int, in hardMin : int, in hardMax : int) : int
+        int dim = 5 * resolution / 8; // Target 5/8 of each dimension
+        if (dim < hardMin) {
+            return hardMin;
+        }
+        if (dim > hardMax) {
+            return hardMax;
+        }
+        return dim;
+!!!184066.java!!!	getFramingRectInPreview() : Rect
+        if (framingRectInPreview == null) {
+            Rect framingRect = getFramingRect();
+            if (framingRect == null) {
+                return null;
+            }
+            Rect rect = new Rect(framingRect);
+            Point cameraResolution = configManager.getCameraResolution();
+            Point screenResolution = configManager.getScreenResolution();
+            if (cameraResolution == null || screenResolution == null) {
+                // Called early, before init even finished
+                return null;
+            }
+
+            //rect.left = rect.left * cameraResolution.x / screenResolution.x;
+            //rect.right = rect.right * cameraResolution.x / screenResolution.x;
+            //rect.top = rect.top * cameraResolution.y / screenResolution.y;
+            //rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
+            rect.left = rect.left * cameraResolution.y / screenResolution.x;
+            rect.right = rect.right * cameraResolution.y / screenResolution.x;
+            rect.top = rect.top * cameraResolution.x / screenResolution.y;
+            rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
+            framingRectInPreview = rect;
+        }
+        return framingRectInPreview;
+!!!184194.java!!!	setManualCameraId(in cameraId : int) : void
+        if (initialized) {
+            throw new IllegalStateException();
+        } else {
+            requestedCameraId = cameraId;
+        }
+!!!184322.java!!!	setManualFramingRect(in width : int, in height : int) : void
+        if (initialized) {
+            Point screenResolution = configManager.getScreenResolution();
+            if (width > screenResolution.x) {
+                width = screenResolution.x;
+            }
+            if (height > screenResolution.y) {
+                height = screenResolution.y;
+            }
+            int leftOffset = (screenResolution.x - width) / 2;
+            int topOffset = (screenResolution.y - height) / 2;
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+            Log.d(TAG, "Calculated manual framing rect: " + framingRect);
+            framingRectInPreview = null;
+        } else {
+            requestedFramingRectWidth = width;
+            requestedFramingRectHeight = height;
+        }
+!!!184450.java!!!	buildLuminanceSource(inout data : byte, in width : int, in height : int) : PlanarYUVLuminanceSource
+        Rect rect = getFramingRectInPreview();
+        if (rect == null) {
+            return null;
+        }
+        // Go ahead and assume it's YUV rather than die.
+        return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
+                rect.width(), rect.height(), false);

@@ -1,0 +1,47 @@
+class Whitelist
+!!!303490.java!!!	Whitelist()
+        this.patterns = Collections.emptyList();
+        this.statusCode = -1;
+        this.enabled = false;
+!!!303618.java!!!	Whitelist(in statusCode : int)
+        this.patterns = Collections.emptyList();
+        this.statusCode = statusCode;
+        this.enabled = true;
+!!!303746.java!!!	Whitelist(inout patterns : String, in statusCode : int)
+        this(patterns == null ? null : Arrays.asList(patterns), statusCode);
+!!!303874.java!!!	Whitelist(inout patterns : Collection<String>, in statusCode : int)
+        if (patterns == null || patterns.isEmpty()) {
+            this.patterns = Collections.emptyList();
+        } else {
+            ImmutableList.Builder<Pattern> builder = ImmutableList.builder();
+            for (String pattern : patterns) {
+                builder.add(Pattern.compile(pattern));
+            }
+
+            this.patterns = builder.build();
+        }
+
+        this.statusCode = statusCode;
+
+        this.enabled = true;
+!!!304002.java!!!	isEnabled() : boolean
+        return enabled;
+!!!304130.java!!!	getPatterns() : Collection<Pattern>
+        return this.patterns;
+!!!304258.java!!!	getStatusCode() : int
+        return statusCode;
+!!!304386.java!!!	getResponseCode() : int
+        return getStatusCode();
+!!!304514.java!!!	matches(in url : String) : boolean
+        if (!enabled) {
+            return false;
+        }
+
+        for (Pattern pattern : getPatterns()) {
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.matches()) {
+                return true;
+            }
+        }
+
+        return false;

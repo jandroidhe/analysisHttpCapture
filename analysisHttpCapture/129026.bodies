@@ -1,0 +1,75 @@
+class ChangeFilterActivity
+!!!131970.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_change_filter);
+        ButterKnife.bind(this);
+        setupActionBar();
+
+        List<ResponseFilterRule> ruleList = ((SysApplication)getApplication()).ruleList;
+
+        contentFilterAdapter = new ContentFilterAdapter(this,ruleList);
+        listView.setAdapter(contentFilterAdapter);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(null);
+            }
+        });
+!!!132098.java!!!	setupActionBar() : void
+        setTitle("返回包注入");
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+!!!132226.java!!!	showDialog(in responseFilterRule : ResponseFilterRule) : void
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChangeFilterActivity.this);
+
+        View textEntryView = LayoutInflater.from(ChangeFilterActivity.this).inflate(R.layout.alert_resp_filter, null);
+        final EditText urlEditText = (EditText) textEntryView.findViewById(R.id.et_origin_url);
+        final EditText regexEditText = (EditText) textEntryView.findViewById(R.id.et_regex);
+        final EditText contentEditText = (EditText) textEntryView.findViewById(R.id.et_replace_result);
+        if(responseFilterRule!=null){
+            urlEditText.setText(responseFilterRule.getUrl());
+            regexEditText.setText(responseFilterRule.getReplaceRegex());
+            contentEditText.setText(responseFilterRule.getReplaceContent());
+            builder.setTitle("修改注入项");
+        }else{
+            builder.setTitle("新增注入项");
+        }
+
+        builder.setCancelable(true);
+        builder.setView(textEntryView);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(responseFilterRule!=null){
+                    responseFilterRule.setUrl(urlEditText.getText().toString());
+                    responseFilterRule.setReplaceRegex(regexEditText.getText().toString());
+                    responseFilterRule.setReplaceContent(contentEditText.getText().toString());
+                }else {
+                    if(urlEditText.getText().length()>0 && regexEditText.getText().length()>0
+                            && contentEditText.getText().length()>0) {
+                        ResponseFilterRule responseFilterRule = new ResponseFilterRule();
+                        responseFilterRule.setUrl(urlEditText.getText().toString());
+                        responseFilterRule.setReplaceRegex(regexEditText.getText().toString());
+                        responseFilterRule.setReplaceContent(contentEditText.getText().toString());
+                        ((SysApplication) getApplication()).ruleList.add(responseFilterRule);
+                    }
+                }
+                contentFilterAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+!!!132354.java!!!	onStop() : void
+        SharedPreferenceUtils.save(getApplicationContext(),
+                "response_filter",((SysApplication) getApplication()).ruleList);
+        super.onStop();
+!!!132482.java!!!	onOptionsItemSelected(inout item : MenuItem) : boolean
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);

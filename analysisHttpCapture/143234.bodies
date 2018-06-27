@@ -1,0 +1,84 @@
+class LDNetAsyncTaskEx
+!!!190978.java!!!	LDNetAsyncTaskEx()
+	mWorker = new LDNetWorkerRunnable<Params, Result>() {
+	    public Result call() throws Exception {
+		// Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+		return doInBackground(mParams);
+	    }
+	};
+
+	mFuture = new FutureTask<Result>(mWorker) {
+	    @SuppressWarnings("unchecked")
+	    @Override
+	    protected void done() {
+		Message message;
+		Result result = null;
+
+		try {
+		    result = get();
+		} catch (InterruptedException e) {
+		    android.util.Log.w(this.getClass().getSimpleName(), e);
+		} catch (ExecutionException e) {
+		    throw new RuntimeException(
+			    "An error occured while executing doInBackground()",
+			    e.getCause());
+		} catch (CancellationException e) {
+		    message = sHandler.obtainMessage(MESSAGE_POST_CANCEL,
+			    new LDNetAsyncTaskResult<Result>(LDNetAsyncTaskEx.this,
+				    (Result[]) null));
+		    message.sendToTarget();
+		    return;
+		} catch (Throwable t) {
+//		    throw new RuntimeException(
+//			    "An error occured while executing "
+//				    + "doInBackground()", t);
+		}
+
+		message = sHandler.obtainMessage(MESSAGE_POST_RESULT,
+			new LDNetAsyncTaskResult<Result>(LDNetAsyncTaskEx.this, result));
+		message.sendToTarget();
+	    }
+	};
+!!!191234.java!!!	getStatus() : LDNetAsyncTaskEx::Status
+	return mStatus;
+!!!192002.java!!!	isCancelled() : boolean
+	return mFuture.isCancelled();
+!!!192130.java!!!	cancel(inout mayInterruptIfRunning : boolean) : boolean
+	return mFuture.cancel(mayInterruptIfRunning);
+!!!192258.java!!!	execute(inout  : Params...params) : LDNetAsyncTaskEx
+	if (mStatus != Status.PENDING) {
+	    switch (mStatus) {
+	    case RUNNING:
+		throw new IllegalStateException("Cannot execute task:"
+			+ " the task is already running.");
+	    case FINISHED:
+		throw new IllegalStateException("Cannot execute task:"
+			+ " the task has already been executed "
+			+ "(a task can be executed only once)");
+	    }
+	}
+
+	mStatus = Status.RUNNING;
+
+	onPreExecute();
+
+	mWorker.mParams = params;
+	ThreadPoolExecutor sExecutor = getThreadPoolExecutor();
+	// ThreadPoolExecutor sExecutor = new ThreadPoolExecutor(CORE_POOL_SIZE,
+	// MAXIMUM_POOL_SIZE, KEEP_ALIVE, TimeUnit.SECONDS, sWorkQueue,
+	// sThreadFactory);
+	if (sExecutor != null) {
+	    sExecutor.execute(mFuture);
+	    return this;
+	} else {
+	    return null;
+	}
+!!!192514.java!!!	publishProgress(inout  : Progress...values) : void
+	sHandler.obtainMessage(MESSAGE_POST_PROGRESS,
+		new LDNetAsyncTaskResult<Progress>(this, values)).sendToTarget();
+!!!192642.java!!!	finish(inout result : Result) : void
+	if (isCancelled()) {
+	    result = null;
+	}
+	onPostExecute(result);
+	mStatus = Status.FINISHED;

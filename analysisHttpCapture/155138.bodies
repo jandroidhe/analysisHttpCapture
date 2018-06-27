@@ -1,0 +1,15 @@
+class Builder
+!!!279042.java!!!	certificateInfo(inout certificateInfo : CertificateInfo) : RootCertificateGenerator::Builder
+            this.certificateInfo = certificateInfo;
+            return this;
+!!!279170.java!!!	keyGenerator(inout keyGenerator : KeyGenerator) : RootCertificateGenerator::Builder
+            this.keyGenerator = keyGenerator;
+            return this;
+!!!279298.java!!!	messageDigest(in messageDigest : String) : RootCertificateGenerator::Builder
+            this.messageDigest = messageDigest;
+            return this;
+!!!279426.java!!!	certificateTool(inout securityProviderTool : SecurityProviderTool) : RootCertificateGenerator::Builder
+            this.securityProviderTool = securityProviderTool;
+            return this;
+!!!279554.java!!!	build() : RootCertificateGenerator
+            return new RootCertificateGenerator(certificateInfo, messageDigest, keyGenerator, securityProviderTool);

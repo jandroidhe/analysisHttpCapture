@@ -1,0 +1,58 @@
+class BrowserMobProxyUtil
+!!!313218.java!!!	copyHarThroughPageRef(inout har : Har, in pageRef : String) : Har
+        if (har == null) {
+            return null;
+        }
+
+        if (har.getLog() == null) {
+            return new Har();
+        }
+
+        // collect the page refs that need to be copied to new har copy.
+        Set<String> pageRefsToCopy = new HashSet<String>();
+
+        for (HarPage page : har.getLog().getPages()) {
+            pageRefsToCopy.add(page.getId());
+
+            if (pageRef.equals(page.getId())) {
+                break;
+            }
+        }
+
+        HarLog logCopy = new HarLog();
+
+        // copy every entry and page in the HarLog that matches a pageRefToCopy. since getEntries() and getPages() return
+        // lists, we are guaranteed that we will iterate through the pages and entries in the proper order
+        for (HarEntry entry : har.getLog().getEntries()) {
+            if (pageRefsToCopy.contains(entry.getPageref())) {
+                logCopy.addEntry(entry);
+            }
+        }
+
+        for (HarPage page : har.getLog().getPages()) {
+            if (pageRefsToCopy.contains(page.getId())) {
+                logCopy.addPage(page);
+            }
+        }
+
+        Har harCopy = new Har();
+        harCopy.setLog(logCopy);
+
+        return harCopy;
+!!!313346.java!!!	getVersionString() : String
+        return version.get();
+!!!313474.java!!!	readVersionFileOnClasspath() : String
+        String versionString;
+        try {
+            versionString = ClasspathResourceUtil.classpathResourceToString(VERSION_CLASSPATH_RESOURCE, StandardCharsets.UTF_8);
+        } catch (UncheckedIOException e) {
+            log.debug("Unable to load version from classpath resource: {}", VERSION_CLASSPATH_RESOURCE, e);
+            return UNKNOWN_VERSION_STRING;
+        }
+
+        if (versionString.isEmpty()) {
+            log.debug("Version file on classpath was empty or could not be read. Resource: {}", VERSION_CLASSPATH_RESOURCE);
+            return UNKNOWN_VERSION_STRING;
+        }
+
+        return versionString;

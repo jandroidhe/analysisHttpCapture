@@ -1,0 +1,7 @@
+class DnsTask
+!!!150530.java!!!	DnsTask(in url : String, inout resultTextView : TextView)
+        super(url, resultTextView);
+        this.url = url;
+        this.resultTextView = resultTextView;
+!!!150658.java!!!	getExecRunnable() : Runnable
+        return execRunnable;

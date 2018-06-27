@@ -1,0 +1,30 @@
+class PemFileCertificateSource
+!!!277378.java!!!	PemFileCertificateSource(inout certificateFile : File, inout privateKeyFile : File, in privateKeyPassword : String)
+        this.certificateFile = certificateFile;
+        this.privateKeyFile = privateKeyFile;
+        this.privateKeyPassword = privateKeyPassword;
+!!!277506.java!!!	certificateTool(inout securityProviderTool : SecurityProviderTool) : PemFileCertificateSource
+        this.securityProviderTool = securityProviderTool;
+        return this;
+!!!277634.java!!!	load() : CertificateAndKey
+        return certificateAndKey.get();
+!!!277762.java!!!	loadCertificateAndKeyFiles() : CertificateAndKey
+        if (certificateFile == null) {
+            throw new IllegalArgumentException("PEM root certificate file cannot be null");
+        }
+
+        if (privateKeyFile == null) {
+            throw new IllegalArgumentException("PEM private key file cannot be null");
+        }
+
+        if (privateKeyPassword == null) {
+            log.warn("Attempting to load private key from file without password. Private keys should be password-protected.");
+        }
+
+        String pemEncodedCertificate = EncryptionUtil.readPemStringFromFile(certificateFile);
+        X509Certificate certificate = securityProviderTool.decodePemEncodedCertificate(new StringReader(pemEncodedCertificate));
+
+        String pemEncodedPrivateKey = EncryptionUtil.readPemStringFromFile(privateKeyFile);
+        PrivateKey privateKey = securityProviderTool.decodePemEncodedPrivateKey(new StringReader(pemEncodedPrivateKey), privateKeyPassword);
+
+        return new CertificateAndKey(certificate, privateKey);

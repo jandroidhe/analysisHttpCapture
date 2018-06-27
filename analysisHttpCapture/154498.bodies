@@ -1,0 +1,75 @@
+class KeyStoreFileCertificateSource
+!!!276738.java!!!	KeyStoreFileCertificateSource(in keyStoreType : String, in keyStoreClasspathResource : String, in privateKeyAlias : String, in keyStorePassword : String)
+        if (keyStoreClasspathResource == null) {
+            throw new IllegalArgumentException("The classpath location of the KeyStore cannot be null");
+        }
+
+        if (keyStoreType == null) {
+            throw new IllegalArgumentException("KeyStore type cannot be null");
+        }
+
+        if (privateKeyAlias == null) {
+            throw new IllegalArgumentException("Alias of the private key in the KeyStore cannot be null");
+        }
+
+        this.keyStoreClasspathResource = keyStoreClasspathResource;
+        this.keyStoreFile = null;
+
+        this.keyStoreType = keyStoreType;
+        this.keyStorePassword = keyStorePassword;
+        this.privateKeyAlias = privateKeyAlias;
+!!!276866.java!!!	KeyStoreFileCertificateSource(in keyStoreType : String, inout keyStoreFile : File, in privateKeyAlias : String, in keyStorePassword : String)
+        if (keyStoreFile == null) {
+            throw new IllegalArgumentException("The KeyStore file cannot be null");
+        }
+
+        if (keyStoreType == null) {
+            throw new IllegalArgumentException("KeyStore type cannot be null");
+        }
+
+        if (privateKeyAlias == null) {
+            throw new IllegalArgumentException("Alias of the private key in the KeyStore cannot be null");
+        }
+
+        this.keyStoreFile = keyStoreFile;
+        this.keyStoreClasspathResource = null;
+
+        this.keyStoreType = keyStoreType;
+        this.keyStorePassword = keyStorePassword;
+        this.privateKeyAlias = privateKeyAlias;
+!!!276994.java!!!	certificateTool(inout securityProviderTool : SecurityProviderTool) : KeyStoreFileCertificateSource
+        this.securityProviderTool = securityProviderTool;
+        return this;
+!!!277122.java!!!	load() : CertificateAndKey
+        return certificateAndKey.get();
+
+!!!277250.java!!!	loadKeyStore() : CertificateAndKey
+        // load the KeyStore from the file or classpath resource, then delegate to a KeyStoreCertificateSource
+        KeyStore keyStore;
+        if (keyStoreFile != null) {
+            keyStore = securityProviderTool.loadKeyStore(keyStoreFile, keyStoreType, keyStorePassword);
+        } else {
+            // copy the classpath resource to a temporary file and load the keystore from that temp file
+            File tempKeyStoreFile = null;
+            try{
+                InputStream keystoreAsStream = KeyStoreFileCertificateSource.class.getResourceAsStream(keyStoreClasspathResource);
+                tempKeyStoreFile = File.createTempFile("keystore", "temp");
+                FileUtils.copyInputStreamToFile(keystoreAsStream, tempKeyStoreFile);
+
+                keyStore = securityProviderTool.loadKeyStore(tempKeyStoreFile, keyStoreType, keyStorePassword);
+            } catch (IOException e) {
+                throw new CertificateSourceException("Unable to open KeyStore classpath resource: " + keyStoreClasspathResource, e);
+            } finally {
+                if (tempKeyStoreFile != null) {
+                    try {
+                        FileUtils.forceDelete(tempKeyStoreFile);
+                    } catch (IOException e) {
+                        log.warn("Unable to delete temporary KeyStore file: {}.", tempKeyStoreFile.getAbsoluteFile());
+                    }
+                }
+            }
+        }
+
+        KeyStoreCertificateSource keyStoreCertificateSource = new KeyStoreCertificateSource(keyStore, privateKeyAlias, keyStorePassword);
+
+        return keyStoreCertificateSource.load();

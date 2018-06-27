@@ -1,0 +1,110 @@
+class SysApplication
+!!!129154.java!!!	onCreate() : void
+        super.onCreate();
+        initProxy();
+        // Gradle automatically generates proper variable as below.
+        UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
+        strategy.setAppChannel("GitHub");
+        Bugly.init(getApplicationContext(), "db9f598223", true);
+!!!129282.java!!!	initProxy() : void
+        try {
+            FileUtils.forceMkdir(new File(Environment.getExternalStorageDirectory() + "/har"));
+//            FileUtils.cleanDirectory(new File(Environment.getExternalStorageDirectory() + "/har"));
+//            FileUtils.forceDelete(new File(Environment.getExternalStorageDirectory() + "/test.har"));
+        } catch (IOException e) {
+            // test.har文件不存在
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startProxy();
+
+                Intent intent = new Intent();
+                intent.setAction("proxyfinished");
+                sendBroadcast(intent);
+            }
+        }).start();
+!!!129410.java!!!	onTerminate() : void
+        super.onTerminate();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("~~~","onTerminate");
+                proxy.stop();
+            }
+        }).start();
+!!!129538.java!!!	startProxy() : void
+        try {
+            proxy = new BrowserMobProxyServer();
+            proxy.setTrustAllServers(true);
+            proxy.start(8888);
+        } catch (Exception e) {
+            // 防止8888已被占用
+            Random rand = new Random();
+            int randNum = rand.nextInt(1000) + 8000;
+            proxyPort = randNum;
+
+            proxy = new BrowserMobProxyServer();
+            proxy.setTrustAllServers(true);
+            proxy.start(randNum);
+        }
+        Log.e("~~~", proxy.getPort() + "");
+
+
+        Object object = SharedPreferenceUtils.get(this.getApplicationContext(), "response_filter");
+        if (object != null && object instanceof List) {
+            ruleList = (List<ResponseFilterRule>) object;
+        }
+
+        SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        if(shp.getBoolean("enable_filter", false)) {
+            Log.e("~~~enable_filter", "");
+            initResponseFilter();
+        }
+
+        // 设置hosts
+        if(shp.getString("system_host", "").length()>0){
+            AdvancedHostResolver advancedHostResolver = proxy.getHostNameResolver();
+            for (String temp : shp.getString("system_host", "").split("\\n")){
+                if(temp.split(" ").length==2) {
+                    advancedHostResolver.remapHost(temp.split(" ")[1],temp.split(" ")[0]);
+                    Log.e("~~~~remapHost ",temp.split(" ")[1] +" " + temp.split(" ")[0]);
+                }
+            }
+            proxy.setHostNameResolver(advancedHostResolver);
+        }
+
+        proxy.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.REQUEST_COOKIES,
+                CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_HEADERS, CaptureType.REQUEST_COOKIES,
+                CaptureType.RESPONSE_CONTENT);
+
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
+                .format(new Date(System.currentTimeMillis()));
+        proxy.newHar(time);
+
+
+        isInitProxy = true;
+!!!129666.java!!!	stopProxy() : void
+        if(proxy!=null){
+            proxy.stop();
+        }
+!!!129794.java!!!	initResponseFilter() : void
+        try {
+            if(ruleList == null){
+                ResponseFilterRule rule = new ResponseFilterRule();
+                rule.setUrl("xw.qq.com/index.htm");
+                rule.setReplaceRegex("</head>");
+                rule.setReplaceContent("<script>alert('修改包测试')</script></head>");
+
+                ruleList = new ArrayList<>();
+                ruleList.add(rule);
+            }
+
+            DeviceUtils.changeResponseFilter(this,ruleList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }

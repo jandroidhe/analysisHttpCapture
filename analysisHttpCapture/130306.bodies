@@ -1,0 +1,4 @@
+class Receiver
+!!!136962.java!!!	onReceive(inout context : Context, inout intent : Intent) : void
+            installCert();
+            Log.i("~~~~", "Receiver installCert");

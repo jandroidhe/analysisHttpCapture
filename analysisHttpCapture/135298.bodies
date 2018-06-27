@@ -1,0 +1,7 @@
+class PingTask
+!!!151042.java!!!	PingTask(in url : String, inout resultTextView : TextView)
+        super(url, resultTextView);
+        this.url = url;
+        this.resultTextView = resultTextView;
+!!!151170.java!!!	getExecRunnable() : Runnable
+        return execRunnable;

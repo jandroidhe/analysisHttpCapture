@@ -1,0 +1,23 @@
+class PageBean
+!!!142466.java!!!	getIndex() : int
+        return index;
+!!!142594.java!!!	setIndex(in index : int) : void
+        this.index = index;
+!!!142722.java!!!	getName() : String
+        return name;
+!!!142850.java!!!	setName(in name : String) : void
+        this.name = name;
+!!!142978.java!!!	getCount() : String
+        return count+"请求";
+!!!143106.java!!!	getCountInt() : Integer
+        try{
+            return Integer.parseInt(count);
+        }catch (Exception e){
+            return 0;
+        }
+!!!143234.java!!!	setCount(in count : String) : void
+        this.count = count;
+!!!143362.java!!!	getSelected() : Boolean
+        return isSelected;
+!!!143490.java!!!	setSelected(inout selected : Boolean) : void
+        isSelected = selected;

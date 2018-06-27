@@ -1,0 +1,110 @@
+class ChainedHostResolver
+!!!308226.java!!!	ChainedHostResolver(inout resolvers : Collection<? extends AdvancedHostResolver>)
+        if (resolvers == null) {
+            this.resolvers = Collections.emptyList();
+        } else {
+            this.resolvers = ImmutableList.copyOf(resolvers);
+        }
+!!!308354.java!!!	getResolvers() : Collection<? extends AdvancedHostResolver>
+        return ImmutableList.copyOf(resolvers);
+!!!308482.java!!!	remapHosts(inout hostRemappings : Map<String, String>) : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.remapHosts(hostRemappings);
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!308610.java!!!	remapHost(in originalHost : String, in remappedHost : String) : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.remapHost(originalHost, remappedHost);
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!308738.java!!!	removeHostRemapping(in originalHost : String) : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.removeHostRemapping(originalHost);
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!308866.java!!!	clearHostRemappings() : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.clearHostRemappings();
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!308994.java!!!	getHostRemappings() : Map<String, String>
+        readLock.lock();
+        try {
+            if (resolvers.isEmpty()) {
+                return Collections.emptyMap();
+            } else {
+                return resolvers.get(0).getHostRemappings();
+            }
+        } finally {
+            readLock.unlock();
+        }
+!!!309122.java!!!	getOriginalHostnames(in remappedHost : String) : Collection<String>
+        readLock.lock();
+        try {
+            if (resolvers.isEmpty()) {
+                return Collections.emptyList();
+            } else {
+                return resolvers.get(0).getOriginalHostnames(remappedHost);
+            }
+        } finally {
+            readLock.unlock();
+        }
+!!!309250.java!!!	clearDNSCache() : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.clearDNSCache();
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!309378.java!!!	setPositiveDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.setPositiveDNSCacheTimeout(timeout, timeUnit);
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!309506.java!!!	setNegativeDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        writeLock.lock();
+        try {
+            for (AdvancedHostResolver resolver : resolvers) {
+                resolver.setNegativeDNSCacheTimeout(timeout, timeUnit);
+            }
+        } finally {
+            writeLock.unlock();
+        }
+!!!309634.java!!!	resolve(in host : String) : Collection<InetAddress>
+        readLock.lock();
+        try {
+            // attempt to resolve the host using all resolvers. returns the results from the first successful resolution.
+            for (AdvancedHostResolver resolver : resolvers) {
+                Collection<InetAddress> results = resolver.resolve(host);
+                if (!results.isEmpty()) {
+                    return results;
+                }
+            }
+
+            // no resolvers returned results
+            return Collections.emptyList();
+        } finally {
+            readLock.unlock();
+        }

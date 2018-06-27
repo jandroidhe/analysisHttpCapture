@@ -1,0 +1,7 @@
+class SslContextInitializationException
+!!!285058.java!!!	SslContextInitializationException(in message : String)
+        super(message);
+!!!285186.java!!!	SslContextInitializationException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!285314.java!!!	SslContextInitializationException(inout cause : Throwable)
+        super(cause);

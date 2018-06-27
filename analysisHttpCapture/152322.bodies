@@ -1,0 +1,29 @@
+class RequestFilterAdapter
+!!!266114.java!!!	RequestFilterAdapter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout requestFilter : RequestFilter)
+        super(originalRequest, ctx);
+
+        this.requestFilter = requestFilter;
+!!!266242.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        // only filter when the original HttpRequest comes through. the RequestFilterAdapter is not designed to filter
+        // any subsequent HttpContents.
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            HttpMessageContents contents;
+            if (httpObject instanceof FullHttpMessage) {
+                FullHttpMessage httpContent = (FullHttpMessage) httpObject;
+                contents = new HttpMessageContents(httpContent);
+            } else {
+                // the HTTP object is not a FullHttpMessage, which means that message contents are not available on this request and cannot be modified.
+                contents = null;
+            }
+
+            HttpMessageInfo messageInfo = new HttpMessageInfo(originalRequest, ctx, isHttps(), getFullUrl(httpRequest), getOriginalUrl());
+
+            HttpResponse response = requestFilter.filterRequest(httpRequest, contents, messageInfo);
+            if (response != null) {
+                return response;
+            }
+        }
+
+        return null;

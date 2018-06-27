@@ -1,0 +1,32 @@
+class TimeOutAsyncTask
+!!!153218.java!!!	TimeOutAsyncTask(inout task : TraceRouteWithPing::ExecutePingAsyncTask, in ttlTask : int)
+            this.task = task;
+            this.ttlTask = ttlTask;
+!!!153346.java!!!	doInBackground(inout  : Void...arg0) : Void
+            return null;
+!!!153474.java!!!	onPostExecute(inout result : Void) : void
+            if (handlerTimeout == null) {
+                handlerTimeout = new Handler();
+            }
+
+            // stop old timeout
+            if (runnableTimeout != null) {
+                handlerTimeout.removeCallbacks(runnableTimeout);
+            }
+            // define timeout
+            runnableTimeout = new Runnable() {
+                @Override
+                public void run() {
+                    if (task != null) {
+                        if (ttlTask == finishedTasks) {
+                            task.setCancelled(true);
+                            task.cancel(true);
+
+                        }
+                    }
+                }
+            };
+            // launch timeout after a delay
+            handlerTimeout.postDelayed(runnableTimeout, TIMEOUT);
+
+            super.onPostExecute(result);

@@ -1,0 +1,10 @@
+class InactivityAsyncTask
+!!!188930.java!!!	doInBackground(inout  : Object...objects) : Object
+            try {
+                Thread.sleep(INACTIVITY_DELAY_MS);
+                Log.i(TAG, "Finishing activity due to inactivity");
+                activity.finish();
+            } catch (InterruptedException e) {
+                // continue without killing
+            }
+            return null;

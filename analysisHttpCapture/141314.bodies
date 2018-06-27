@@ -1,0 +1,69 @@
+class DecodeHandler
+!!!186626.java!!!	DecodeHandler(inout activity : QrCodeScanActivity, inout hints : Map<DecodeHintType, Object>)
+        multiFormatReader = new MultiFormatReader();
+        multiFormatReader.setHints(hints);
+        this.activity = activity;
+!!!186754.java!!!	handleMessage(inout message : Message) : void
+        if (!running) {
+            return;
+        }
+        if (message.what ==  R.id.decode) {
+            decode((byte[]) message.obj, message.arg1, message.arg2);
+        } else if (message.what == R.id.quit) {
+            running = false;
+            Looper.myLooper().quit();
+        }
+!!!186882.java!!!	decode(inout data : byte, in width : int, in height : int) : void
+        long start = System.currentTimeMillis();
+        Result rawResult = null;
+
+        byte[] rotatedData = new byte[data.length];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                rotatedData[x * height + height - y - 1] = data[x + y * width];
+            }
+        }
+        int tmp = width; // Here we are swapping, that's the difference to #11
+        width = height;
+        height = tmp;
+
+        PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(rotatedData, width, height);
+        //PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
+        if (source != null) {
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            try {
+                rawResult = multiFormatReader.decodeWithState(bitmap);
+            } catch (ReaderException re) {
+                // continue
+            } finally {
+                multiFormatReader.reset();
+            }
+        }
+
+        Handler handler = activity.getHandler();
+        if (rawResult != null) {
+            // Don't log the barcode contents for security.
+            long end = System.currentTimeMillis();
+            Log.d(TAG, "Found barcode in " + (end - start) + " ms");
+            if (handler != null) {
+                Message message = Message.obtain(handler, R.id.decode_succeeded, rawResult);
+                Bundle bundle = new Bundle();
+                bundleThumbnail(source, bundle);
+                message.setData(bundle);
+                message.sendToTarget();
+            }
+        } else {
+            if (handler != null) {
+                Message message = Message.obtain(handler, R.id.decode_failed);
+                message.sendToTarget();
+            }
+        }
+!!!187010.java!!!	bundleThumbnail(inout source : PlanarYUVLuminanceSource, inout bundle : Bundle) : void
+        int[] pixels = source.renderThumbnail();
+        int width = source.getThumbnailWidth();
+        int height = source.getThumbnailHeight();
+        Bitmap bitmap = Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.ARGB_8888);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+        bundle.putByteArray(DecodeThread.BARCODE_BITMAP, out.toByteArray());
+        bundle.putFloat(DecodeThread.BARCODE_SCALED_FACTOR, (float) width / source.getWidth());

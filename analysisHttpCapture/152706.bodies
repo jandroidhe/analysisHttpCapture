@@ -1,0 +1,18 @@
+class ResolvedHostnameCacheFilter
+!!!266882.java!!!	ResolvedHostnameCacheFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext)
+        super(originalRequest, ctx);
+!!!267010.java!!!	proxyToServerResolutionSucceeded(in serverHostAndPort : String, inout resolvedRemoteAddress : InetSocketAddress) : void
+        // the address *should* always be resolved at this point
+        InetAddress resolvedAddress = resolvedRemoteAddress.getAddress();
+
+        if (resolvedAddress != null) {
+            // place the resolved host into the hostname cache, so subsequent requests will be able to identify the IP address
+            HostAndPort parsedHostAndPort = HostAndPort.fromString(serverHostAndPort);
+            String host = parsedHostAndPort.getHostText();
+
+            if (host != null && !host.isEmpty()) {
+                resolvedAddresses.put(host, resolvedAddress.getHostAddress());
+            }
+        }
+!!!267138.java!!!	getPreviouslyResolvedAddressForHost(in host : String) : String
+        return resolvedAddresses.getIfPresent(host);

@@ -1,0 +1,17 @@
+class HarPostData
+!!!239362.java!!!	getMimeType() : String
+        return mimeType;
+!!!239490.java!!!	setMimeType(in mimeType : String) : void
+        this.mimeType = mimeType;
+!!!239618.java!!!	getParams() : HarPostDataParam
+        return params;
+!!!239746.java!!!	setParams(inout params : List<HarPostDataParam>) : void
+        this.params = params;
+!!!239874.java!!!	getText() : String
+        return text;
+!!!240002.java!!!	setText(in text : String) : void
+        this.text = text;
+!!!240130.java!!!	getComment() : String
+        return comment;
+!!!240258.java!!!	setComment(in comment : String) : void
+        this.comment = comment;

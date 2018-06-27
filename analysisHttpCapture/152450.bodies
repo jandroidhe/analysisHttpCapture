@@ -1,0 +1,11 @@
+class FilterSource
+!!!266370.java!!!	FilterSource(inout filter : RequestFilter)
+            this.filter = filter;
+            this.maximumRequestBufferSizeInBytes = DEFAULT_MAXIMUM_REQUEST_BUFFER_SIZE;
+!!!266498.java!!!	FilterSource(inout filter : RequestFilter, in maximumRequestBufferSizeInBytes : int)
+            this.filter = filter;
+            this.maximumRequestBufferSizeInBytes = maximumRequestBufferSizeInBytes;
+!!!266626.java!!!	filterRequest(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext) : HttpFilters
+            return new RequestFilterAdapter(originalRequest, ctx, filter);
+!!!266754.java!!!	getMaximumRequestBufferSizeInBytes() : int
+            return maximumRequestBufferSizeInBytes;

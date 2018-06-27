@@ -1,0 +1,56 @@
+class LDNetPing
+!!!192898.java!!!	LDNetPing(inout listener : LDNetPing::LDNetPingListener, in theSendCount : int)
+    super();
+    this.listener = listener;
+    this._sendCount = theSendCount;
+!!!193154.java!!!	execPing(inout ping : LDNetPing::PingTask, inout isNeedL : boolean) : String
+    String cmd = "ping -c ";
+    if (isNeedL) {
+      cmd = "ping -s 8185 -c  ";
+    }
+    Process process = null;
+    String str = "";
+    BufferedReader reader = null;
+    try {
+      process = Runtime.getRuntime().exec(
+          cmd + this._sendCount + " " + ping.getHost());
+      reader = new BufferedReader(new InputStreamReader(
+          process.getInputStream()));
+      String line = null;
+      while ((line = reader.readLine()) != null) {
+        str += line;
+      }
+      reader.close();
+      process.waitFor();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (reader != null) {
+          reader.close();
+        }
+        process.destroy();
+      } catch (Exception e) {
+      }
+    }
+    return str;
+!!!193282.java!!!	exec(in host : String, inout isNeedL : boolean) : void
+    PingTask pingTask = new PingTask(host);
+    StringBuilder log = new StringBuilder(256);
+    String status = execPing(pingTask, isNeedL);
+    if (Pattern.compile(MATCH_PING_IP).matcher(status).find()) {
+      Log.i("LDNetPing", "status" + status);
+      log.append("\t" + status);
+    } else {
+      if (status.length() == 0) {
+        log.append("unknown host or network error");
+      } else {
+
+        log.append("timeout");
+      }
+    }
+    String logStr = LDPingParse.getFormattingStr(host, log.toString());
+    this.listener.OnNetPingFinished(logStr);

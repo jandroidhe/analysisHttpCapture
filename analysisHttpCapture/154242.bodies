@@ -1,0 +1,20 @@
+class HostnameCertificateInfoGenerator
+!!!276098.java!!!	generate(inout hostnames : List<String>, inout originalCertificate : X509Certificate) : CertificateInfo
+        if (hostnames == null || hostnames.size() < 1) {
+            throw new IllegalArgumentException("Cannot create X.509 certificate without server hostname");
+        }
+
+        // take the first entry as the CN
+        String commonName = hostnames.get(0);
+
+        return new CertificateInfo()
+                .commonName(commonName)
+                .organization(DEFAULT_IMPERSONATED_CERT_ORG)
+                .organizationalUnit(DEFAULT_IMPERSONATED_CERT_ORG_UNIT)
+                .notBefore(getNotBefore())
+                .notAfter(getNotAfter())
+                .subjectAlternativeNames(hostnames);
+!!!276226.java!!!	getNotBefore() : Date
+        return new Date(System.currentTimeMillis() - 365L * 24L * 60L * 60L * 1000L);
+!!!276354.java!!!	getNotAfter() : Date
+        return new Date(System.currentTimeMillis() + 365L * 24L * 60L * 60L * 1000L);

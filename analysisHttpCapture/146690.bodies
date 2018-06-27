@@ -1,0 +1,22 @@
+class RewriteRule
+!!!302850.java!!!	RewriteRule(in pattern : String, in replace : String)
+        this.pattern = Pattern.compile(pattern);
+        this.replace = replace;
+!!!302978.java!!!	getPattern() : Pattern
+        return pattern;
+!!!303106.java!!!	getReplace() : String
+        return replace;
+!!!303234.java!!!	equals(inout o : Object) : boolean
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RewriteRule that = (RewriteRule) o;
+
+        if (!pattern.equals(that.pattern)) return false;
+        if (!replace.equals(that.replace)) return false;
+
+        return true;
+!!!303362.java!!!	hashCode() : int
+        int result = pattern.hashCode();
+        result = 31 * result + replace.hashCode();
+        return result;

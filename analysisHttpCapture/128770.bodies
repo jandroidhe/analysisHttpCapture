@@ -1,0 +1,44 @@
+class AppCompatPreferenceActivity
+!!!129922.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        getDelegate().installViewFactory();
+        getDelegate().onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+!!!130050.java!!!	onPostCreate(inout savedInstanceState : Bundle) : void
+        super.onPostCreate(savedInstanceState);
+        getDelegate().onPostCreate(savedInstanceState);
+!!!130178.java!!!	getSupportActionBar() : ActionBar
+        return getDelegate().getSupportActionBar();
+!!!130306.java!!!	setSupportActionBar(inout toolbar : Toolbar) : void
+        getDelegate().setSupportActionBar(toolbar);
+!!!130434.java!!!	getMenuInflater() : MenuInflater
+        return getDelegate().getMenuInflater();
+!!!130562.java!!!	setContentView(in layoutResID : int) : void
+        getDelegate().setContentView(layoutResID);
+!!!130690.java!!!	setContentView(inout view : View) : void
+        getDelegate().setContentView(view);
+!!!130818.java!!!	setContentView(inout view : View, inout params : ViewGroup.LayoutParams) : void
+        getDelegate().setContentView(view, params);
+!!!130946.java!!!	addContentView(inout view : View, inout params : ViewGroup.LayoutParams) : void
+        getDelegate().addContentView(view, params);
+!!!131074.java!!!	onPostResume() : void
+        super.onPostResume();
+        getDelegate().onPostResume();
+!!!131202.java!!!	onTitleChanged(inout title : CharSequence, in color : int) : void
+        super.onTitleChanged(title, color);
+        getDelegate().setTitle(title);
+!!!131330.java!!!	onConfigurationChanged(inout newConfig : Configuration) : void
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
+!!!131458.java!!!	onStop() : void
+        super.onStop();
+        getDelegate().onStop();
+!!!131586.java!!!	onDestroy() : void
+        super.onDestroy();
+        getDelegate().onDestroy();
+!!!131714.java!!!	invalidateOptionsMenu() : void
+        getDelegate().invalidateOptionsMenu();
+!!!131842.java!!!	getDelegate() : AppCompatDelegate
+        if (mDelegate == null) {
+            mDelegate = AppCompatDelegate.create(this, null);
+        }
+        return mDelegate;

@@ -1,0 +1,110 @@
+class ClearTextView
+!!!165378.java!!!	ClearTextView(inout context : Context)
+        super(context);
+        init(context, null);
+!!!165506.java!!!	ClearTextView(inout context : Context, inout attrs : AttributeSet)
+        super(context, attrs);
+        init(context, attrs);
+!!!165634.java!!!	ClearTextView(inout context : Context, inout attrs : AttributeSet, in defStyleAttr : int)
+        super(context, attrs, defStyleAttr);
+        init(context, attrs);
+!!!165762.java!!!	init(inout context : Context, inout attributeSet : AttributeSet) : void
+        this.mContext = context;
+        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.EditTextField);
+
+        switch (typedArray.getInteger(R.styleable.EditTextField_clearButtonMode, 0)) {
+            case 1:
+                mClearButtonMode = ClearButtonMode.ALWAYS;
+                break;
+            case 2:
+                mClearButtonMode = ClearButtonMode.WHILEEDITING;
+                break;
+            case 3:
+                mClearButtonMode = ClearButtonMode.UNLESSEDITING;
+                break;
+            default:
+                mClearButtonMode = ClearButtonMode.NEVER;
+                break;
+        }
+
+        int clearButton = typedArray.getResourceId(R.styleable.EditTextField_clearButtonDrawable, R.drawable.clear_button);
+        typedArray.recycle();
+
+        //按钮的图片
+        mClearButton = ((BitmapDrawable) getDrawableCompat(clearButton)).getBitmap();
+
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+
+        mInitPaddingRight = getPaddingRight();
+!!!165890.java!!!	buttonManager(inout canvas : Canvas) : void
+        switch (mClearButtonMode) {
+            case ALWAYS:
+                drawBitmap(canvas, getRect(true));
+                break;
+            case WHILEEDITING:
+                drawBitmap(canvas, getRect(hasFocus() && getText().length() > 0));
+                break;
+            case UNLESSEDITING:
+                break;
+            default:
+                drawBitmap(canvas, getRect(false));
+                break;
+        }
+!!!166018.java!!!	setPadding(inout isShow : boolean) : void
+        int paddingRight = mInitPaddingRight + (isShow ? mClearButton.getWidth() + mButtonPadding + mButtonPadding : 0);
+
+        setPadding(getPaddingLeft(), getPaddingTop(), paddingRight, getPaddingBottom());
+!!!166146.java!!!	getRect(inout isShow : boolean) : Rect
+        int left, top, right, bottom;
+
+        right   = isShow ? getMeasuredWidth() + getScrollX() - mButtonPadding - mButtonPadding : 0;
+        left    = isShow ? right - mClearButton.getWidth() : 0;
+        top     = isShow ? (getMeasuredHeight() - mClearButton.getHeight())/2 : 0;
+        bottom  = isShow ? top + mClearButton.getHeight() : 0;
+
+
+        //更新输入框内边距
+        setPadding(isShow);
+
+
+        return new Rect(left, top, right, bottom);
+!!!166274.java!!!	drawBitmap(inout canvas : Canvas, inout rect : Rect) : void
+        if (rect != null) {
+            canvas.drawBitmap(mClearButton, null, rect, mPaint);
+        }
+!!!166402.java!!!	onDraw(inout canvas : Canvas) : void
+        super.onDraw(canvas);
+
+        canvas.save();
+
+        buttonManager(canvas);
+
+        canvas.restore();
+!!!166530.java!!!	onTouchEvent(inout event : MotionEvent) : boolean
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                //判断是否点击到按钮所在的区域
+                if (event.getX() - (getMeasuredWidth() - getPaddingRight()) >= 0) {
+                    setError(null);
+                    this.setText("");
+                }
+                break;
+        }
+
+        return super.onTouchEvent(event);
+!!!166658.java!!!	getDrawableCompat(in resourseId : int) : Drawable
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            return getResources().getDrawable(resourseId, mContext.getTheme());
+        } else {
+            return getResources().getDrawable(resourseId);
+        }
+!!!166786.java!!!	setButtonPadding(in buttonPadding : int) : void
+        this.mButtonPadding = dp2px(buttonPadding);
+!!!166914.java!!!	setClearButtonMode(inout clearButtonMode : ClearTextView::ClearButtonMode) : void
+        this.mClearButtonMode = clearButtonMode;
+!!!167042.java!!!	isShowing() : boolean
+        return mClearStatus;
+!!!167170.java!!!	dp2px(in dipValue : float) : int
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);

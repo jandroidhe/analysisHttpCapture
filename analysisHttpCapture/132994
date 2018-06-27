@@ -1,0 +1,1249 @@
+format 76
+"proxy" // source::main::java::net::lightbody::bmp::proxy
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/proxy/"
+  java_package "net.lightbody.bmp.proxy"
+  classview 131458 "proxy"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 145538 "CaptureType"
+      visibility public stereotype "enum"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Data types that the proxy can capture. Data types are organized into two broad categories, <code>REQUEST_*</code> and
+<code>RESPONSE_*</code>, corresponding to client requests and server responses."
+      attribute 216578 "REQUEST_HEADERS"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "HTTP request headers, including trailing headers.
+"
+      end
+
+      attribute 216706 "REQUEST_COOKIES"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "HTTP Cookies sent with the request.
+"
+      end
+
+      attribute 216834 "REQUEST_CONTENT"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Non-binary HTTP request content, such as post data or other text-based request payload.
+See {@link net.lightbody.bmp.util.BrowserMobHttpUtil#hasTextualContent(String)} for a list of Content-Types that
+are considered non-binary.
+
+"
+      end
+
+      attribute 216962 "REQUEST_BINARY_CONTENT"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Binary HTTP request content, such as file uploads, or any unrecognized request payload.
+"
+      end
+
+      attribute 217090 "RESPONSE_HEADERS"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "HTTP response headers, including trailing headers.
+"
+      end
+
+      attribute 217218 "RESPONSE_COOKIES"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Set-Cookie headers sent with the response.
+"
+      end
+
+      attribute 217346 "RESPONSE_CONTENT"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Non-binary HTTP response content (typically, HTTP body content).
+See {@link net.lightbody.bmp.util.BrowserMobHttpUtil#hasTextualContent(String)} for a list of Content-Types that
+are considered non-binary.
+"
+      end
+
+      attribute 217474 "RESPONSE_BINARY_CONTENT"
+	public type class_ref 145538 // CaptureType
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl "  ${@}${name}${value},${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Binary HTTP response content, such as image files, or any unrecognized response payload."
+      end
+
+      classrelation 159874 // REQUEST_CAPTURE_TYPES (<unidirectional association>)
+	relation 159874 --->
+	  stereotype "EnumSet"
+	  a role_name "REQUEST_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_HEADERS, REQUEST_CONTENT, REQUEST_BINARY_CONTENT, REQUEST_COOKIES)" class_relation const_relation private
+	    comment " the following groups of capture types are private so that clients do not accidentally modify these sets (EnumSets are not immutable)"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 159874 // REQUEST_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160002 // RESPONSE_CAPTURE_TYPES (<unidirectional association>)
+	relation 160002 --->
+	  stereotype "EnumSet"
+	  a role_name "RESPONSE_CAPTURE_TYPES" init_value " EnumSet.of(RESPONSE_HEADERS, RESPONSE_CONTENT, RESPONSE_BINARY_CONTENT, RESPONSE_COOKIES)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160002 // RESPONSE_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160130 // HEADER_CAPTURE_TYPES (<unidirectional association>)
+	relation 160130 --->
+	  stereotype "EnumSet"
+	  a role_name "HEADER_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_HEADERS, RESPONSE_HEADERS)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160130 // HEADER_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160258 // NON_BINARY_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	relation 160258 --->
+	  stereotype "EnumSet"
+	  a role_name "NON_BINARY_CONTENT_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_CONTENT, RESPONSE_CONTENT)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160258 // NON_BINARY_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160386 // BINARY_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	relation 160386 --->
+	  stereotype "EnumSet"
+	  a role_name "BINARY_CONTENT_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_BINARY_CONTENT, RESPONSE_BINARY_CONTENT)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160386 // BINARY_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160514 // ALL_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	relation 160514 --->
+	  stereotype "EnumSet"
+	  a role_name "ALL_CONTENT_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_CONTENT, RESPONSE_CONTENT, REQUEST_BINARY_CONTENT, RESPONSE_BINARY_CONTENT)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160514 // ALL_CONTENT_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      classrelation 160642 // COOKIE_CAPTURE_TYPES (<unidirectional association>)
+	relation 160642 --->
+	  stereotype "EnumSet"
+	  a role_name "COOKIE_CAPTURE_TYPES" init_value " EnumSet.of(REQUEST_COOKIES, RESPONSE_COOKIES)" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 160642 // COOKIE_CAPTURE_TYPES (<unidirectional association>)
+	  b parent class_ref 145538 // CaptureType
+      end
+
+      operation 301954 "getRequestCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for requests."
+      end
+
+      operation 302082 "getResponseCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for responses."
+      end
+
+      operation 302210 "getHeaderCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for headers."
+      end
+
+      operation 302338 "getNonBinaryContentCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for non-binary content."
+      end
+
+      operation 302466 "getBinaryContentCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for binary content."
+      end
+
+      operation 302594 "getAllContentCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for both binary and non-binary content."
+      end
+
+      operation 302722 "getCookieCaptureTypes"
+	class_operation public return_type class_ref 145538 // CaptureType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}EnumSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Set of CaptureTypes for cookies."
+      end
+    end
+
+    class 145794 "BlacklistEntry"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An entry in the Blacklist, consisting of a regular expression to match the URL, an HTTP status code, and a regular expression
+to match the HTTP method."
+      attribute 216194 "urlPattern"
+	const_attribute private explicit_type "Pattern"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 216322 "statusCode"
+	const_attribute private explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 216450 "httpMethodPattern"
+	const_attribute private explicit_type "Pattern"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 300802 "BlacklistEntry"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "urlPattern" explicit_type "String"
+	  param in name "statusCode" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new BlacklistEntry with no HTTP method matching (i.e. all methods will match).
+
+@param urlPattern URL pattern to blacklist
+@param statusCode HTTP status code to return for blacklisted URL"
+      end
+
+      operation 300930 "BlacklistEntry"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "urlPattern" explicit_type "String"
+	  param in name "statusCode" explicit_type "int"
+	  param in name "httpMethodPattern" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new BlacklistEntry which will match both a URL and an HTTP method
+
+@param urlPattern URL pattern to blacklist
+@param statusCode status code to return for blacklisted URL
+@param httpMethodPattern HTTP method to match (e.g. GET, PUT, PATCH, etc.)"
+      end
+
+      operation 301058 "matches"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param in name "url" explicit_type "String"
+	  param in name "httpMethod" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determines if this BlacklistEntry matches the given URL. Attempts to match both the URL and the
+HTTP method.
+
+@param url possibly-blacklisted URL
+@param httpMethod HTTP method this URL is being accessed with
+@return true if the URL matches this BlacklistEntry"
+      end
+
+      operation 301186 "getUrlPattern"
+	public explicit_return_type "Pattern"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 301314 "getStatusCode"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 301442 "getHttpMethodPattern"
+	public explicit_return_type "Pattern"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 301570 "getPattern"
+	public explicit_return_type "Pattern"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Deprecated
+"
+	
+	
+	
+	comment "@deprecated use {@link #getUrlPattern()}"
+      end
+
+      operation 301698 "getResponseCode"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Deprecated
+"
+	
+	
+	
+	comment "@deprecated use {@link #getStatusCode()}"
+      end
+
+      operation 301826 "getMethod"
+	public explicit_return_type "Pattern"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Deprecated
+"
+	
+	
+	
+	comment "@deprecated use {@link #getHttpMethodPattern()}"
+      end
+    end
+
+    class 146690 "RewriteRule"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Container for a URL rewrite rule pattern and replacement string."
+      attribute 217602 "pattern"
+	const_attribute private explicit_type "Pattern"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 217730 "replace"
+	const_attribute private explicit_type "String"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 302850 "RewriteRule"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "pattern" explicit_type "String"
+	  param in name "replace" explicit_type "String"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 302978 "getPattern"
+	public explicit_return_type "Pattern"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 303106 "getReplace"
+	public explicit_return_type "String"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 303234 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 303362 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 146946 "Whitelist"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A URL whitelist. This object is immutable and the list of matching patterns and the HTTP status code is unmodifiable
+after creation. Enabling, disabling, or modifying the whitelist can be safely and easily accomplished by updating the
+whitelist reference to a new whitelist."
+      attribute 217858 "patterns"
+	const_attribute private explicit_type "Pattern"
+	stereotype "List"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 217986 "statusCode"
+	const_attribute private explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 218114 "enabled"
+	const_attribute private explicit_type "boolean"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 160770 // WHITELIST_DISABLED (<unidirectional association>)
+	relation 160770 --->
+	  a role_name "WHITELIST_DISABLED" init_value " new Whitelist()" class_relation const_relation public
+	    comment "
+A disabled Whitelist.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 160770 // WHITELIST_DISABLED (<unidirectional association>)
+	  b parent class_ref 146946 // Whitelist
+      end
+
+      operation 303490 "Whitelist"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates an empty, disabled Whitelist."
+      end
+
+      operation 303618 "Whitelist"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "statusCode" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates an empty, enabled whitelist with the specified response code.
+
+@param statusCode the response code that the (enabled) Whitelist will return for all URLs."
+      end
+
+      operation 303746 "Whitelist"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "patterns" explicit_type "String"
+	  param in name "statusCode" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Deprecated
+"
+	
+	
+	
+	comment "@deprecated use {@link #Whitelist(java.util.Collection, int)}"
+      end
+
+      operation 303874 "Whitelist"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "patterns" explicit_type "Collection<String>"
+	  param in name "statusCode" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a whitelist for the specified patterns, returning the given statusCode when a URL does not match one of the patterns.
+A null or empty collection will result in an empty whitelist.
+
+@param patterns URL-matching regular expression patterns to whitelist
+@param statusCode the HTTP status code to return when a request URL matches a whitelist pattern"
+      end
+
+      operation 304002 "isEnabled"
+	public explicit_return_type "boolean"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return true if this whitelist is enabled, otherwise false"
+      end
+
+      operation 304130 "getPatterns"
+	public explicit_return_type "Collection<Pattern>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return regular expression patterns describing the URLs that should be whitelisted, or an empty collection if the whitelist is disabled"
+      end
+
+      operation 304258 "getStatusCode"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return HTTP status code returned by the whitelist, or -1 if the whitelist is disabled"
+      end
+
+      operation 304386 "getResponseCode"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Deprecated
+"
+	
+	
+	
+	comment "@deprecated use {@link #getStatusCode()}"
+      end
+
+      operation 304514 "matches"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "url" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the specified URL matches a whitelisted URL regular expression. If the whitelist is disabled, this
+method always returns false.
+
+@param url URL to match against the whitelist
+@return true if the whitelist is enabled and the URL matched an entry in the whitelist, otherwise false"
+      end
+    end
+
+    class 147202 "ActivityMonitor"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Tracks active and total requests on a proxy, and provides a mechanism to wait for active requests to finish.
+See {@link net.lightbody.bmp.proxy.ActivityMonitor#waitForQuiescence(long, long, java.util.concurrent.TimeUnit)}."
+      attribute 215426 "activeRequests"
+	const_attribute private explicit_type "AtomicInteger"
+	init_value " new AtomicInteger(0)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 215554 "totalRequests"
+	const_attribute private explicit_type "AtomicInteger"
+	init_value " new AtomicInteger(0)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 215682 "lastRequestFinishedNanos"
+	const_attribute private explicit_type "AtomicLong"
+	init_value " new AtomicLong(System.nanoTime())"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 215810 "monitor"
+	const_attribute private explicit_type "Monitor"
+	init_value " new Monitor()"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 215938 "requestNotActive"
+	const_attribute private explicit_type "Monitor.Guard"
+	init_value " new Monitor.Guard(monitor) {
+        @Override
+        public boolean isSatisfied() {
+            return activeRequests.get() == 0;
+        }
+    }"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 216066 "requestActive"
+	const_attribute private explicit_type "Monitor.Guard"
+	init_value " new Monitor.Guard(monitor) {
+        @Override
+        public boolean isSatisfied() {
+            return activeRequests.get() > 0;
+        }
+    }"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 300162 "requestStarted"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300290 "requestFinished"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300418 "getActiveRequests"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300546 "getTotalRequests"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300674 "waitForQuiescence"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param in name "quietPeriod" explicit_type "long"
+	  param in name "timeout" explicit_type "long"
+	  param inout name "timeUnit" explicit_type "TimeUnit"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  package_ref 133122 // auth
+
+  package_ref 133250 // dns
+
+  deploymentview 132226 "proxy"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 147074 "ActivityMonitor"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.util.concurrent.Monitor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+${definition}"
+      associated_classes
+	class_ref 147202 // ActivityMonitor
+      end
+    end
+
+    artifact 147202 "BlacklistEntry"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.regex.Pattern;
+${definition}"
+      associated_classes
+	class_ref 145794 // BlacklistEntry
+      end
+    end
+
+    artifact 147330 "CaptureType"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.EnumSet;
+${definition}"
+      associated_classes
+	class_ref 145538 // CaptureType
+      end
+    end
+
+    artifact 147458 "RewriteRule"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.regex.Pattern;
+${definition}"
+      associated_classes
+	class_ref 146690 // RewriteRule
+      end
+    end
+
+    artifact 147586 "Whitelist"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.collect.ImmutableList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+${definition}"
+      associated_classes
+	class_ref 146946 // Whitelist
+      end
+    end
+  end
+end

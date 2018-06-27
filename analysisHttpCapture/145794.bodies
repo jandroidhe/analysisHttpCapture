@@ -1,0 +1,29 @@
+class BlacklistEntry
+!!!300802.java!!!	BlacklistEntry(in urlPattern : String, in statusCode : int)
+        this(urlPattern, statusCode, null);
+!!!300930.java!!!	BlacklistEntry(in urlPattern : String, in statusCode : int, in httpMethodPattern : String)
+        this.urlPattern = Pattern.compile(urlPattern);
+        this.statusCode = statusCode;
+        if (httpMethodPattern == null || httpMethodPattern.isEmpty()) {
+            this.httpMethodPattern = null;
+        } else {
+            this.httpMethodPattern = Pattern.compile(httpMethodPattern);
+        }
+!!!301058.java!!!	matches(in url : String, in httpMethod : String) : boolean
+        if (httpMethodPattern != null) {
+            return urlPattern.matcher(url).matches() && httpMethodPattern.matcher(httpMethod).matches();
+        } else {
+            return urlPattern.matcher(url).matches();
+        }
+!!!301186.java!!!	getUrlPattern() : Pattern
+        return urlPattern;
+!!!301314.java!!!	getStatusCode() : int
+        return statusCode;
+!!!301442.java!!!	getHttpMethodPattern() : Pattern
+        return httpMethodPattern;
+!!!301570.java!!!	getPattern() : Pattern
+        return getUrlPattern();
+!!!301698.java!!!	getResponseCode() : int
+        return getStatusCode();
+!!!301826.java!!!	getMethod() : Pattern
+        return getHttpMethodPattern();

@@ -1,0 +1,21 @@
+class HarCacheStatus
+!!!225154.java!!!	getExpires() : Date
+        return expires;
+!!!225282.java!!!	setExpires(inout expires : Date) : void
+        this.expires = expires;
+!!!225410.java!!!	getLastAccess() : Date
+        return lastAccess;
+!!!225538.java!!!	setLastAccess(inout lastAccess : Date) : void
+        this.lastAccess = lastAccess;
+!!!225666.java!!!	geteTag() : String
+        return eTag;
+!!!225794.java!!!	seteTag(in eTag : String) : void
+        this.eTag = eTag;
+!!!225922.java!!!	getHitCount() : int
+        return hitCount;
+!!!226050.java!!!	setHitCount(in hitCount : int) : void
+        this.hitCount = hitCount;
+!!!226178.java!!!	getComment() : String
+        return comment;
+!!!226306.java!!!	setComment(in comment : String) : void
+        this.comment = comment;

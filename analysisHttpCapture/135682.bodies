@@ -1,0 +1,18 @@
+class TraceTask
+!!!154754.java!!!	TraceTask(inout context : Context, in url : String, inout resultTextView : TextView)
+        super(url, resultTextView);
+        this.context = context;
+        this.url = url;
+        this.resultTextView = resultTextView;
+!!!154882.java!!!	getExecRunnable() : Runnable
+        return execRunnable;
+!!!155010.java!!!	setResult(in result : String) : void
+        Pattern pattern = Pattern.compile("(?<=rom )[\\w\\W]+(?=\\n\\n)");
+        Matcher matcher = pattern.matcher(result);
+        if(matcher.find()){
+            resultTextView.post(new updateResultRunnable(matcher.group(0) + "\n"));
+        }
+!!!155138.java!!!	OnNetDiagnoFinished(in log : String) : void
+
+!!!155266.java!!!	OnNetDiagnoUpdated(in log : String) : void
+        resultTextView.post(new updateResultRunnable(log));

@@ -1,0 +1,7 @@
+class InfoTask
+!!!150786.java!!!	InfoTask(in url : String, inout resultTextView : TextView)
+        super(url, resultTextView);
+        this.url = url;
+        this.resultTextView = resultTextView;
+!!!150914.java!!!	getExecRunnable() : Runnable
+        return execRunnable;

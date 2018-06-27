@@ -1,0 +1,17 @@
+class HttpConnectTiming
+!!!270978.java!!!	setConnectTimeNanos(in connectTimeNanos : long) : void
+        this.connectTimeNanos = connectTimeNanos;
+!!!271106.java!!!	setSslHandshakeTimeNanos(in sslHandshakeTimeNanos : long) : void
+        this.sslHandshakeTimeNanos = sslHandshakeTimeNanos;
+!!!271234.java!!!	setBlockedTimeNanos(in blockedTimeNanos : long) : void
+        this.blockedTimeNanos = blockedTimeNanos;
+!!!271362.java!!!	setDnsTimeNanos(in dnsTimeNanos : long) : void
+        this.dnsTimeNanos = dnsTimeNanos;
+!!!271490.java!!!	getConnectTimeNanos() : long
+        return connectTimeNanos;
+!!!271618.java!!!	getSslHandshakeTimeNanos() : long
+        return sslHandshakeTimeNanos;
+!!!271746.java!!!	getBlockedTimeNanos() : long
+        return blockedTimeNanos;
+!!!271874.java!!!	getDnsTimeNanos() : long
+        return dnsTimeNanos;

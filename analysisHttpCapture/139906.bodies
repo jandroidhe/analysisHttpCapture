@@ -1,0 +1,9 @@
+class AutoFocusTask
+!!!178946.java!!!	doInBackground(inout  : Object...voids) : Object
+            try {
+                Thread.sleep(AUTO_FOCUS_INTERVAL_MS);
+            } catch (InterruptedException e) {
+                // continue
+            }
+            start();
+            return null;

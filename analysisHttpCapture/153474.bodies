@@ -1,0 +1,11 @@
+class HarCaptureUtil
+!!!272002.java!!!	createHarResponseForFailure() : HarResponse
+        return new HarResponse(HTTP_STATUS_CODE_FOR_FAILURE, HTTP_REASON_PHRASE_FOR_FAILURE, HTTP_VERSION_STRING_FOR_FAILURE);
+!!!272130.java!!!	getResolutionFailedErrorMessage(in hostAndPort : String) : String
+        return RESOLUTION_FAILED_ERROR_MESSAGE + hostAndPort;
+!!!272258.java!!!	getConnectionFailedErrorMessage() : String
+        return CONNECTION_FAILED_ERROR_MESSAGE;
+!!!272386.java!!!	getResponseTimedOutErrorMessage() : String
+        return RESPONSE_TIMED_OUT_ERROR_MESSAGE;
+!!!272514.java!!!	getNoResponseReceivedErrorMessage() : String
+        return NO_RESPONSE_RECEIVED_ERROR_MESSAGE;

@@ -1,0 +1,50 @@
+class KeyStoreUtil
+!!!298242.java!!!	createEmptyKeyStore(in keyStoreType : String, in provider : String) : KeyStore
+        if (keyStoreType == null) {
+            keyStoreType = KeyStore.getDefaultType();
+        }
+
+        KeyStore keyStore;
+        try {
+            if (provider == null) {
+                keyStore = KeyStore.getInstance(keyStoreType);
+            } else {
+                keyStore = KeyStore.getInstance(keyStoreType, provider);
+            }
+            keyStore.load(null, null);
+        } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException | IOException e) {
+            throw new KeyStoreAccessException("Error creating or initializing new KeyStore of type: " + keyStoreType, e);
+        }
+        return keyStore;
+!!!298370.java!!!	createRootCertificateKeyStore(in keyStoreType : String, inout certificate : X509Certificate, in privateKeyAlias : String, inout privateKey : PrivateKey, in privateKeyPassword : String, in provider : String) : KeyStore
+        if (privateKeyPassword == null) {
+            throw new IllegalArgumentException("Must specify a KeyStore password");
+        }
+
+        KeyStore newKeyStore = KeyStoreUtil.createEmptyKeyStore(keyStoreType, provider);
+
+        try {
+            newKeyStore.setKeyEntry(privateKeyAlias, privateKey, privateKeyPassword.toCharArray(), new Certificate[]{certificate});
+        } catch (KeyStoreException e) {
+            throw new KeyStoreAccessException("Unable to store certificate and private key in KeyStore", e);
+        }
+        return newKeyStore;
+!!!298498.java!!!	getKeyManagers(inout keyStore : KeyStore, in keyStorePassword : String, in keyManagerAlgorithm : String, in provider : String) : KeyManager
+        if (keyManagerAlgorithm == null) {
+            keyManagerAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+        }
+
+        try {
+            KeyManagerFactory kmf;
+            if (provider == null) {
+                kmf = KeyManagerFactory.getInstance(keyManagerAlgorithm);
+            } else {
+                kmf = KeyManagerFactory.getInstance(keyManagerAlgorithm, provider);
+            }
+
+            kmf.init(keyStore, keyStorePassword.toCharArray());
+
+            return kmf.getKeyManagers();
+        } catch (NoSuchAlgorithmException | UnrecoverableKeyException | KeyStoreException | NoSuchProviderException e) {
+            throw new KeyStoreAccessException("Unable to get KeyManagers for KeyStore", e);
+        }

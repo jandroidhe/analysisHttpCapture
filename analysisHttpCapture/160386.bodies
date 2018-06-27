@@ -1,0 +1,195 @@
+class BouncyCastleSslEngineSource
+!!!318466.java!!!	BouncyCastleSslEngineSource(inout authority : Authority, inout trustAllServers : boolean, inout sendCerts : boolean, inout sslContexts : Cache<String, SSLContext>)
+        this.authority = authority;
+        this.trustAllServers = trustAllServers;
+        this.sendCerts = sendCerts;
+        this.serverSSLContexts = sslContexts;
+        initializeKeyStore();
+        initializeSSLContext();
+!!!318594.java!!!	BouncyCastleSslEngineSource(inout authority : Authority, inout trustAllServers : boolean, inout sendCerts : boolean)
+        this(authority, trustAllServers, sendCerts,
+                initDefaultCertificateCache());
+!!!318722.java!!!	initDefaultCertificateCache() : Cache<String, SSLContext>
+        return CacheBuilder.newBuilder() //
+                .expireAfterAccess(5, TimeUnit.MINUTES) //
+                .concurrencyLevel(16) //
+                .build();
+!!!318850.java!!!	filterWeakCipherSuites(inout sslEngine : SSLEngine) : void
+        List<String> ciphers = new LinkedList<String>();
+        for (String each : sslEngine.getEnabledCipherSuites()) {
+            if (each.equals("TLS_DHE_RSA_WITH_AES_128_CBC_SHA") || each.equals("TLS_DHE_RSA_WITH_AES_256_CBC_SHA")) {
+                LOG.debug("Removed cipher {}", each);
+            } else {
+                ciphers.add(each);
+            }
+        }
+        sslEngine.setEnabledCipherSuites(ciphers.toArray(new String[ciphers.size()]));
+        if (LOG.isDebugEnabled()) {
+            if (sslEngine.getUseClientMode()) {
+                LOG.debug("Enabled server cipher suites:");
+            } else {
+                String host = sslEngine.getPeerHost();
+                int port = sslEngine.getPeerPort();
+                LOG.debug("Enabled client {}:{} cipher suites:", host, port);
+            }
+            for (String each : ciphers) {
+                LOG.debug(each);
+            }
+        }
+!!!318978.java!!!	newSslEngine() : SSLEngine
+        SSLEngine sslEngine = sslContext.createSSLEngine();
+        filterWeakCipherSuites(sslEngine);
+        return sslEngine;
+!!!319106.java!!!	newSslEngine(in remoteHost : String, in remotePort : int) : SSLEngine
+        SSLEngine sslEngine = sslContext
+                .createSSLEngine(remoteHost, remotePort);
+        sslEngine.setUseClientMode(true);
+        if (!tryHostNameVerificationJava7(sslEngine)) {
+            LOG.debug("Host Name Verification is not supported, causes insecure HTTPS connection");
+        }
+        filterWeakCipherSuites(sslEngine);
+        return sslEngine;
+!!!319234.java!!!	tryHostNameVerificationJava7(inout sslEngine : SSLEngine) : boolean
+        for (Method method : SSLParameters.class.getMethods()) {
+            // method is available since Java 7
+            if ("setEndpointIdentificationAlgorithm".equals(method.getName())) {
+                SSLParameters sslParams = new SSLParameters();
+                try {
+                    method.invoke(sslParams, "HTTPS");
+                } catch (IllegalAccessException e) {
+                    LOG.debug(
+                            "SSLParameters#setEndpointIdentificationAlgorithm",
+                            e);
+                    return false;
+                } catch (InvocationTargetException e) {
+                    LOG.debug(
+                            "SSLParameters#setEndpointIdentificationAlgorithm",
+                            e);
+                    return false;
+                }
+                sslEngine.setSSLParameters(sslParams);
+                return true;
+            }
+        }
+        return false;
+!!!319362.java!!!	initializeKeyStore() : void
+        if (authority.aliasFile(KEY_STORE_FILE_EXTENSION).exists()
+                && authority.aliasFile(".pem").exists()) {
+            return;
+        }
+        MillisecondsDuration duration = new MillisecondsDuration();
+        KeyStore keystore = CertificateHelper.createRootCertificate(authority,
+                KEY_STORE_TYPE);
+        LOG.info("Created root certificate authority key store in {}ms",
+                duration);
+
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(
+                    authority.aliasFile(KEY_STORE_FILE_EXTENSION));
+            keystore.store(os, authority.password());
+        } finally {
+            IOUtils.closeQuietly(os);
+        }
+
+        Certificate cert = keystore.getCertificate(authority.alias());
+        exportPem(authority.aliasFile(".pem"), cert);
+!!!319490.java!!!	initializeSSLContext() : void
+        KeyStore ks = loadKeyStore();
+        caCert = ks.getCertificate(authority.alias());
+        caPrivKey = (PrivateKey) ks.getKey(authority.alias(),
+                authority.password());
+
+        TrustManager[] trustManagers;
+        if (trustAllServers) {
+            trustManagers = InsecureTrustManagerFactory.INSTANCE
+                    .getTrustManagers();
+        } else {
+            trustManagers = new TrustManager[] { new MergeTrustManager(ks) };
+        }
+
+        KeyManager[] keyManagers;
+        if (sendCerts) {
+            keyManagers = CertificateHelper.getKeyManagers(ks, authority);
+        } else {
+            keyManagers = new KeyManager[0];
+        }
+
+        sslContext = CertificateHelper.newClientContext(keyManagers,
+                trustManagers);
+        SSLEngine sslEngine = sslContext.createSSLEngine();
+        if (!tryHostNameVerificationJava7(sslEngine)) {
+            LOG.warn("Host Name Verification is not supported, causes insecure HTTPS connection to upstream servers.");
+        }
+!!!319618.java!!!	loadKeyStore() : KeyStore
+        KeyStore ks = KeyStore.getInstance(KEY_STORE_TYPE);
+        FileInputStream is = null;
+        try {
+            is = new FileInputStream(
+                    authority.aliasFile(KEY_STORE_FILE_EXTENSION));
+            ks.load(is, authority.password());
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+        return ks;
+!!!319746.java!!!	createCertForHost(in commonName : String, in subjectAlternativeNames : SubjectAlternativeNameHolder) : SSLEngine
+        if (commonName == null) {
+            throw new IllegalArgumentException(
+                    "Error, 'commonName' is not allowed to be null!");
+        }
+        if (subjectAlternativeNames == null) {
+            throw new IllegalArgumentException(
+                    "Error, 'subjectAlternativeNames' is not allowed to be null!");
+        }
+
+        SSLContext ctx;
+        if (serverSSLContexts == null) {
+            ctx = createServerContext(commonName, subjectAlternativeNames);
+        } else {
+            ctx = serverSSLContexts.get(commonName, new Callable<SSLContext>() {
+                @Override
+                public SSLContext call() throws Exception {
+                    return createServerContext(commonName,
+                            subjectAlternativeNames);
+                }
+            });
+        }
+        return ctx.createSSLEngine();
+!!!319874.java!!!	createServerContext(in commonName : String, inout subjectAlternativeNames : SubjectAlternativeNameHolder) : SSLContext
+
+        MillisecondsDuration duration = new MillisecondsDuration();
+
+        KeyStore ks = CertificateHelper.createServerCertificate(commonName,
+                subjectAlternativeNames, authority, caCert, caPrivKey);
+        KeyManager[] keyManagers = CertificateHelper.getKeyManagers(ks,
+                authority);
+
+        SSLContext result = CertificateHelper.newServerContext(keyManagers);
+
+        LOG.info("Impersonated {} in {}ms", commonName, duration);
+        return result;
+!!!320002.java!!!	initializeServerCertificates(in commonName : String, inout subjectAlternativeNames : SubjectAlternativeNameHolder) : void
+
+        KeyStore ks = CertificateHelper.createServerCertificate(commonName,
+                subjectAlternativeNames, authority, caCert, caPrivKey);
+
+        PrivateKey key = (PrivateKey) ks.getKey(authority.alias(),
+                authority.password());
+        exportPem(authority.aliasFile("-" + commonName + "-key.pem"), key);
+
+        Object[] certs = ks.getCertificateChain(authority.alias());
+        exportPem(authority.aliasFile("-" + commonName + "-cert.pem"), certs);
+!!!320130.java!!!	exportPem(inout exportFile : File, inout  : Object...certs) : void
+        Writer sw = null;
+        JcaPEMWriter pw = null;
+        try {
+            sw = new FileWriter(exportFile);
+            pw = new JcaPEMWriter(sw);
+            for (Object cert : certs) {
+                pw.writeObject(cert);
+                pw.flush();
+            }
+        } finally {
+            IOUtils.closeQuietly(pw);
+            IOUtils.closeQuietly(sw);
+        }

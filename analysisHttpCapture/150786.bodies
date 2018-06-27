@@ -1,0 +1,37 @@
+class ClientRequestCaptureFilter
+!!!257154.java!!!	ClientRequestCaptureFilter(inout originalRequest : HttpRequest)
+        super(originalRequest);
+!!!257282.java!!!	ClientRequestCaptureFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext)
+        super(originalRequest, ctx);
+!!!257410.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (httpObject instanceof HttpRequest) {
+            this.httpRequest = (HttpRequest) httpObject;
+        }
+
+        if (httpObject instanceof HttpContent) {
+            HttpContent httpContent = (HttpContent) httpObject;
+
+            storeRequestContent(httpContent);
+
+            if (httpContent instanceof LastHttpContent) {
+                LastHttpContent lastHttpContent = (LastHttpContent) httpContent;
+                trailingHeaders = lastHttpContent .trailingHeaders();
+            }
+        }
+
+        return null;
+!!!257538.java!!!	storeRequestContent(inout httpContent : HttpContent) : void
+        ByteBuf bufferedContent = httpContent.content();
+        byte[] content = BrowserMobHttpUtil.extractReadableBytes(bufferedContent);
+
+        try {
+            requestContents.write(content);
+        } catch (IOException e) {
+            // can't happen
+        }
+!!!257666.java!!!	getHttpRequest() : HttpRequest
+        return httpRequest;
+!!!257794.java!!!	getFullRequestContents() : byte
+        return requestContents.toByteArray();
+!!!257922.java!!!	getTrailingHeaders() : HttpHeaders
+        return trailingHeaders;

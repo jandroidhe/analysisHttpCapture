@@ -1,0 +1,9 @@
+class HarCache
+!!!224642.java!!!	getBeforeRequest() : HarCacheStatus
+        return beforeRequest;
+!!!224770.java!!!	setBeforeRequest(inout beforeRequest : HarCacheStatus) : void
+        this.beforeRequest = beforeRequest;
+!!!224898.java!!!	getAfterRequest() : HarCacheStatus
+        return afterRequest;
+!!!225026.java!!!	setAfterRequest(inout afterRequest : HarCacheStatus) : void
+        this.afterRequest = afterRequest;

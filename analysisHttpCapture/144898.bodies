@@ -1,0 +1,11 @@
+class TraceTask
+!!!195330.java!!!	TraceTask(in host : String, in hop : int)
+      super();
+      this.host = host;
+      this.hop = hop;
+!!!195458.java!!!	getHost() : String
+      return host;
+!!!195586.java!!!	getHop() : int
+      return hop;
+!!!195714.java!!!	setHop(in hop : int) : void
+      this.hop = hop;

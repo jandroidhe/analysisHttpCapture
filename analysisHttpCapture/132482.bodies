@@ -1,0 +1,52 @@
+class NetworkFragment
+!!!145538.java!!!	getInstance() : NetworkFragment
+        if(networkFragment == null){
+            networkFragment = new NetworkFragment();
+        }
+        return networkFragment;
+!!!145666.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+!!!145794.java!!!	onCreateView(inout inflater : LayoutInflater, inout container : ViewGroup, inout savedInstanceState : Bundle) : View
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_network, container, false);
+        ButterKnife.bind(this, view);
+
+        // 暂时隐藏两个按钮
+        pingButton.setVisibility(View.GONE);
+        dnsButton.setVisibility(View.GONE);
+
+        pingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PingTask pingTask = new PingTask(urlEditText.getText()+"",resultTextView);
+                pingTask.doTask();
+            }
+        });
+
+        dnsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DnsTask pingTask = new DnsTask(urlEditText.getText()+"",resultTextView);
+                pingTask.doTask();
+            }
+        });
+
+        traceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TraceTask pingTask = new TraceTask(getActivity(),urlEditText.getText()+"",resultTextView);
+                pingTask.doTask();
+            }
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoTask pingTask = new InfoTask(urlEditText.getText()+"",resultTextView);
+                pingTask.doTask();
+            }
+        });
+
+        return view;
+!!!145922.java!!!	onBackPressed() : boolean
+        return false;

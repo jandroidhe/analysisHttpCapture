@@ -1,0 +1,5 @@
+class ViewfinderResultPointCallback
+!!!189954.java!!!	ViewfinderResultPointCallback(inout viewfinderView : ViewfinderView)
+        this.viewfinderView = viewfinderView;
+!!!190082.java!!!	foundPossibleResultPoint(inout point : ResultPoint) : void
+        viewfinderView.addPossibleResultPoint(point);

@@ -1,0 +1,22 @@
+class PageFilterAdapter
+!!!141826.java!!!	PageFilterAdapter(inout pageBeenList : List<PageBean>)
+        this.pageBeenList = pageBeenList;
+!!!141954.java!!!	getCount() : int
+        return pageBeenList.size();
+!!!142082.java!!!	getItem(in position : int) : Object
+        return pageBeenList.get(position);
+!!!142210.java!!!	getItemId(in position : int) : long
+        return pageBeenList.get(position).getIndex();
+!!!142338.java!!!	getView(in position : int, inout convertView : View, inout parent : ViewGroup) : View
+        ViewDataBinding listItemBinding;
+        if (convertView != null) {
+            listItemBinding = (ViewDataBinding) convertView.getTag();
+        } else {
+            listItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_pages, parent, false);
+            convertView = listItemBinding.getRoot();
+            convertView.setTag(listItemBinding);
+        }
+        listItemBinding.setVariable(BR.pages,pageBeenList.get(position));
+        listItemBinding.executePendingBindings();
+//        listItemBinding.setButtonclick(new ButtonClick(MainActivity.this,position));
+        return convertView;

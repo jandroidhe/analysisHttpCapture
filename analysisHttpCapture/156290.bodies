@@ -1,0 +1,7 @@
+class TrustSourceException
+!!!285570.java!!!	TrustSourceException(in message : String)
+        super(message);
+!!!285698.java!!!	TrustSourceException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!285826.java!!!	TrustSourceException(inout cause : Throwable)
+        super(cause);

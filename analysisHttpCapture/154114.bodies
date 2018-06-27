@@ -1,0 +1,14 @@
+class ExistingCertificateSource
+!!!275842.java!!!	ExistingCertificateSource(inout rootCertificate : X509Certificate, inout privateKey : PrivateKey)
+        if (rootCertificate == null) {
+            throw new IllegalArgumentException("CA root certificate cannot be null");
+        }
+
+        if (privateKey == null) {
+            throw new IllegalArgumentException("Private key cannot be null");
+        }
+
+        this.rootCertificate = rootCertificate;
+        this.privateKey = privateKey;
+!!!275970.java!!!	load() : CertificateAndKey
+        return new CertificateAndKey(rootCertificate, privateKey);

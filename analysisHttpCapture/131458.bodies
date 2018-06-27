@@ -1,0 +1,158 @@
+class SettingsActivity
+!!!139522.java!!!	isXLargeTablet(inout context : Context) : boolean
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+!!!139650.java!!!	onCreate(inout savedInstanceState : Bundle) : void
+        super.onCreate(savedInstanceState);
+        setupActionBar();
+
+        addPreferencesFromResource(R.xml.pref_data_sync);
+
+        lp = (ListPreference) findPreference("select_ua");
+        //设置获取ListPreference中发生的变化
+        lp.setOnPreferenceChangeListener(this);
+        lp.setSummary(lp.getEntry());
+
+        findPreference("system_host").setOnPreferenceChangeListener(this);
+
+        findPreference("enable_filter").setOnPreferenceChangeListener(this);
+
+        findPreference("install_cert").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                changeSystemProxy();
+                return false;
+            }
+        });
+
+        findPreference("system_proxy").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                return false;
+            }
+        });
+
+        findPreference("app_version").setSummary(DeviceUtils.getVersion(this));
+
+        findPreference("app_version").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    Beta.checkUpgrade();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+        });
+
+        hostPreference = findPreference("app_host");
+        hostPreference.setSummary(getHost());
+!!!139778.java!!!	setupActionBar() : void
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+!!!139906.java!!!	onIsMultiPane() : boolean
+        return isXLargeTablet(this);
+!!!140034.java!!!	onPreferenceChange(inout preference : Preference, inout newValue : Object) : boolean
+        if (preference instanceof ListPreference) {
+            //把preference这个Preference强制转化为ListPreference类型
+            ListPreference listPreference = (ListPreference) preference;
+            //获取ListPreference中的实体内容
+            CharSequence[] entries = listPreference.getEntries();
+            //获取ListPreference中的实体内容的下标值
+            int index = listPreference.findIndexOfValue((String) newValue);
+            //把listPreference中的摘要显示为当前ListPreference的实体内容中选择的那个项目
+            listPreference.setSummary(entries[index]);
+        }
+
+        // 设置hosts
+        if (preference.getKey().equals("system_host")) {
+            DeviceUtils.changeHost(((SysApplication)getApplication()).proxy,newValue.toString());
+            hostPreference.setSummary(getHost());
+        }
+
+        // 重启抓包进程
+        if (preference.getKey().equals("enable_filter")) {
+            Toast.makeText(this, "重启程序后生效", Toast.LENGTH_SHORT).show();
+//            ((SysApplication)getApplication()).stopProxy();
+//            ((SysApplication)getApplication()).startProxy();
+//            Toast.makeText(this, "抓包进程重启完成", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+!!!140162.java!!!	installCert() : void
+        final String CERTIFICATE_RESOURCE = Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.pem";
+        Toast.makeText(this, "必须安装证书才可实现HTTPS抓包", Toast.LENGTH_LONG).show();
+        try {
+            byte[] keychainBytes;
+            FileInputStream is = null;
+            try {
+                is = new FileInputStream(CERTIFICATE_RESOURCE);
+                keychainBytes = new byte[is.available()];
+                is.read(keychainBytes);
+            } finally {
+                IOUtils.closeQuietly(is);
+            }
+
+            Intent intent = KeyChain.createInstallIntent();
+            intent.putExtra(KeyChain.EXTRA_CERTIFICATE, keychainBytes);
+            intent.putExtra(KeyChain.EXTRA_NAME, "NetworkDiagnosis CA Certificate");
+            startActivityForResult(intent, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+!!!140290.java!!!	showLoading(in text : String) : void
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (loadingDialog == null) {
+                        loadingDialog = new LoadingDialog(SettingsActivity.this, text);
+                    }
+                    loadingDialog.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+!!!140418.java!!!	dismissLoading() : void
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (loadingDialog != null) {
+                    loadingDialog.dismiss();
+                    loadingDialog = null;
+                }
+            }
+        });
+!!!140546.java!!!	onActivityResult(in requestCode : int, in resultCode : int, inout data : Intent) : void
+        if (requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                SharedPreferenceUtils.putBoolean(this, "isInstallNewCert", true);
+                Toast.makeText(this, "安装成功", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "安装失败", Toast.LENGTH_LONG).show();
+            }
+        }
+!!!140674.java!!!	changeSystemProxy() : void
+        installCert();
+!!!140802.java!!!	onOptionsItemSelected(inout item : MenuItem) : boolean
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+!!!140930.java!!!	onPause() : void
+        super.onPause();
+!!!141058.java!!!	getHost() : String
+        String result = "";
+        BrowserMobProxy browserMobProxy = ((SysApplication) getApplication()).proxy;
+        AdvancedHostResolver advancedHostResolver = browserMobProxy.getHostNameResolver();
+        for (String key : advancedHostResolver.getHostRemappings().keySet()) {
+            result += key + " " + advancedHostResolver.getHostRemappings().get(key) + "\n";
+        }
+        return result.length() > 1 ? result.substring(0, result.length() - 1) : "无";

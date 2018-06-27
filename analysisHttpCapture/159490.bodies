@@ -1,0 +1,15 @@
+class NativeResolver
+!!!310914.java!!!	clearDNSCache() : void
+        log.debug("Cannot clear native JVM DNS Cache using this Resolver");
+!!!311042.java!!!	setPositiveDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        log.debug("Cannot change native JVM DNS cache timeout using this Resolver");
+!!!311170.java!!!	setNegativeDNSCacheTimeout(in timeout : int, inout timeUnit : TimeUnit) : void
+        log.debug("Cannot change native JVM DNS cache timeout using this Resolver");
+!!!311298.java!!!	resolveRemapped(in remappedHost : String) : Collection<InetAddress>
+        try {
+            Collection<InetAddress> addresses = Arrays.asList(InetAddress.getAllByName(remappedHost));
+
+            return addresses;
+        } catch (UnknownHostException e) {
+            return Collections.emptyList();
+        }

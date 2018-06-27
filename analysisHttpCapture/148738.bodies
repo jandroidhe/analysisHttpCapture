@@ -1,0 +1,24 @@
+class HarPostDataParam
+!!!240514.java!!!	HarPostDataParam(in name : String, in value : String)
+        this.name = name;
+        this.value = value;
+!!!240642.java!!!	getName() : String
+        return name;
+!!!240770.java!!!	setName(in name : String) : void
+        this.name = name;
+!!!240898.java!!!	getValue() : String
+        return value;
+!!!241026.java!!!	setValue(in value : String) : void
+        this.value = value;
+!!!241154.java!!!	getFileName() : String
+        return fileName;
+!!!241282.java!!!	setFileName(in fileName : String) : void
+        this.fileName = fileName;
+!!!241410.java!!!	getContentType() : String
+        return contentType;
+!!!241538.java!!!	setContentType(in contentType : String) : void
+        this.contentType = contentType;
+!!!241666.java!!!	getComment() : String
+        return comment;
+!!!241794.java!!!	setComment(in comment : String) : void
+        this.comment = comment;

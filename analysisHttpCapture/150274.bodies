@@ -1,0 +1,28 @@
+class AutoBasicAuthFilter
+!!!254210.java!!!	AutoBasicAuthFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout credentialsByHostname : Map<String, String>)
+        super(originalRequest, ctx);
+
+        this.credentialsByHostname = credentialsByHostname;
+!!!254338.java!!!	clientToProxyRequest(inout httpObject : HttpObject) : HttpResponse
+        if (credentialsByHostname.isEmpty()) {
+            return null;
+        }
+
+        if (httpObject instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) httpObject;
+
+            // providing authorization during a CONNECT is generally not useful
+            if (ProxyUtils.isCONNECT(httpRequest)) {
+                return null;
+            }
+
+            String hostname = getHost(httpRequest);
+
+            // if there is an entry in the credentials map matching this hostname, add the credentials to the request
+            String base64CredentialsForHostname = credentialsByHostname.get(hostname);
+            if (base64CredentialsForHostname != null) {
+                httpRequest.headers().add(HttpHeaders.Names.AUTHORIZATION, "Basic " + base64CredentialsForHostname);
+            }
+        }
+
+        return null;

@@ -1,0 +1,15 @@
+class CaptureType
+!!!301954.java!!!	getRequestCaptureTypes() : CaptureType
+        return EnumSet.copyOf(REQUEST_CAPTURE_TYPES);
+!!!302082.java!!!	getResponseCaptureTypes() : CaptureType
+        return EnumSet.copyOf(RESPONSE_CAPTURE_TYPES);
+!!!302210.java!!!	getHeaderCaptureTypes() : CaptureType
+        return EnumSet.copyOf(HEADER_CAPTURE_TYPES);
+!!!302338.java!!!	getNonBinaryContentCaptureTypes() : CaptureType
+        return EnumSet.copyOf(NON_BINARY_CONTENT_CAPTURE_TYPES);
+!!!302466.java!!!	getBinaryContentCaptureTypes() : CaptureType
+        return EnumSet.copyOf(BINARY_CONTENT_CAPTURE_TYPES);
+!!!302594.java!!!	getAllContentCaptureTypes() : CaptureType
+        return EnumSet.copyOf(ALL_CONTENT_CAPTURE_TYPES);
+!!!302722.java!!!	getCookieCaptureTypes() : CaptureType
+        return EnumSet.copyOf(COOKIE_CAPTURE_TYPES);

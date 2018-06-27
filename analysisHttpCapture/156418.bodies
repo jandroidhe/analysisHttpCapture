@@ -1,0 +1,5 @@
+class UncheckedIOException
+!!!285954.java!!!	UncheckedIOException(in message : String, inout cause : IOException)
+        super(message, cause);
+!!!286082.java!!!	UncheckedIOException(inout cause : IOException)
+        super(cause);

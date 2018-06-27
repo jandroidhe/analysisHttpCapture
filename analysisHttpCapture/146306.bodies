@@ -1,0 +1,62 @@
+class TrustSource
+!!!279810.java!!!	TrustSource()
+        this(TrustUtil.EMPTY_CERTIFICATE_ARRAY);
+!!!279938.java!!!	TrustSource(inout  : X509Certificate...trustedCAs)
+        if (trustedCAs == null) {
+            this.trustedCAs = TrustUtil.EMPTY_CERTIFICATE_ARRAY;
+        } else {
+            this.trustedCAs = trustedCAs;
+        }
+!!!280066.java!!!	getTrustedCAs() : X509Certificate
+        return trustedCAs;
+!!!280194.java!!!	empty() : TrustSource
+        return new TrustSource();
+!!!280322.java!!!	defaultTrustSource() : TrustSource
+        return DEFAULT_TRUST_SOURCE;
+!!!280450.java!!!	builtinTrustSource() : TrustSource
+        return new TrustSource(TrustUtil.getBuiltinTrustedCAs());
+!!!280578.java!!!	javaTrustSource() : TrustSource
+        return new TrustSource(TrustUtil.getJavaTrustedCAs());
+!!!280706.java!!!	add(in trustedPemEncodedCAs : String) : TrustSource
+        if (trustedPemEncodedCAs == null) {
+            throw new IllegalArgumentException("PEM-encoded trusted CA String cannot be null");
+        }
+
+        X509Certificate[] trustedCertificates = TrustUtil.readX509CertificatesFromPem(trustedPemEncodedCAs);
+
+        return add(trustedCertificates);
+!!!280834.java!!!	add(inout  : X509Certificate...trustedCertificates) : TrustSource
+        if (trustedCertificates == null || trustedCertificates.length == 0) {
+            return this;
+        }
+
+        X509Certificate[] newTrustedCAs = ObjectArrays.concat(trustedCAs, trustedCertificates, X509Certificate.class);
+
+        return new TrustSource(newTrustedCAs);
+!!!280962.java!!!	add(inout trustStore : KeyStore) : TrustSource
+        if (trustStore == null) {
+            throw new IllegalArgumentException("Trust store cannot be null");
+        }
+
+        List<X509Certificate> trustedCertificates = TrustUtil.extractTrustedCertificateEntries(trustStore);
+
+        return add(trustedCertificates.toArray(new X509Certificate[0]));
+!!!281090.java!!!	add(inout trustedCAPemFile : File) : TrustSource
+        if (trustedCAPemFile == null) {
+            throw new IllegalArgumentException("Trusted CA file cannot be null");
+        }
+
+        String pemFileContents;
+        try {
+            pemFileContents = Files.toString(trustedCAPemFile, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Unable to read file containing PEM-encoded trusted CAs: " + trustedCAPemFile.getAbsolutePath(), e);
+        }
+
+        return add(pemFileContents);
+!!!281218.java!!!	add(inout trustSource : TrustSource) : TrustSource
+        if (trustSource == null) {
+            throw new IllegalArgumentException("TrustSource cannot be null");
+        }
+
+        return add(trustSource.getTrustedCAs());

@@ -1,0 +1,5 @@
+class ISO8601WithTDZDateFormatter
+!!!252034.java!!!	serialize(inout value : Date, inout jgen : JsonGenerator, inout provider : SerializerProvider) : void
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(value);
+        jgen.writeString(DatatypeConverter.doFormat("%Y-%M-%DT%h:%m:%s%z",cal));

@@ -1,0 +1,64 @@
+class AbstractHostNameRemapper
+!!!305922.java!!!	remapHosts(inout hostRemappings : Map<String, String>) : void
+        synchronized (remappedHostNames) {
+            ImmutableMap<String, String> newRemappings = ImmutableMap.copyOf(hostRemappings);
+
+            remappedHostNames.set(newRemappings);
+        }
+!!!306050.java!!!	remapHost(in originalHost : String, in remappedHost : String) : void
+        synchronized (remappedHostNames) {
+            Map<String, String> currentHostRemappings = remappedHostNames.get();
+
+            // use a LinkedHashMap to build the new remapping, to avoid duplicate key issues if the originalHost is already in the map
+            Map<String, String> builderMap = Maps.newLinkedHashMap(currentHostRemappings);
+            builderMap.remove(originalHost);
+            builderMap.put(originalHost, remappedHost);
+
+            ImmutableMap<String, String> newRemappings = ImmutableMap.copyOf(builderMap);
+
+            remappedHostNames.set(newRemappings);
+        }
+!!!306178.java!!!	removeHostRemapping(in originalHost : String) : void
+        synchronized (remappedHostNames) {
+            Map<String, String> currentHostRemappings = remappedHostNames.get();
+            if (currentHostRemappings.containsKey(originalHost)) {
+                // use a LinkedHashMap to build the new remapping, to take advantage of the remove() method
+                Map<String, String> builderMap = Maps.newLinkedHashMap(currentHostRemappings);
+                builderMap.remove(originalHost);
+
+                ImmutableMap<String, String> newRemappings = ImmutableMap.copyOf(builderMap);
+
+                remappedHostNames.set(newRemappings);
+            }
+        }
+!!!306306.java!!!	clearHostRemappings() : void
+        synchronized (remappedHostNames) {
+            remappedHostNames.set(ImmutableMap.<String, String>of());
+        }
+!!!306434.java!!!	getHostRemappings() : Map<String, String>
+        return remappedHostNames.get();
+!!!306562.java!!!	getOriginalHostnames(in remappedHost : String) : Collection<String>
+        //TODO: implement this using a reverse mapping multimap that is guarded by the same lock as remappedHostNames, since this method will likely be called
+        // very often when forging certificates
+        List<String> originalHostnames = new ArrayList<>();
+
+        Map<String, String> currentRemappings = remappedHostNames.get();
+        for (Map.Entry<String, String> entry : currentRemappings.entrySet()) {
+            if (entry.getValue().equals(remappedHost)) {
+                originalHostnames.add(entry.getKey());
+            }
+        }
+
+        return originalHostnames;
+!!!306690.java!!!	applyRemapping(in originalHost : String) : String
+        String remappedHost = remappedHostNames.get().get(originalHost);
+
+        if (remappedHost != null) {
+            return remappedHost;
+        } else {
+            return originalHost;
+        }
+!!!306946.java!!!	resolve(in originalHost : String) : Collection<InetAddress>
+        String remappedHost = applyRemapping(originalHost);
+
+        return resolveRemapped(remappedHost);

@@ -1,0 +1,11 @@
+class UnregisterRequestFilter
+!!!270466.java!!!	UnregisterRequestFilter(inout originalRequest : HttpRequest, inout ctx : ChannelHandlerContext, inout activityMonitor : ActivityMonitor)
+        super(originalRequest, ctx);
+
+        this.activityMonitor = activityMonitor;
+!!!270594.java!!!	proxyToClientResponse(inout httpObject : HttpObject) : HttpObject
+        if (httpObject instanceof LastHttpContent) {
+            activityMonitor.requestFinished();
+        }
+
+        return super.proxyToClientResponse(httpObject);

@@ -1,0 +1,3 @@
+class FakeCertificateException
+!!!322946.java!!!	FakeCertificateException(in message : String, inout cause : Throwable)
+        super(message, cause);

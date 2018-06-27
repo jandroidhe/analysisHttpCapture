@@ -1,0 +1,49 @@
+class ContentFilterAdapter
+!!!141186.java!!!	ContentFilterAdapter(inout changeFilterActivity : ChangeFilterActivity, inout ruleList : List<ResponseFilterRule>)
+        this.ruleList = ruleList;
+        this.changeFilterActivity = changeFilterActivity;
+!!!141314.java!!!	getCount() : int
+        return ruleList.size();
+!!!141442.java!!!	getItem(in position : int) : Object
+        return ruleList.get(position);
+!!!141570.java!!!	getItemId(in position : int) : long
+        return position;
+!!!141698.java!!!	getView(in position : int, inout convertView : View, inout parent : ViewGroup) : View
+        ViewDataBinding listItemBinding;
+        if (convertView != null) {
+            listItemBinding = (ViewDataBinding) convertView.getTag();
+        } else {
+            listItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_filter, parent, false);
+            convertView = listItemBinding.getRoot();
+            convertView.setTag(listItemBinding);
+        }
+        listItemBinding.setVariable(BR.pages,ruleList.get(position));
+        listItemBinding.executePendingBindings();
+//        listItemBinding.cli(new ButtonClick(MainActivity.this,position));
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFilterActivity.showDialog(ruleList.get(position));
+            }
+        });
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(changeFilterActivity);
+                builder.setTitle("请确认是否清除该注入项?");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        ruleList.remove(ruleList.get(position));
+                        ContentFilterAdapter.this.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                builder.create().show();
+
+                return false;
+            }
+        });
+        return convertView;

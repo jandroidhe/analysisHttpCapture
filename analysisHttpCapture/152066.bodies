@@ -1,0 +1,56 @@
+class HttpMessageContents
+!!!313730.java!!!	HttpMessageContents(inout httpMessage : FullHttpMessage)
+        this.httpMessage = httpMessage;
+!!!313858.java!!!	setTextContents(in newContents : String) : void
+        HttpObjectUtil.replaceTextHttpEntityBody(httpMessage, newContents);
+
+        // replaced the contents, so clear the local cache
+        textContents = null;
+        binaryContents = null;
+!!!313986.java!!!	setBinaryContents(inout newBinaryContents : byte) : void
+        HttpObjectUtil.replaceBinaryHttpEntityBody(httpMessage, newBinaryContents);
+
+        // replaced the contents, so clear the local cache
+        binaryContents = null;
+        textContents = null;
+!!!314114.java!!!	getTextContents() : String
+        // avoid re-extracting the contents if this method is called repeatedly
+        if (textContents == null) {
+            textContents = HttpObjectUtil.extractHttpEntityBody(httpMessage);
+        }
+
+        return textContents;
+!!!314242.java!!!	getBinaryContents() : byte
+        // avoid re-extracting the contents if this method is called repeatedly
+        if (binaryContents == null) {
+            binaryContents = HttpObjectUtil.extractBinaryHttpEntityBody(httpMessage);
+        }
+
+        return binaryContents;
+!!!314370.java!!!	getContentType() : String
+        String contentTypeHeader = HttpHeaders.getHeader(httpMessage, HttpHeaders.Names.CONTENT_TYPE);
+        if (contentTypeHeader == null || contentTypeHeader.isEmpty()) {
+            return BrowserMobHttpUtil.UNKNOWN_CONTENT_TYPE;
+        } else {
+            return contentTypeHeader;
+        }
+!!!314498.java!!!	getCharset() : Charset
+        String contentTypeHeader = getContentType();
+
+        Charset charset = null;
+        try {
+            charset = BrowserMobHttpUtil.readCharsetInContentTypeHeader(contentTypeHeader);
+        } catch (UnsupportedCharsetException e) {
+            java.nio.charset.UnsupportedCharsetException cause = e.getUnsupportedCharsetExceptionCause();
+            log.error("Character set specified in Content-Type header is not supported on this platform. Content-Type header: {}", contentTypeHeader, cause);
+
+            throw cause;
+        }
+
+        if (charset == null) {
+            return BrowserMobHttpUtil.DEFAULT_HTTP_CHARSET;
+        }
+
+        return charset;
+!!!314626.java!!!	isText() : boolean
+        return BrowserMobHttpUtil.hasTextualContent(getContentType());

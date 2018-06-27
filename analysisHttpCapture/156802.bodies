@@ -1,0 +1,160 @@
+class ImpersonatingMitmManager
+!!!287362.java!!!	ImpersonatingMitmManager(inout rootCertificateSource : CertificateAndKeySource, inout serverKeyGenerator : KeyGenerator, in serverMessageDigest : String, inout trustSource : TrustSource, in sslContextCacheConcurrencyLevel : int, in cacheExpirationIntervalMs : long, inout securityProviderTool : SecurityProviderTool, inout certificateInfoGenerator : CertificateInfoGenerator, inout serverCipherSuites : Collection<String>, inout clientCipherSuites : Collection<String>)
+        if (rootCertificateSource == null) {
+            throw new IllegalArgumentException("CA root certificate source cannot be null");
+        }
+
+        if (serverKeyGenerator == null) {
+            throw new IllegalArgumentException("Server key generator cannot be null");
+        }
+
+        if (serverMessageDigest == null) {
+            throw new IllegalArgumentException("Server certificate message digest cannot be null");
+        }
+
+        if (securityProviderTool == null) {
+            throw new IllegalArgumentException("The certificate tool implementation cannot be null");
+        }
+
+        if (certificateInfoGenerator == null) {
+            throw new IllegalArgumentException("Certificate info generator cannot be null");
+        }
+
+        this.rootCertificateSource = rootCertificateSource;
+
+        this.trustSource = trustSource;
+
+        this.serverCertificateMessageDigest = serverMessageDigest;
+
+        this.serverKeyGenerator = serverKeyGenerator;
+
+        this.sslContextCache = CacheBuilder.newBuilder()
+                .concurrencyLevel(sslContextCacheConcurrencyLevel)
+                .expireAfterAccess(cacheExpirationIntervalMs, TimeUnit.MILLISECONDS)
+                .build();
+
+        this.securityProviderTool = securityProviderTool;
+
+        this.certificateInfoGenerator = certificateInfoGenerator;
+
+        this.serverCipherSuites = ImmutableList.copyOf(serverCipherSuites);
+        log.debug("Allowed ciphers for proxy connections to upstream servers (some ciphers may not be available): {}", serverCipherSuites);
+
+        this.clientCipherSuites = ImmutableList.copyOf(clientCipherSuites);
+        log.debug("Allowed ciphers for client connections to proxy (some ciphers may not be available): {}", clientCipherSuites);
+!!!287490.java!!!	serverSslEngine() : SSLEngine
+        try {
+            SSLEngine sslEngine = upstreamServerSslContext.get().newEngine(ByteBufAllocator.DEFAULT);
+
+            return sslEngine;
+        } catch (RuntimeException e) {
+            throw new MitmException("Error creating SSLEngine for connection to upstream server", e);
+        }
+!!!287618.java!!!	serverSslEngine(in peerHost : String, in peerPort : int) : SSLEngine
+        try {
+            SSLEngine sslEngine = upstreamServerSslContext.get().newEngine(ByteBufAllocator.DEFAULT, peerHost, peerPort);
+
+            // support SNI by setting the endpoint identification algorithm. this requires Java 7+.
+            SSLParameters sslParams = new SSLParameters();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+            }
+            sslEngine.setSSLParameters(sslParams);
+
+            return sslEngine;
+        } catch (RuntimeException e) {
+            throw new MitmException("Error creating SSLEngine for connection to upstream server: " + peerHost + ":" + peerPort, e);
+        }
+!!!287746.java!!!	clientSslEngineFor(inout httpRequest : HttpRequest, inout sslSession : SSLSession) : SSLEngine
+        String requestedHostname = HttpUtil.getHostFromRequest(httpRequest);
+
+        try {
+            SslContext ctx = getHostnameImpersonatingSslContext(requestedHostname, sslSession);
+
+            return ctx.newEngine(ByteBufAllocator.DEFAULT);
+        } catch (RuntimeException e) {
+            throw new MitmException("Error creating SSLEngine for connection to client to impersonate upstream host: " + requestedHostname, e);
+        }
+!!!287874.java!!!	getHostnameImpersonatingSslContext(in hostnameToImpersonate : String, in sslSession : SSLSession) : SslContext
+        try {
+            return sslContextCache.get(hostnameToImpersonate, new Callable<SslContext>() {
+                @Override
+                public SslContext call() throws Exception {
+                    return createImpersonatingSslContext(sslSession, hostnameToImpersonate);
+                }
+            });
+        } catch (ExecutionException e) {
+            throw new SslContextInitializationException("An error occurred while impersonating the remote host: " + hostnameToImpersonate, e);
+        }
+
+        //TODO: generate wildcard certificates, rather than one certificate per host, to reduce the number of certs generated
+!!!288002.java!!!	createImpersonatingSslContext(inout sslSession : SSLSession, in hostnameToImpersonate : String) : SslContext
+        // get the upstream server's certificate so the certificateInfoGenerator can (optionally) use it to construct a forged certificate
+        X509Certificate originalCertificate = SslUtil.getServerCertificate(sslSession);
+
+        // get the CertificateInfo that will be used to populate the impersonated X509Certificate
+        CertificateInfo certificateInfo = certificateInfoGenerator.generate(Collections.singletonList(hostnameToImpersonate), originalCertificate);
+
+        SslContext sslContext = createImpersonatingSslContext(certificateInfo);
+
+        return sslContext;
+!!!288130.java!!!	createImpersonatingSslContext(inout certificateInfo : CertificateInfo) : SslContext
+        long impersonationStart = System.currentTimeMillis();
+
+        // generate a public and private key pair for the forged certificate. the SslContext will send the impersonated certificate to clients
+        // to impersonate the real upstream server, and will use the private key to encrypt the channel.
+        KeyPair serverKeyPair = serverKeyGenerator.generate();
+
+        // get the CA root certificate and private key that will be used to sign the forged certificate
+        X509Certificate caRootCertificate = rootCertificate.get().getCertificate();
+        PrivateKey caPrivateKey = rootCertificate.get().getPrivateKey();
+        if (caRootCertificate == null || caPrivateKey == null) {
+            throw new IllegalStateException("A CA root certificate and private key are required to sign a server certificate. Root certificate was: "
+                    + caRootCertificate + ". Private key was: " + caPrivateKey);
+        }
+
+        // determine if the server private key was signed with an RSA private key. though TLS no longer requires the server
+        // certificate to use the same private key type as the root certificate, Java bug JDK-8136442 prevents Java from creating a opening an SSL socket
+        // if the CA and server certificates are not of the same type. see https://bugs.openjdk.java.net/browse/JDK-8136442
+        // note this only applies to RSA CAs signing EC server certificates; Java seems to properly handle EC CAs signing
+        // RSA server certificates.
+        if (EncryptionUtil.isEcKey(serverKeyPair.getPrivate()) && EncryptionUtil.isRsaKey(caPrivateKey)) {
+            log.warn("CA private key is an RSA key and impersonated server private key is an Elliptic Curve key. JDK bug 8136442 may prevent the proxy server from creating connections to clients due to 'no cipher suites in common'.");
+        }
+
+        // create the forged server certificate and sign it with the root certificate and private key
+        CertificateAndKey impersonatedCertificateAndKey = securityProviderTool.createServerCertificate(
+                certificateInfo,
+                caRootCertificate,
+                caPrivateKey,
+                serverKeyPair,
+                serverCertificateMessageDigest);
+
+        X509Certificate[] certChain = {impersonatedCertificateAndKey.getCertificate(), caRootCertificate};
+        SslContext sslContext;
+        try {
+            sslContext = SslContextBuilder.forServer(impersonatedCertificateAndKey.getPrivateKey(), certChain)
+                    .ciphers(clientCipherSuites, SupportedCipherSuiteFilter.INSTANCE)
+                    .build();
+
+        } catch (SSLException e) {
+            throw new MitmException("Error creating SslContext for connection to client using impersonated certificate and private key", e);
+        }
+
+        long impersonationFinish = System.currentTimeMillis();
+
+        statistics.certificateCreated(impersonationStart, impersonationFinish);
+
+        log.debug("Impersonated certificate for {} in {}ms", certificateInfo.getCommonName(), impersonationFinish - impersonationStart);
+
+        return sslContext;
+!!!288258.java!!!	getStatistics() : CertificateGenerationStatistics
+        return this.statistics;
+!!!288386.java!!!	builder() : ImpersonatingMitmManager::Builder
+        return new Builder();
+!!!288514.java!!!	builderWithECC() : ImpersonatingMitmManager::Builder
+        return new Builder()
+                .serverKeyGenerator(new ECKeyGenerator())
+                .rootCertificateSource(RootCertificateGenerator.builder()
+                        .keyGenerator(new ECKeyGenerator())
+                        .build());

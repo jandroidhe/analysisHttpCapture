@@ -1,0 +1,24 @@
+class TraceRouteContainer
+!!!151298.java!!!	TraceRouteContainer(in hostname : String, in ip : String, in ms : float, inout isSuccessful : boolean)
+        this.hostname = hostname;
+        this.ip = ip;
+        this.ms = ms;
+        this.isSuccessful = isSuccessful;
+!!!151426.java!!!	getHostname() : String
+        return hostname;
+!!!151554.java!!!	setHostname(in hostname : String) : void
+        this.hostname = hostname;
+!!!151682.java!!!	getIp() : String
+        return ip;
+!!!151810.java!!!	setIp(in ip : String) : void
+        this.ip = ip;
+!!!151938.java!!!	getMs() : float
+        return ms;
+!!!152066.java!!!	setMs(in ms : float) : void
+        this.ms = ms;
+!!!152194.java!!!	isSuccessful() : boolean
+        return isSuccessful;
+!!!152322.java!!!	setSuccessful(inout isSuccessful : boolean) : void
+        this.isSuccessful = isSuccessful;
+!!!152450.java!!!	toString() : String
+        return "Traceroute : \nHostname : " + hostname + "\nip : " + ip + "\nMilliseconds : " + ms;

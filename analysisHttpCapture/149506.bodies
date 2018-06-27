@@ -1,0 +1,7 @@
+class DecompressionException
+!!!252290.java!!!	DecompressionException(in message : String)
+        super(message);
+!!!252418.java!!!	DecompressionException(in message : String, inout cause : Throwable)
+        super(message, cause);
+!!!252546.java!!!	DecompressionException(inout cause : Throwable)
+        super(cause);

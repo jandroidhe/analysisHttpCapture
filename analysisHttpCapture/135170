@@ -1,0 +1,1069 @@
+format 76
+"util" // source::main::java::net::lightbody::bmp::mitm::util
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/mitm/util/"
+  java_package "net.lightbody.bmp.mitm.util"
+  classview 133634 "util"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 157954 "EncryptionUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A collection of simple JCA-related utilities."
+      operation 297218 "getSignatureAlgorithm"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param in name "messageDigest" explicit_type "String"
+	  param inout name "signingKey" explicit_type "Key"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a signature algorithm string using the specified message digest and the encryption type corresponding
+to the supplied signingKey. Useful when generating the signature algorithm to be used to sign server certificates
+using the CA root certificate's signingKey.
+<p/>
+For example, if the root certificate has an RSA private key, and you
+wish to use the SHA256 message digest, this method will return the string \"SHA256withRSA\". See the
+\"Signature Algorithms\" section of http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html
+for a list of JSSE-supported signature algorithms.
+
+@param messageDigest digest to use to sign the certificate, such as SHA512
+@param signingKey    private key that will be used to sign the certificate
+@return a JCA-compatible signature algorithm"
+      end
+
+      operation 297346 "getDigitalSignatureType"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "signingKey" explicit_type "Key"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the type of digital signature used with the specified signing key.
+
+@param signingKey private key that will be used to sign a certificate (or something else)
+@return a string representing the digital signature type (ECDSA, RSA, etc.)"
+      end
+
+      operation 297474 "getRandomBigInteger"
+	class_operation public explicit_return_type "BigInteger"
+	nparams 1
+	  param in name "bits" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a random BigInteger greater than 0 with the specified number of bits.
+
+@param bits number of bits to generate
+@return random BigInteger"
+      end
+
+      operation 297602 "isRsaKey"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "key" explicit_type "Key"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the key is an RSA public or private key."
+      end
+
+      operation 297730 "isEcKey"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "key" explicit_type "Key"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the key is an elliptic curve public or private key."
+      end
+
+      operation 297858 "writePemStringToFile"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "file" explicit_type "File"
+	  param in name "pemDataToWrite" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method to write PEM data to a file. The file will be encoded in the US_ASCII character set.
+
+@param file file to write to
+@param pemDataToWrite PEM data to write to the file"
+      end
+
+      operation 297986 "readPemStringFromFile"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "file" explicit_type "File"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method to read PEM data from a file. The file encoding must be US_ASCII.
+
+@param file file to read from
+@return PEM data from file"
+      end
+
+      operation 298114 "isUnlimitedStrengthAllowed"
+	class_operation public explicit_return_type "boolean"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determines if unlimited-strength cryptography is allowed, i.e. if this JRE has then the unlimited strength policy
+files installed.
+
+@return true if unlimited strength cryptography is allowed, otherwise false"
+      end
+    end
+
+    class 158082 "KeyStoreUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility for loading, saving, and manipulating {@link KeyStore}s."
+      operation 298242 "createEmptyKeyStore"
+	class_operation public explicit_return_type "KeyStore"
+	nparams 2
+	  param in name "keyStoreType" explicit_type "String"
+	  param in name "provider" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates and initializes an empty KeyStore using the specified keyStoreType.
+
+@param keyStoreType type of key store to initialize, or null to use the system default
+@param provider     JCA provider to use, or null to use the system default
+@return a new KeyStore"
+      end
+
+      operation 298370 "createRootCertificateKeyStore"
+	class_operation public explicit_return_type "KeyStore"
+	nparams 6
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "certificate" explicit_type "X509Certificate"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	  param in name "privateKeyPassword" explicit_type "String"
+	  param in name "provider" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new KeyStore containing the specified root certificate and private key.
+
+@param keyStoreType       type of the generated KeyStore, such as PKCS12 or JKS
+@param certificate        root certificate to add to the KeyStore
+@param privateKeyAlias    alias for the private key in the KeyStore
+@param privateKey         private key to add to the KeyStore
+@param privateKeyPassword password for the private key
+@param provider           JCA provider to use, or null to use the system default
+@return new KeyStore containing the root certificate and private key"
+      end
+
+      operation 298498 "getKeyManagers"
+	class_operation public explicit_return_type "KeyManager"
+	nparams 4
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keyStorePassword" explicit_type "String"
+	  param in name "keyManagerAlgorithm" explicit_type "String"
+	  param in name "provider" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve the KeyManagers for the specified KeyStore.
+
+@param keyStore            the KeyStore to retrieve KeyManagers from
+@param keyStorePassword    the KeyStore password
+@param keyManagerAlgorithm key manager algorithm to use, or null to use the system default
+@param provider            JCA provider to use, or null to use the system default
+@return KeyManagers for the specified KeyStore"
+      end
+    end
+
+    class 158210 "MitmConstants"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Default values for basic MITM properties."
+      attribute 214018 "DEFAULT_MESSAGE_DIGEST"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " is32BitJvm() ? \"SHA256\": \"SHA384\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The default message digest to use when signing certificates (CA or server). On 64-bit systems this is set to
+SHA512, on 32-bit systems this is SHA256. On 64-bit systems, SHA512 generally performs better than SHA256; see
+this question for details: http://crypto.stackexchange.com/questions/26336/sha512-faster-than-sha256. SHA384 is
+SHA512 with a smaller output size.
+"
+      end
+
+      attribute 214146 "DEFAULT_KEYSTORE_TYPE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"PKCS12\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The default {@link java.security.KeyStore} type to use when creating KeyStores (e.g. for impersonated server
+certificates). PKCS12 is widely supported.
+"
+      end
+
+      operation 298626 "is32BitJvm"
+	class_operation private explicit_return_type "boolean"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Uses the non-portable system property sun.arch.data.model to help determine if we are running on a 32-bit JVM.
+Since the majority of modern systems are 64 bits, this method \"assumes\" 64 bits and only returns true if
+sun.arch.data.model explicitly indicates a 32-bit JVM.
+
+@return true if we can determine definitively that this is a 32-bit JVM, otherwise false"
+      end
+    end
+
+    class 158338 "SslUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility for creating SSLContexts."
+      attribute 214274 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(SslUtil.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 214402 "DEFAULT_CIPHERS_LIST_RESOURCE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"/default-ciphers.txt\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Classpath resource containing a list of default ciphers.
+"
+      end
+
+      attribute 214530 "defaultCipherList"
+	class_attribute const_attribute private explicit_type "List<String>"
+	init_value " Suppliers.memoize(new Supplier<List<String>>() {
+        @Override
+        public List<String> get() {
+            List<String> ciphers;
+            if (OpenSsl.isAvailable()) {
+                // TODO: consider switching to the list of all available ciphers using OpenSsl.availableCipherSuites()
+                ciphers = getBuiltInCipherList();
+            } else {
+                ciphers = getEnabledJdkCipherSuites();
+
+                if (ciphers.isEmpty()) {
+                    // could not retrieve the list of enabled ciphers from the JDK SSLContext, so use the hard-coded list
+                    ciphers = getBuiltInCipherList();
+                }
+            }
+
+            return ciphers;
+        }
+    })"
+	stereotype "Supplier"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The default cipher list to prefer when creating client or server connections. Stored as a lazily-loaded singleton
+due to the relatively expensive initialization time, especially when determining the enabled JDK ciphers.
+If OpenSsl support is enabled, this simply returns the list provided by {@link #getBuiltInCipherList()}.
+If OpenSsl is not available, retrieves the default ciphers enabled on java SSLContexts. If the enabled JDK cipher
+list cannot be read, returns the list provided by {@link #getBuiltInCipherList()}.
+"
+      end
+
+      operation 298754 "getUpstreamServerSslContext"
+	class_operation public explicit_return_type "SslContext"
+	nparams 2
+	  param inout name "cipherSuites" explicit_type "Collection<String>"
+	  param inout name "trustSource" type class_ref 146306 // TrustSource
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a netty SslContext for use when connecting to upstream servers. Retrieves the list of trusted root CAs
+from the trustSource. When trustSource is true, no upstream certificate verification will be performed.
+<b>This will make it possible for attackers to MITM communications with the upstream server</b>, so always
+supply an appropriate trustSource except in extraordinary circumstances (e.g. testing with dynamically-generated
+certificates).
+
+@param cipherSuites    cipher suites to allow when connecting to the upstream server
+@param trustSource     the trust store that will be used to validate upstream servers' certificates, or null to accept all upstream server certificates
+@return an SSLContext to connect to upstream servers with"
+      end
+
+      operation 298882 "getServerCertificate"
+	class_operation public explicit_return_type "X509Certificate"
+	nparams 1
+	  param inout name "sslSession" explicit_type "SSLSession"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the X509Certificate for the server this session is connected to. The certificate may be null.
+
+@param sslSession SSL session connected to upstream server
+@return the X.509 certificate from the upstream server, or null if no certificate is available"
+      end
+
+      operation 299010 "getEnabledJdkCipherSuites"
+	class_operation public explicit_return_type "List<String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the list of default \"enabled\" ciphers for server TLS connections, as reported by the default Java security provider.
+This is most likely a subset of \"available\" ciphers.
+
+@return list of default server ciphers, or an empty list if the default cipher list cannot be loaded"
+      end
+
+      operation 299138 "getDefaultCipherList"
+	class_operation public explicit_return_type "List<String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a reasonable default cipher list for new client and server SSL connections. Not all of the ciphers may be supported
+by the underlying SSL implementation (OpenSsl or JDK). The default list itself may also vary between OpenSsl and JDK
+implementations. See {@link #defaultCipherList} for implementation details.
+
+@return default ciphers for client and server connections"
+      end
+
+      operation 299266 "getBuiltInCipherList"
+	class_operation public explicit_return_type "List<String>"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns ciphers from the hard-coded list of \"reasonable\" default ciphers in {@link #DEFAULT_CIPHERS_LIST_RESOURCE}.
+
+@return ciphers from the {@link #DEFAULT_CIPHERS_LIST_RESOURCE}"
+      end
+    end
+
+    class 158466 "TrustUtil"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Utility class for interacting with the default trust stores on this JVM."
+      attribute 214658 "log"
+	class_attribute const_attribute private explicit_type "Logger"
+	init_value " LoggerFactory.getLogger(TrustUtil.class)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 214786 "CA_PEM_PATTERN"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(\"-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----\", Pattern.DOTALL)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Regex that matches a single certificate within a PEM file containing (potentially multiple) certificates.
+"
+      end
+
+      attribute 214914 "DEFAULT_TRUSTED_CA_RESOURCE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"/cacerts.pem\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The file containing the built-in list of trusted CAs.
+"
+      end
+
+      attribute 215042 "EMPTY_CERTIFICATE_ARRAY"
+	class_attribute const_attribute public explicit_type "X509Certificate"
+	multiplicity "[]"
+	init_value " new X509Certificate[0]"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Empty X509 certificate array, useful for indicating an empty root CA trust store.
+"
+      end
+
+      classrelation 159746 // securityProviderTool (<unidirectional association>)
+	relation 159746 --->
+	  a role_name "securityProviderTool" init_value " new DefaultSecurityProviderTool()" class_relation const_relation private
+	    comment "
+Security provider used to transform PEM files into Certificates.
+TODO: Modify the architecture of TrustUtil and TrustSource so that they do not need a hard-coded SecurityProviderTool.
+
+"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 159746 // securityProviderTool (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      attribute 215170 "javaTrustedCAs"
+	class_attribute const_attribute private explicit_type "X509Certificate[]"
+	init_value " Suppliers.memoize(new Supplier<X509Certificate[]>() {
+        @Override
+        public X509Certificate[] get() {
+            X509TrustManager defaultTrustManager = getDefaultJavaTrustManager();
+
+            X509Certificate[] defaultJavaTrustedCerts = defaultTrustManager.getAcceptedIssuers();
+
+            if (defaultJavaTrustedCerts != null) {
+                return defaultJavaTrustedCerts;
+            } else {
+                return EMPTY_CERTIFICATE_ARRAY;
+            }
+        }
+    })"
+	stereotype "Supplier"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Singleton for the list of CAs trusted by Java by default.
+"
+      end
+
+      attribute 215298 "builtinTrustedCAs"
+	class_attribute const_attribute private explicit_type "X509Certificate[]"
+	init_value " Suppliers.memoize(new Supplier<X509Certificate[]>() {
+        @Override
+        public X509Certificate[] get() {
+            try {
+                // the file may contain UTF-8 characters, but the PEM-encoded certificate data itself must be US-ASCII
+                String allCAs = ClasspathResourceUtil.classpathResourceToString(DEFAULT_TRUSTED_CA_RESOURCE, StandardCharsets.UTF_8);
+
+                return readX509CertificatesFromPem(allCAs);
+            } catch (UncheckedIOException e) {
+                log.warn(\"Unable to load built-in trusted CAs; no built-in CAs will be trusted\", e);
+                return new X509Certificate[0];
+            }
+        }
+    })"
+	stereotype "Supplier"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Singleton for the built-in list of trusted CAs.
+"
+      end
+
+      operation 299394 "getBuiltinTrustedCAs"
+	class_operation public explicit_return_type "X509Certificate"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the built-in list of trusted CAs. This is a copy of cURL's list (https://curl.haxx.se/ca/cacert.pem), which is
+ultimately derived from Firefox/NSS' list of trusted CAs."
+      end
+
+      operation 299522 "getJavaTrustedCAs"
+	class_operation public explicit_return_type "X509Certificate"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the list of root CAs trusted by default in this JVM, according to the TrustManager returned by
+{@link #getDefaultJavaTrustManager()}."
+      end
+
+      operation 299650 "readX509CertificatesFromPem"
+	class_operation public explicit_return_type "X509Certificate"
+	nparams 1
+	  param in name "pemEncodedCAs" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses a String containing zero or more PEM-encoded X509 certificates into an array of {@link X509Certificate}.
+Everything outside of BEGIN CERTIFICATE and END CERTIFICATE lines will be ignored.
+
+@param pemEncodedCAs a String containing PEM-encoded certficiates
+@return array containing certificates in the String"
+      end
+
+      operation 299778 "readSingleX509Certificate"
+	class_operation public explicit_return_type "X509Certificate"
+	nparams 1
+	  param in name "x509CertificateAsPem" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses a single PEM-encoded X509 certificate into an {@link X509Certificate}.
+
+@param x509CertificateAsPem PEM-encoded X509 certificate
+@return parsed Java X509Certificate"
+      end
+
+      operation 299906 "getDefaultJavaTrustManager"
+	class_operation public explicit_return_type "X509TrustManager"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a new instance of the default TrustManager for this JVM. Uses the default JVM trust store, which is
+generally the cacerts file in JAVA_HOME/jre/lib/security, but this can be overridden using JVM parameters."
+      end
+
+      operation 300034 "extractTrustedCertificateEntries"
+	class_operation public explicit_return_type "List<X509Certificate>"
+	nparams 1
+	  param inout name "trustStore" explicit_type "KeyStore"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts the {@link java.security.KeyStore.TrustedCertificateEntry}s from the specified KeyStore. All other entry
+types, including private keys, will be ignored.
+
+@param trustStore keystore containing trusted certificate entries
+@return the trusted certificate entries in the specified keystore"
+      end
+    end
+  end
+
+  deploymentview 132098 "util"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 146434 "EncryptionUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import net.lightbody.bmp.mitm.exception.ExportException;
+import net.lightbody.bmp.mitm.exception.ImportException;
+import org.apache.commons.io.FileUtils;
+import javax.crypto.Cipher;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.DSAKey;
+import java.security.interfaces.ECKey;
+import java.security.interfaces.RSAKey;
+import java.util.Random;
+${definition}"
+      associated_classes
+	class_ref 157954 // EncryptionUtil
+      end
+    end
+
+    artifact 146562 "KeyStoreUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import net.lightbody.bmp.mitm.exception.KeyStoreAccessException;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 158082 // KeyStoreUtil
+      end
+    end
+
+    artifact 146690 "MitmConstants"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_classes
+	class_ref 158210 // MitmConstants
+      end
+    end
+
+    artifact 146818 "SslUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.io.CharStreams;
+import io.netty.handler.ssl.OpenSsl;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.SupportedCipherSuiteFilter;
+import net.lightbody.bmp.mitm.trustmanager.InsecureTrustManagerFactory;
+import net.lightbody.bmp.mitm.TrustSource;
+import net.lightbody.bmp.mitm.exception.SslContextInitializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 158338 // SslUtil
+      end
+    end
+
+    artifact 146946 "TrustUtil"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import net.lightbody.bmp.mitm.exception.KeyStoreAccessException;
+import net.lightbody.bmp.mitm.exception.TrustSourceException;
+import net.lightbody.bmp.mitm.exception.UncheckedIOException;
+import net.lightbody.bmp.mitm.tools.DefaultSecurityProviderTool;
+import net.lightbody.bmp.mitm.tools.SecurityProviderTool;
+import net.lightbody.bmp.util.ClasspathResourceUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+${definition}"
+      associated_classes
+	class_ref 158466 // TrustUtil
+      end
+    end
+  end
+end

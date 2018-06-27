@@ -1,0 +1,65 @@
+class HttpUtil
+!!!316546.java!!!	getHostFromRequest(inout httpRequest : HttpRequest) : String
+        // try to use the URI from the request first, if the URI starts with http:// or https://. checking for http/https avoids confusing
+        // java's URI class when the request is for a malformed URL like '//some-resource'.
+        String host = null;
+        if (startsWithHttpOrHttps(httpRequest.getUri())) {
+            try {
+                URI uri = new URI(httpRequest.getUri());
+                host = uri.getHost();
+            } catch (URISyntaxException e) {
+            }
+        }
+
+        // if there was no host in the URI, attempt to grab the host from the Host header
+        if (host == null || host.isEmpty()) {
+            host = parseHostHeader(httpRequest, false);
+        }
+
+        return host;
+!!!316674.java!!!	getHostAndPortFromRequest(inout httpRequest : HttpRequest) : String
+        if (startsWithHttpOrHttps(httpRequest.getUri())) {
+            try {
+                return getHostAndPortFromUri(httpRequest.getUri());
+            } catch (URISyntaxException e) {
+                // the URI could not be parsed, so return the host and port in the Host header
+            }
+        }
+
+        return parseHostHeader(httpRequest, true);
+!!!316802.java!!!	startsWithHttpOrHttps(in uri : String) : boolean
+        if (uri == null) {
+            return false;
+        }
+
+        // the scheme is case insensitive, according to RFC 7230, section 2.7.3:
+        /*
+            The scheme and host
+            are case-insensitive and normally provided in lowercase; all other
+            components are compared in a case-sensitive manner.
+        */
+        String lowercaseUri = uri.toLowerCase(Locale.US);
+
+        return lowercaseUri.startsWith("http://") || lowercaseUri.startsWith("https://");
+!!!316930.java!!!	getHostAndPortFromUri(in uriString : String) : String
+        URI uri = new URI(uriString);
+        if (uri.getPort() == -1) {
+            return uri.getHost();
+        } else {
+            return HostAndPort.fromParts(uri.getHost(), uri.getPort()).toString();
+        }
+!!!317058.java!!!	parseHostHeader(inout httpRequest : HttpRequest, inout includePort : boolean) : String
+        // this header parsing logic is adapted from ClientToProxyConnection#identifyHostAndPort.
+        List<String> hosts = httpRequest.headers().getAll(HttpHeaders.Names.HOST);
+        if (!hosts.isEmpty()) {
+            String hostAndPort = hosts.get(0);
+
+            if (includePort) {
+                return hostAndPort;
+            } else {
+                HostAndPort parsedHostAndPort = HostAndPort.fromString(hostAndPort);
+                return parsedHostAndPort.getHostText();
+            }
+        } else {
+            return null;
+        }

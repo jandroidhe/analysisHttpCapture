@@ -1,0 +1,1203 @@
+format 76
+"tools" // source::main::java::net::lightbody::bmp::mitm::tools
+  revision 1
+  modified_by 2 "fengcheng.zhang"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  java_dir "d:/workspace/analysis/androidHttpCapture/source/main/java/net/lightbody/bmp/mitm/tools/"
+  java_package "net.lightbody.bmp.mitm.tools"
+  classview 132866 "tools"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default class_drawing_mode default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 154626 "SecurityProviderTool"
+      visibility public stereotype "interface"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Generic interface for functionality provided by a Security Provider."
+      operation 290818 "createCARootCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 3
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "keyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new self-signed CA root certificate, suitable for use signing new server certificates.
+
+@param certificateInfo certificate info to populate in the new root cert
+@param keyPair         root certificate's public and private keys
+@param messageDigest   digest to use when signing the new root certificate, such as SHA512
+@return a new root certificate and private key"
+      end
+
+      operation 290946 "createServerCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 5
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "caRootCertificate" explicit_type "X509Certificate"
+	  param inout name "caPrivateKey" explicit_type "PrivateKey"
+	  param inout name "serverKeyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new server X.509 certificate using the serverKeyPair. The new certificate will be populated with
+information from the specified certificateInfo and will be signed using the specified caPrivateKey and messageDigest.
+
+@param certificateInfo   basic X.509 certificate info that will be used to create the server certificate
+@param caRootCertificate root certificate that will be used to populate the issuer field of the server certificate
+@param serverKeyPair     server's public and private keys
+@param messageDigest     message digest to use when signing the server certificate, such as SHA512
+@param caPrivateKey      root certificate private key that will be used to sign the server certificate
+@return a new server certificate and its private key"
+      end
+
+      operation 291074 "createServerKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 5
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "serverCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param inout name "rootCertificate" explicit_type "X509Certificate"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Assembles a Java KeyStore containing a server's certificate, private key, and the certificate authority's certificate,
+which can be used to create an {@link javax.net.ssl.SSLContext}.
+
+@param keyStoreType            the KeyStore type, such as JKS or PKCS12
+@param serverCertificateAndKey certificate and private key for the server, which will be placed in the KeyStore
+@param rootCertificate         CA root certificate of the private key that signed the server certificate
+@param privateKeyAlias         alias to assign the private key (with accompanying certificate chain) to in the KeyStore
+@param password                password for the new KeyStore and private key
+@return a new KeyStore with the server's certificate and password-protected private key"
+      end
+
+      operation 291202 "createRootCertificateKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "rootCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Assembles a Java KeyStore containing a CA root certificate and its private key.
+
+@param keyStoreType          the KeyStore type, such as JKS or PKCS12
+@param rootCertificateAndKey certification authority's root certificate and private key, which will be placed in the KeyStore
+@param privateKeyAlias       alias to assign the private key (with accompanying certificate chain) to in the KeyStore
+@param password              password for the new KeyStore and private key
+@return a new KeyStore with the root certificate and password-protected private key"
+      end
+
+      operation 291330 "encodePrivateKeyAsPem"
+	public explicit_return_type "String"
+	nparams 3
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	  param in name "passwordForPrivateKey" explicit_type "String"
+	  param in name "encryptionAlgorithm" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Encodes a private key in PEM format, encrypting it with the specified password. The private key will be encrypted
+using the specified algorithm.
+
+@param privateKey            private key to encode
+@param passwordForPrivateKey password to protect the private key
+@param encryptionAlgorithm   algorithm to use to encrypt the private key
+@return PEM-encoded private key as a String"
+      end
+
+      operation 291458 "encodeCertificateAsPem"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "certificate" explicit_type "Certificate"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Encodes a certificate in PEM format.
+
+@param certificate certificate to encode
+@return PEM-encoded certificate as a String"
+      end
+
+      operation 291586 "decodePemEncodedPrivateKey"
+	public explicit_return_type "PrivateKey"
+	nparams 2
+	  param inout name "privateKeyReader" explicit_type "Reader"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Decodes a PEM-encoded private key into a {@link PrivateKey}. The password may be null if the PEM-encoded private key
+is not password-encrypted.
+
+@param privateKeyReader a reader for a PEM-encoded private key
+@param password         password protecting the private key  @return the decoded private key"
+      end
+
+      operation 291714 "decodePemEncodedCertificate"
+	public explicit_return_type "X509Certificate"
+	nparams 1
+	  param inout name "certificateReader" explicit_type "Reader"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Decodes a PEM-encoded X.509 Certificate into a {@link X509Certificate}.
+
+@param certificateReader a reader for a PEM-encoded certificate
+@return the decoded X.509 certificate"
+      end
+
+      operation 291842 "loadKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param in name "keyStoreType" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads a Java KeyStore object from a file.
+
+@param file         KeyStore file to load
+@param keyStoreType KeyStore type (PKCS12, JKS, etc.)
+@param password     the KeyStore password
+@return an initialized Java KeyStore object"
+      end
+
+      operation 291970 "saveKeyStore"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keystorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves a Java KeyStore to a file, protecting it with the specified password.
+
+@param file             file to save the KeyStore to
+@param keyStore         KeyStore to save
+@param keystorePassword password for the KeyStore"
+      end
+
+      operation 292098 "getKeyManagers"
+	public explicit_return_type "KeyManager"
+	nparams 2
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve the KeyManagers for the specified KeyStore.
+
+@param keyStore         the KeyStore to retrieve KeyManagers from
+@param keyStorePassword the KeyStore password
+@return KeyManagers for the specified KeyStore"
+      end
+    end
+
+    class 157314 "BouncyCastleSecurityProviderTool"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 158722 // <realization>
+	relation 158722 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 158722 // <realization>
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      extra_member 128642 "initialization"
+	
+	cpp "" ""
+	java "  static {
+        Security.addProvider(new BouncyCastleProvider());
+    }"
+	php ""
+	python ""
+	idl ""
+      end
+
+      attribute 213634 "CERTIFICATE_SERIAL_NUMBER_SIZE"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " 160"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The size of certificate serial numbers, in bits.
+"
+      end
+
+      operation 292226 "createServerCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 5
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "caRootCertificate" explicit_type "X509Certificate"
+	  param inout name "caPrivateKey" explicit_type "PrivateKey"
+	  param inout name "serverKeyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292354 "createServerKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 5
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "serverCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param inout name "rootCertificate" explicit_type "X509Certificate"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292482 "createRootCertificateKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "rootCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292610 "createCARootCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 3
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "keyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292738 "encodePrivateKeyAsPem"
+	public explicit_return_type "String"
+	nparams 3
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	  param in name "passwordForPrivateKey" explicit_type "String"
+	  param in name "encryptionAlgorithm" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292866 "encodeCertificateAsPem"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "certificate" explicit_type "Certificate"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 292994 "decodePemEncodedPrivateKey"
+	public explicit_return_type "PrivateKey"
+	nparams 2
+	  param inout name "privateKeyReader" explicit_type "Reader"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 293122 "decodePemEncodedCertificate"
+	public explicit_return_type "X509Certificate"
+	nparams 1
+	  param inout name "certificateReader" explicit_type "Reader"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 293250 "loadKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param in name "keyStoreType" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 293378 "saveKeyStore"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keystorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 293506 "getKeyManagers"
+	public explicit_return_type "KeyManager"
+	nparams 2
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 293634 "createX500NameForCertificate"
+	class_operation private explicit_return_type "X500Name"
+	nparams 1
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates an X500Name based on the specified certificateInfo.
+
+@param certificateInfo information to populate the X500Name with
+@return a new X500Name object for use as a subject or issuer"
+      end
+
+      operation 293762 "getDomainNameSANsAsASN1Encodable"
+	class_operation private explicit_return_type "GeneralNames"
+	nparams 1
+	  param inout name "subjectAlternativeNames" explicit_type "List<String>"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Converts a list of domain name Subject Alternative Names into ASN1Encodable GeneralNames objects, for use with
+the Bouncy Castle certificate builder.
+
+@param subjectAlternativeNames domain name SANs to convert
+@return a GeneralNames instance that includes the specifie dsubjectAlternativeNames as DNS name fields"
+      end
+
+      operation 293890 "getCertificateSigner"
+	class_operation private explicit_return_type "ContentSigner"
+	nparams 2
+	  param inout name "certAuthorityPrivateKey" explicit_type "PrivateKey"
+	  param in name "signatureAlgorithm" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a ContentSigner that can be used to sign certificates with the given private key and signature algorithm.
+
+@param certAuthorityPrivateKey the private key to use to sign certificates
+@param signatureAlgorithm      the algorithm to use to sign certificates
+@return a ContentSigner"
+      end
+
+      operation 294018 "convertToJcaCertificate"
+	class_operation private explicit_return_type "X509Certificate"
+	nparams 1
+	  param inout name "bouncyCastleCertificate" explicit_type "X509CertificateHolder"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Converts a Bouncy Castle X509CertificateHolder into a JCA X590Certificate.
+
+@param bouncyCastleCertificate BC X509CertificateHolder
+@return JCA X509Certificate"
+      end
+
+      operation 294146 "createSubjectKeyIdentifier"
+	class_operation private explicit_return_type "SubjectKeyIdentifier"
+	nparams 1
+	  param inout name "key" explicit_type "Key"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates the SubjectKeyIdentifier for a Bouncy Castle X590CertificateHolder.
+
+@param key public key to identify
+@return SubjectKeyIdentifier for the specified key"
+      end
+
+      operation 294274 "encodeObjectAsPemString"
+	class_operation private explicit_return_type "String"
+	nparams 2
+	  param inout name "object" explicit_type "Object"
+	  param inout name "encryptor" explicit_type "PEMEncryptor"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Encodes the specified security object in PEM format, using the specified encryptor. If the encryptor is null,
+the object will not be encrypted in the generated String.
+
+@param object    object to encrypt (certificate, private key, etc.)
+@param encryptor engine to encrypt the resulting PEM String, or null if no encryption should be used
+@return a PEM-encoded String"
+      end
+    end
+
+    class 157442 "DefaultSecurityProviderTool"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A {@link SecurityProviderTool} implementation that uses the default system Security provider where possible, but uses the
+Bouncy Castle provider for operations that the JCA does not provide or implement (e.g. certificate generation and signing)."
+      classrelation 158850 // <realization>
+	relation 158850 -_-|>
+	  a public
+	    cpp default "${type}"
+	    java "${type}"
+	    classrelation_ref 158850 // <realization>
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      classrelation 158978 // bouncyCastle (<unidirectional association>)
+	relation 158978 --->
+	  a role_name "bouncyCastle" init_value " new BouncyCastleSecurityProviderTool()" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158978 // bouncyCastle (<unidirectional association>)
+	  b parent class_ref 154626 // SecurityProviderTool
+      end
+
+      operation 294402 "createCARootCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 3
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "keyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 294530 "createServerCertificate"
+	public return_type class_ref 153602 // CertificateAndKey
+	nparams 5
+	  param inout name "certificateInfo" type class_ref 153858 // CertificateInfo
+	  param inout name "caRootCertificate" explicit_type "X509Certificate"
+	  param inout name "caPrivateKey" explicit_type "PrivateKey"
+	  param inout name "serverKeyPair" explicit_type "KeyPair"
+	  param in name "messageDigest" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 294658 "createServerKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 5
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "serverCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param inout name "rootCertificate" explicit_type "X509Certificate"
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 294786 "createRootCertificateKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 4
+	  param in name "keyStoreType" explicit_type "String"
+	  param inout name "rootCertificateAndKey" type class_ref 153602 // CertificateAndKey
+	  param in name "privateKeyAlias" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 294914 "encodePrivateKeyAsPem"
+	public explicit_return_type "String"
+	nparams 3
+	  param inout name "privateKey" explicit_type "PrivateKey"
+	  param in name "passwordForPrivateKey" explicit_type "String"
+	  param in name "encryptionAlgorithm" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 295042 "encodeCertificateAsPem"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "certificate" explicit_type "Certificate"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 295170 "decodePemEncodedPrivateKey"
+	public explicit_return_type "PrivateKey"
+	nparams 2
+	  param inout name "privateKeyReader" explicit_type "Reader"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 295298 "decodePemEncodedCertificate"
+	public explicit_return_type "X509Certificate"
+	nparams 1
+	  param inout name "certificateReader" explicit_type "Reader"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 295426 "loadKeyStore"
+	public explicit_return_type "KeyStore"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param in name "keyStoreType" explicit_type "String"
+	  param in name "password" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Loads the KeyStore from the specified InputStream. The InputStream is not closed after the KeyStore has been read.
+
+@param file         file containing a KeyStore
+@param keyStoreType KeyStore type, such as \"JKS\" or \"PKCS12\"
+@param password     password of the KeyStore
+@return KeyStore loaded from the input stream"
+      end
+
+      operation 295554 "saveKeyStore"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "file" explicit_type "File"
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keystorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Exports the keyStore to the specified file.
+
+@param file             file to save the KeyStore to
+@param keyStore         KeyStore to export
+@param keystorePassword the password for the KeyStore"
+      end
+
+      operation 295682 "getKeyManagers"
+	public explicit_return_type "KeyManager"
+	nparams 2
+	  param inout name "keyStore" explicit_type "KeyStore"
+	  param in name "keyStorePassword" explicit_type "String"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 131842 "tools"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 145794 "SecurityProviderTool"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import net.lightbody.bmp.mitm.CertificateAndKey;
+import net.lightbody.bmp.mitm.CertificateInfo;
+import javax.net.ssl.KeyManager;
+import java.io.File;
+import java.io.Reader;
+import java.security.KeyPair;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 154626 // SecurityProviderTool
+      end
+    end
+
+    artifact 145922 "BouncyCastleSecurityProviderTool"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.net.InetAddresses;
+import net.lightbody.bmp.mitm.CertificateAndKey;
+import net.lightbody.bmp.mitm.CertificateInfo;
+import net.lightbody.bmp.mitm.exception.CertificateCreationException;
+import net.lightbody.bmp.mitm.exception.ExportException;
+import net.lightbody.bmp.mitm.exception.ImportException;
+import net.lightbody.bmp.mitm.util.EncryptionUtil;
+import org.bouncycastle.asn1.ASN1EncodableVector;
+import org.bouncycastle.asn1.DERSequence;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.X500NameBuilder;
+import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.GeneralNames;
+import org.bouncycastle.asn1.x509.KeyPurposeId;
+import org.bouncycastle.asn1.x509.KeyUsage;
+import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+import org.bouncycastle.cert.CertIOException;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.bc.BcX509ExtensionUtils;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMDecryptorProvider;
+import org.bouncycastle.openssl.PEMEncryptedKeyPair;
+import org.bouncycastle.openssl.PEMEncryptor;
+import org.bouncycastle.openssl.PEMKeyPair;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
+import org.bouncycastle.openssl.jcajce.JcePEMEncryptorBuilder;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import javax.net.ssl.KeyManager;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.math.BigInteger;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Security;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_classes
+	class_ref 157314 // BouncyCastleSecurityProviderTool
+      end
+    end
+
+    artifact 146050 "DefaultSecurityProviderTool"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      java_src "${comment}
+${package}
+${imports}
+import com.google.common.io.CharStreams;
+import net.lightbody.bmp.mitm.CertificateAndKey;
+import net.lightbody.bmp.mitm.CertificateInfo;
+import net.lightbody.bmp.mitm.exception.ImportException;
+import net.lightbody.bmp.mitm.exception.KeyStoreAccessException;
+import net.lightbody.bmp.mitm.util.KeyStoreUtil;
+import javax.net.ssl.KeyManager;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+${definition}"
+      associated_classes
+	class_ref 157442 // DefaultSecurityProviderTool
+      end
+    end
+  end
+end
